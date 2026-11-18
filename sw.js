@@ -1,4 +1,4 @@
-const CACHE = 'xingyuan-v9';
+const CACHE = 'xingyuan-v10';
 const SHELL = [
   './', './index.html', './bundle.js', './css/style.css', './css/onboarding.css',
   './js/data.js', './js/onboarding.js',
