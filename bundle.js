@@ -13196,9 +13196,30 @@
   var mod3 = (n, m) => (n % m + m) % m;
   var MAJOR = /* @__PURE__ */ new Set(["\u7D2B\u5FAE", "\u5929\u673A", "\u592A\u9633", "\u6B66\u66F2", "\u5929\u540C", "\u5EC9\u8D1E", "\u5929\u5E9C", "\u592A\u9634", "\u8D2A\u72FC", "\u5DE8\u95E8", "\u5929\u76F8", "\u5929\u6881", "\u4E03\u6740", "\u7834\u519B"]);
   var JU_NAME = { 2: "\u6C34\u4E8C\u5C40", 3: "\u6728\u4E09\u5C40", 4: "\u91D1\u56DB\u5C40", 5: "\u571F\u4E94\u5C40", 6: "\u706B\u516D\u5C40" };
+  var JU_NAME_EN = { 2: "Water Two", 3: "Wood Three", 4: "Metal Four", 5: "Earth Five", 6: "Fire Six" };
   var TAG_ROLE = { "\u7984": "\u5E38\u6709\u70B9\u987A\u624B\u7684\u673A\u4F1A\u9760\u8FC7\u6765", "\u6743": "\u591A\u534A\u8981\u4F60\u62FF\u4E2A\u4E3B\u610F\u3001\u62C5\u4E00\u70B9\u4E8B", "\u79D1": "\u7EC6\u8282\u5BB9\u6613\u88AB\u770B\u89C1\uFF0C\u4E5F\u5BB9\u6613\u5F97\u5230\u4E00\u53E5\u597D\u8BDD", "\u5FCC": "\u5BB9\u6613\u6765\u56DE\u78E8\uFF0C\u653E\u8F7B\u677E\u4E00\u70B9\u5C31\u597D" };
+  var TAG_ROLE_EN = {
+    "\u7984": "convenient opportunities tend to come your way",
+    "\u6743": "you are the one expected to decide and take charge",
+    "\u79D1": "details get noticed, and kind words come easily",
+    "\u5FCC": "things may go back and forth, so take it easy"
+  };
   var LEVEL_NOTE = { "\u5E99": "\u5728\u8FD9\u91CC\u5B83\u7684\u72B6\u6001\u633A\u8DB3\uFF0C\u957F\u5904\u5BB9\u6613\u53D1\u6325\u3002", "\u65FA": "\u72B6\u6001\u4E0D\u9519\uFF0C\u957F\u5904\u7528\u5F97\u4E0A\u3002", "\u5E73": "\u4E0D\u7279\u522B\u5F3A\u4E5F\u4E0D\u7279\u522B\u5F31\uFF0C\u548C\u6574\u5F20\u76D8\u4E00\u8D77\u770B\u66F4\u6E05\u695A\u3002", "\u9677": "\u72B6\u6001\u504F\u5F31\uFF0C\u957F\u5904\u8981\u591A\u82B1\u70B9\u529B\u6C14\u624D\u663E\u51FA\u6765\uFF0C\u6162\u6162\u6765\u5C31\u597D\u3002" };
+  var LEVEL_NOTE_EN = {
+    "\u5E99": "It is strong here, so its strengths come through easily.",
+    "\u65FA": "In good shape, its strengths are usable.",
+    "\u5E73": "Neither strong nor weak; read it together with the whole chart.",
+    "\u9677": "A little subdued, its strengths take more effort to show; take your time."
+  };
   var MONTH_GAN_BASE = 2;
+  var L = (lang2, zh, en) => lang2 === "en" ? en : zh;
+  function rulesetLabel(id) {
+    if (id === "zywx.classic.cn@2026.1") return "ZYWX Classic v2026.1";
+    const m = String(id || "").match(/^(.+?)@(.+)$/);
+    if (!m) return id;
+    const name = m[1].replace(/\.cn$/, "").split(".").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(" ");
+    return `${name} v${m[2]}`;
+  }
   function palaces_from(life_idx) {
     const out = {};
     PALACES.forEach((name, k) => {
@@ -13358,7 +13379,7 @@
     if (sha_mine.length && sha_mine.some((st) => bri[st] === "\u5E99") && [...all_tri].some((s) => lu.has(s) || quan.has(s))) dedup.push("\u6743\u6740\u5316\u7984");
     return [...new Set(dedup)];
   }
-  function compose(r, lib, age, year = 2026, date_str) {
+  function compose(r, lib, age, year = 2026, date_str, lang2 = "zh") {
     const by_palace = {};
     PALACES.forEach((name, k) => {
       by_palace[name] = mod3(r.life - k, 12);
@@ -13381,112 +13402,179 @@
     const lim = (r.limits || []).find((x) => x.start <= cur_age && cur_age <= x.end) || null;
     const out = [];
     const seen_star_texts = {};
+    const role = (tag) => L(lang2, TAG_ROLE[tag], TAG_ROLE_EN[tag] || TAG_ROLE[tag]);
+    const lvlNote = (lvl) => L(lang2, LEVEL_NOTE[lvl], LEVEL_NOTE_EN[lvl] || LEVEL_NOTE[lvl]);
+    const huaName = (tag) => lang2 === "en" ? { "\u7984": "Prosperity", "\u6743": "Authority", "\u79D1": "Fame", "\u5FCC": "Affliction" }[tag] || tag : `\u5316${tag}`;
+    const palaceLabel = (name) => lang2 === "en" ? PALACE_EN[name] || name : name;
+    const starName = (s) => lang2 === "en" ? STAR_EN[s] || s : s;
+    const branchName = (s) => lang2 === "en" ? BRANCH_EN[s] || s : s;
     const emit_star = (palace, star, title, tag) => {
       const t2 = lib.templates.get(star + "|\u5927\u9650");
       if (!t2) return;
       const key = palace + "|" + star;
       if (seen_star_texts[key] === t2.text) return;
       seen_star_texts[key] = t2.text;
-      out.push(`**${title}\uFF08${star}\xB7${tag}\uFF09**\uFF1A${t2.text.trimEnd()}
+      out.push(`**${title}\uFF08${starName(star)}\xB7${tag}\uFF09**\uFF1A${t2.text.trimEnd()}
 `);
     };
-    out.push(`# \u547D\u76D8\u89E3\u8BFB\uFF08${r.gender}\uFF0C${r.solar[0]}-${String(r.solar[1]).padStart(2, "0")}-${String(r.solar[2]).padStart(2, "0")} ${String(r.solar_time[0]).padStart(2, "0")}:${String(r.solar_time[1]).padStart(2, "0")}\uFF09
+    const solarStamp = `${r.solar[0]}-${String(r.solar[1]).padStart(2, "0")}-${String(r.solar[2]).padStart(2, "0")} ${String(r.solar_time[0]).padStart(2, "0")}:${String(r.solar_time[1]).padStart(2, "0")}`;
+    out.push(`# ${L(lang2, "\u547D\u76D8\u89E3\u8BFB", "Chart reading")} (${lang2 === "en" ? r.gender === "\u7537" ? "Male" : "Female" : r.gender}, ${solarStamp})
 `);
-    out.push(`\u771F\u592A\u9633\u65F6 ${String(r.tst[0]).padStart(2, "0")}:${String(r.tst[1]).padStart(2, "0")}\uFF0C${BRANCHES[r.hour_branch_i]}\u65F6\uFF5C\u519C\u5386 ${lunar[0]}\u5E74${lunar[3] ? "\u95F0" : ""}${lunar[1]}\u6708${lunar[2]}\u65E5\uFF5C\u89C4\u5219\u5305 ${r.ruleSetId}
-`);
-    out.push(`\u547D\u5BAB **${STEMS[r.life_stem]}${BRANCHES[r.life]}**\uFF5C\u8EAB\u5BAB **${BRANCHES[r.body]}**\uFF5C\u4E94\u884C\u5C40 **${JU_NAME[r.ju]}**\uFF5C\u7D2B\u5FAE\u5728 ${BRANCHES[r.ziwei]}
-`);
+    out.push(L(
+      lang2,
+      `\u771F\u592A\u9633\u65F6 ${String(r.tst[0]).padStart(2, "0")}:${String(r.tst[1]).padStart(2, "0")}\uFF0C${BRANCHES[r.hour_branch_i]}\u65F6\uFF5C\u519C\u5386 ${lunar[0]}\u5E74${lunar[3] ? "\u95F0" : ""}${lunar[1]}\u6708${lunar[2]}\u65E5\uFF5C\u89C4\u5219\u5305 ${rulesetLabel(r.ruleSetId)}
+`,
+      `True solar time ${String(r.tst[0]).padStart(2, "0")}:${String(r.tst[1]).padStart(2, "0")} (${branchName(BRANCHES[r.hour_branch_i])} hour) | Lunar ${lunar[0]}/${lunar[1]}/${lunar[2]}${lunar[3] ? " (leap)" : ""} | Ruleset ${rulesetLabel(r.ruleSetId)}
+`
+    ));
+    out.push(L(
+      lang2,
+      `\u547D\u5BAB **${STEMS[r.life_stem]}${BRANCHES[r.life]}**\uFF5C\u8EAB\u5BAB **${BRANCHES[r.body]}**\uFF5C\u4E94\u884C\u5C40 **${JU_NAME[r.ju]}**\uFF5C\u7D2B\u5FAE\u5728 ${BRANCHES[r.ziwei]}
+`,
+      `Life Palace **${gzEn(STEMS[r.life_stem] + BRANCHES[r.life])}** | Body Palace **${branchName(BRANCHES[r.body])}** | Five Elements chart **${JU_NAME_EN[r.ju] || ""}** | Ziwei in ${branchName(BRANCHES[r.ziwei])}
+`
+    ));
     const hits = detect_patterns(r, cur_age, year);
     if (hits.length) {
-      const bits = hits.filter((h) => lib.patterns[h]).map((h) => `**${h}**\u2014\u2014${lib.patterns[h].note.replace(/。$/, "")}`).join("\uFF1B");
-      out.push(`**\u8FD9\u5F20\u76D8\u7684\u683C\u5C40**\uFF1A${bits}\u3002
+      const bits = hits.filter((h) => lib.patterns[h]).map((h) => {
+        const p = lib.patterns[h];
+        const nm = lang2 === "en" ? p.nameEn || h : h;
+        return `**${nm}**\u2014\u2014${p.note.replace(/[。.]$/, "")}`;
+      }).join(lang2 === "en" ? "; " : "\uFF1B");
+      out.push(`**${L(lang2, "\u8FD9\u5F20\u76D8\u7684\u683C\u5C40", "Patterns in this chart")}**\uFF1A${bits}${L(lang2, "\u3002", ".")}
 `);
     } else {
-      out.push("**\u8FD9\u5F20\u76D8\u7684\u683C\u5C40**\uFF1A\u6682\u65F6\u6CA1\u843D\u8FDB\u6211\u4EEC\u6536\u5F55\u7684\u5E38\u89C1\u683C\u5C40\u91CC\uFF0C\u4E00\u6837\u6709\u5B83\u81EA\u5DF1\u7684\u6837\u5B50\u3002\n");
+      out.push(`**${L(lang2, "\u8FD9\u5F20\u76D8\u7684\u683C\u5C40", "Patterns in this chart")}**\uFF1A${L(lang2, "\u6682\u65F6\u6CA1\u843D\u8FDB\u6211\u4EEC\u6536\u5F55\u7684\u5E38\u89C1\u683C\u5C40\u91CC\uFF0C\u4E00\u6837\u6709\u5B83\u81EA\u5DF1\u7684\u6837\u5B50\u3002", "No common pattern from our library applies here; the chart still has its own shape.")}
+`);
     }
     const pan = (lib.pan144[BRANCHES[r.ziwei]] || {})[BRANCHES[r.life]];
-    if (pan) out.push(`**\u76D8\u9762\u5C0F\u7ED3**\uFF1A\u7D2B\u5FAE\u5728${BRANCHES[r.ziwei]}\u3001\u547D\u5BAB\u5728${BRANCHES[r.life]}\uFF0C\u5C5E\u4E8E **${pan.names.join("\u3001")}**\u3002
+    if (pan) out.push(`**${L(lang2, "\u76D8\u9762\u5C0F\u7ED3", "Chart at a glance")}**\uFF1A${L(
+      lang2,
+      `\u7D2B\u5FAE\u5728${BRANCHES[r.ziwei]}\u3001\u547D\u5BAB\u5728${BRANCHES[r.life]}\uFF0C\u5C5E\u4E8E **${pan.names.join("\u3001")}**\u3002`,
+      `Ziwei in ${branchName(BRANCHES[r.ziwei])}, Life Palace in ${branchName(BRANCHES[r.life])}, classified as **${(pan.namesEn || pan.names).join("; ")}**.`
+    )}
 `);
-    out.push("## \u4E00\u3001\u5341\u4E8C\u5BAB\n| \u5BAB\u4F4D | \u5730\u652F | \u4E3B\u661F |\n|---|---|---|");
+    out.push(`## ${L(lang2, "\u4E00\u3001\u5341\u4E8C\u5BAB", "I. The Twelve Palaces")}
+| ${L(lang2, "\u5BAB\u4F4D", "Palace")} | ${L(lang2, "\u5730\u652F", "Branch")} | ${L(lang2, "\u4E3B\u661F", "Major stars")} |
+|---|---|---|`);
     for (let k = 0; k < PALACES.length; k++) {
       const name = PALACES[k];
       const [br, majors, borrowed] = palace_stars(name);
-      const mark = k === 0 ? "\uFF08\u547D\uFF09" : br === r.body ? "\uFF08\u8EAB\uFF09" : "";
-      let star = majors.length ? majors.join("/") : "\u7A7A\u5BAB";
-      if (borrowed) star += `\uFF08\u501F${borrowed}\uFF09`;
-      out.push(`| ${name}${mark} | ${BRANCHES[br]} | ${star} |`);
+      const mark = k === 0 ? L(lang2, "\uFF08\u547D\uFF09", " (Life)") : br === r.body ? L(lang2, "\uFF08\u8EAB\uFF09", " (Body)") : "";
+      let star = majors.length ? majors.map(starName).join("/") : L(lang2, "\u7A7A\u5BAB", "Empty");
+      if (borrowed) star += L(lang2, `\uFF08\u501F${borrowed}\uFF09`, ` (borrowed from ${branchName(borrowed)})`);
+      out.push(`| ${palaceLabel(name)}${mark} | ${branchName(BRANCHES[br])} | ${star} |`);
     }
     out.push("");
-    out.push("## \u4E8C\u3001\u56DB\u5316\n" + Object.entries(r.hua).map(([s, v]) => `${s}\u5316${v.tag}\u5728${BRANCHES[v.palace]}`).join("\uFF1B") + "\n");
-    out.push("## \u4E09\u3001\u8FD9\u5341\u5E74");
+    out.push(`## ${L(lang2, "\u4E8C\u3001\u56DB\u5316", "II. Four Transformations")}
+` + Object.entries(r.hua).map(([s, v]) => lang2 === "en" ? `${starName(s)} ${huaName(v.tag)} in ${branchName(BRANCHES[v.palace])}` : `${s}\u5316${v.tag}\u5728${BRANCHES[v.palace]}`).join(lang2 === "en" ? "; " : "\uFF1B") + "\n");
+    out.push(`## ${L(lang2, "\u4E09\u3001\u8FD9\u5341\u5E74", "III. The Coming Decade")}`);
     if (lim) {
-      const hua = lim.hua.map((s, i) => s + ["\u7984", "\u6743", "\u79D1", "\u5FCC"][i]).join("\u3001");
-      out.push(`${r.ju_start} \u5C81\u8D77\u8FD0\uFF0C${r.forward ? "\u987A" : "\u9006"}\u7740\u8D70\uFF1B\u865A\u5C81 ${cur_age}\uFF0C\u6B63\u8D70\u5230 **${lim.start}\u2013${lim.end} ${lim.stem}${lim.branch}** \u8FD9\u4E00\u7A0B\u3002\u8FD9\u5341\u5E74\u7684\u56DB\u5316\uFF1A${hua}\u3002`);
+      const hua = lim.hua.map((s, i) => lang2 === "en" ? `${starName(s)} ${huaName(["\u7984", "\u6743", "\u79D1", "\u5FCC"][i])}` : s + ["\u7984", "\u6743", "\u79D1", "\u5FCC"][i]).join(lang2 === "en" ? "; " : "\u3001");
+      out.push(L(
+        lang2,
+        `${r.ju_start} \u5C81\u8D77\u8FD0\uFF0C${r.forward ? "\u987A" : "\u9006"}\u7740\u8D70\uFF1B\u865A\u5C81 ${cur_age}\uFF0C\u6B63\u8D70\u5230 **${lim.start}\u2013${lim.end} ${lim.stem}${lim.branch}** \u8FD9\u4E00\u7A0B\u3002\u8FD9\u5341\u5E74\u7684\u56DB\u5316\uFF1A${hua}\u3002`,
+        `Fortune begins at ${r.ju_start}, running ${r.forward ? "forward" : "backward"}. At nominal age ${cur_age} you are in the **${lim.start}\u2013${lim.end} ${gzEn(lim.stem + lim.branch)}** stretch. Its transformations: ${hua}.`
+      ));
       const place = palace_of[BRANCHES.indexOf(lim.branch)] || "";
       const bits = [];
       for (let i = 0; i < 4; i++) {
         const tag = ["\u7984", "\u6743", "\u79D1", "\u5FCC"][i];
         const star = lim.hua[i];
         const br = star_branch[star];
-        if (br !== void 0) bits.push(`${tag}\u843D\u5728${palace_of[br] || ""}\uFF08${star}\uFF09\uFF0C${TAG_ROLE[tag]}`);
+        if (br !== void 0) bits.push(lang2 === "en" ? `${huaName(tag)} in ${palaceLabel(palace_of[br] || "")} (${starName(star)}): ${role(tag)}` : `${tag}\u843D\u5728${palace_of[br] || ""}\uFF08${star}\uFF09\uFF0C${TAG_ROLE[tag]}`);
       }
       const [, yb] = yearGanzhi(lunar[0]);
       const xb = xiaoxianBranch(yb, r.gender, cur_age);
       const xp = PALACES[mod3(r.life - xb, 12)];
-      out.push(`**\u5C0F\u9650**\uFF1A\u865A\u5C81 ${cur_age} \u8D70\u5230 ${BRANCHES[xb]} \u5BAB\uFF08\u672C\u547D${xp}\uFF09\u3002
+      out.push(`**${L(lang2, "\u5C0F\u9650", "Minor limit")}**\uFF1A${L(
+        lang2,
+        `\u865A\u5C81 ${cur_age} \u8D70\u5230 ${BRANCHES[xb]} \u5BAB\uFF08\u672C\u547D${xp}\uFF09\u3002`,
+        `Nominal age ${cur_age} moves to the ${branchName(BRANCHES[xb])} palace (natal ${palaceLabel(xp)}).`
+      )}
 `);
-      out.push("**\u8FD9\u5341\u5E74\u600E\u4E48\u770B**\uFF1A\u53EF\u4EE5\u628A\u5B83\u5F53\u6210\u4E00\u5F20\u65B0\u76D8\u2014\u2014\u4EE5\u8FD9\u4E00\u683C\u4E3A\u8D77\u70B9\u91CD\u65B0\u6392\u5341\u4E8C\u5BAB\uFF0C\u7528\u8FD9\u4E00\u683C\u7684\u5BAB\u5E72\u8D77\u56DB\u5316\uFF0C\u518D\u7167\u672C\u547D\u76D8\u7684\u65B9\u5F0F\u770B\u4E09\u65B9\u56DB\u6B63\uFF1B\u547D\u5BAB\u3001\u8EAB\u5BAB\u5E2E\u5B83\u5708\u51FA\u8303\u56F4\u3002\n");
+      out.push(`**${L(lang2, "\u8FD9\u5341\u5E74\u600E\u4E48\u770B", "How to read this decade")}**\uFF1A${L(
+        lang2,
+        "\u53EF\u4EE5\u628A\u5B83\u5F53\u6210\u4E00\u5F20\u65B0\u76D8\u2014\u2014\u4EE5\u8FD9\u4E00\u683C\u4E3A\u8D77\u70B9\u91CD\u65B0\u6392\u5341\u4E8C\u5BAB\uFF0C\u7528\u8FD9\u4E00\u683C\u7684\u5BAB\u5E72\u8D77\u56DB\u5316\uFF0C\u518D\u7167\u672C\u547D\u76D8\u7684\u65B9\u5F0F\u770B\u4E09\u65B9\u56DB\u6B63\uFF1B\u547D\u5BAB\u3001\u8EAB\u5BAB\u5E2E\u5B83\u5708\u51FA\u8303\u56F4\u3002",
+        "Treat it as a fresh chart: start from this palace, lay out the twelve palaces again, raise the transformations from its stem, then read the trine and opposite as you would the natal chart. The Life and Body palaces set its frame."
+      )}
+`);
       if (place) {
         const [, _majors, _borrowed] = palace_stars(place);
-        for (const star of _majors) emit_star(place, star, "\u8FD9\u5341\u5E74\u4E3B\u661F", _borrowed ? `\u501F${_borrowed}\u5BAB` : "\u5927\u9650");
+        for (const star of _majors) emit_star(place, star, L(lang2, "\u8FD9\u5341\u5E74\u4E3B\u661F", "Major star of the decade"), _borrowed ? L(lang2, `\u501F${_borrowed}\u5BAB`, `borrowed from ${_borrowed}`) : L(lang2, "\u5927\u9650", "Major limit"));
       }
     } else {
-      out.push(`${r.ju_start} \u5C81\u8D77\u8FD0\uFF0C${r.forward ? "\u987A" : "\u9006"}\u7740\u8D70\uFF1B\u865A\u5C81 ${cur_age} \u8FD8\u6CA1\u8D70\u8FDB\u8FD9\u7248\u6392\u51FA\u7684\u5927\u9650\u533A\u95F4\u3002
-`);
+      out.push(L(
+        lang2,
+        `${r.ju_start} \u5C81\u8D77\u8FD0\uFF0C${r.forward ? "\u987A" : "\u9006"}\u7740\u8D70\uFF1B\u865A\u5C81 ${cur_age} \u8FD8\u6CA1\u8D70\u8FDB\u8FD9\u7248\u6392\u51FA\u7684\u5927\u9650\u533A\u95F4\u3002
+`,
+        `Fortune begins at ${r.ju_start}, running ${r.forward ? "forward" : "backward"}. At nominal age ${cur_age} you have not yet entered a major-limit span in this version.
+`
+      ));
     }
     const ann = annual_chart(r, year);
-    out.push(`## \u56DB\u3001\u4ECA\u5E74\uFF08${year} ${ann.stem}${ann.branch}\uFF09`);
+    out.push(`## ${L(lang2, "\u56DB\u3001\u4ECA\u5E74", "IV. This Year")} (${year} ${lang2 === "en" ? gzEn(ann.stem + ann.branch) : ann.stem + ann.branch})`);
     const yp = palace_of[ann.life] || "";
-    out.push(`\u4ECA\u5E74\u7684\u91CD\u5FC3\u843D\u5728${yp}\u8FD9\u4E00\u683C\u3002`);
+    out.push(L(lang2, `\u4ECA\u5E74\u7684\u91CD\u5FC3\u843D\u5728${yp}\u8FD9\u4E00\u683C\u3002`, `This year's focus falls on ${palaceLabel(yp)}.`));
     const ybits = [];
     for (let i = 0; i < 4; i++) {
       const tag = ["\u7984", "\u6743", "\u79D1", "\u5FCC"][i];
       const star = ann.hua[i];
       const br = star_branch[star];
-      if (br !== void 0) ybits.push(`${tag}\u843D\u5728${palace_of[br] || ""}\uFF08${star}\uFF09\uFF0C${TAG_ROLE[tag]}`);
+      if (br !== void 0) ybits.push(lang2 === "en" ? `${huaName(tag)} in ${palaceLabel(palace_of[br] || "")} (${starName(star)}): ${role(tag)}` : `${tag}\u843D\u5728${palace_of[br] || ""}\uFF08${star}\uFF09\uFF0C${TAG_ROLE[tag]}`);
     }
-    out.push(`\u4ECA\u5E74\u7684\u56DB\u4E2A\u53D8\u5316\uFF1A${ybits.join("\uFF1B")}\u3002
+    out.push(`${L(lang2, "\u4ECA\u5E74\u7684\u56DB\u4E2A\u53D8\u5316", "Four changes this year")}\uFF1A${ybits.join(lang2 === "en" ? "; " : "\uFF1B")}${L(lang2, "\u3002", ".")}
 `);
     const td = mod3(9 + ann.branch_i, 12), yd = mod3(ann.branch_i, 12);
-    out.push(`\u4ECA\u5E74\u5929\u5FB7\u843D\u5728${BRANCHES[td]}\u5BAB\u3001\u6708\u5FB7\u843D\u5728${BRANCHES[yd]}\u5BAB\uFF0C\u662F\u4F20\u7EDF\u91CC\u4E24\u9897\u6E29\u548C\u7684\u8D35\u4EBA\u661F\uFF08\u300A\u5168\u4E66\u300B\u5377\u4E09\uFF1A\u9149/\u5B50\u8D77\u5B50\uFF0C\u987A\u6570\u81F3\u6D41\u5E74\u592A\u5C81\uFF09\u3002
-`);
+    out.push(L(
+      lang2,
+      `\u4ECA\u5E74\u5929\u5FB7\u843D\u5728${BRANCHES[td]}\u5BAB\u3001\u6708\u5FB7\u843D\u5728${BRANCHES[yd]}\u5BAB\uFF0C\u662F\u4F20\u7EDF\u91CC\u4E24\u9897\u6E29\u548C\u7684\u8D35\u4EBA\u661F\uFF08\u300A\u5168\u4E66\u300B\u5377\u4E09\uFF1A\u9149/\u5B50\u8D77\u5B50\uFF0C\u987A\u6570\u81F3\u6D41\u5E74\u592A\u5C81\uFF09\u3002
+`,
+      `This year Tiande falls in ${branchName(BRANCHES[td])} and Yuede in ${branchName(BRANCHES[yd])}, two gentle noble stars in the tradition.
+`
+    ));
     if (yp) {
       const [, _majors, _borrowed] = palace_stars(yp);
-      for (const star of _majors) emit_star(yp, star, "\u4ECA\u5E74\u4E3B\u661F", _borrowed ? `\u501F${_borrowed}\u5BAB` : "\u6D41\u5E74");
+      for (const star of _majors) emit_star(yp, star, L(lang2, "\u4ECA\u5E74\u4E3B\u661F", "Major star of the year"), _borrowed ? L(lang2, `\u501F${_borrowed}\u5BAB`, `borrowed from ${_borrowed}`) : L(lang2, "\u6D41\u5E74", "Annual"));
     }
     const lm = Math.abs(Solar.fromYmd(dt.getFullYear(), dt.getMonth() + 1, dt.getDate()).getLunar().getMonth());
     const months = flow_months(r, year, lunar[1], r.hour_branch_i);
     const mon = months[lm - 1];
     const mp = palace_of[mon.palace] || "";
-    out.push(`## \u4E94\u3001\u8FD9\u4E2A\u6708\uFF08${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}\uFF0C\u519C\u5386 ${lm} \u6708\uFF09`);
-    out.push(`\u8FD9\u4E2A\u6708\u7684\u91CD\u5FC3\u5728${mp}\u8FD9\u4E00\u683C\uFF1B\u6708\u5E72\u652F ${mon.stem}${mon.branch}\u3002`);
-    out.push(`\u8FD9\u4E2A\u6708\u7684\u56DB\u4E2A\u53D8\u5316\uFF1A${_hua_bits(mon.hua, star_branch, palace_of)}\u3002
+    out.push(`## ${L(lang2, "\u4E94\u3001\u8FD9\u4E2A\u6708", "V. This Month")} (${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, "0")}, ${L(lang2, "\u519C\u5386", "lunar")} ${lm})`);
+    out.push(L(
+      lang2,
+      `\u8FD9\u4E2A\u6708\u7684\u91CD\u5FC3\u5728${mp}\u8FD9\u4E00\u683C\uFF1B\u6708\u5E72\u652F ${mon.stem}${mon.branch}\u3002`,
+      `This month's focus is ${palaceLabel(mp)}; the month pillar is ${gzEn(mon.stem + mon.branch)}.`
+    ));
+    out.push(`${L(lang2, "\u8FD9\u4E2A\u6708\u7684\u56DB\u4E2A\u53D8\u5316", "Four changes this month")}\uFF1A${_hua_bits(mon.hua, star_branch, palace_of, lang2, huaName, starName, palaceLabel, role)}\u3002
 `);
     if (mp) {
       const [, _majors, _borrowed] = palace_stars(mp);
-      for (const star of _majors) emit_star(mp, star, "\u8FD9\u4E2A\u6708\u7684\u4E3B\u661F", _borrowed ? `\u501F\u81EA${_borrowed}\u5BAB` : `${mp}\u5BAB`);
+      for (const star of _majors) emit_star(mp, star, L(lang2, "\u8FD9\u4E2A\u6708\u7684\u4E3B\u661F", "Major star of the month"), _borrowed ? L(lang2, `\u501F\u81EA${_borrowed}\u5BAB`, `borrowed from ${_borrowed}`) : `${palaceLabel(mp)}`);
     }
     const fd = flow_day(dt.getFullYear(), dt.getMonth() + 1, dt.getDate(), mon.palace);
     const dp = palace_of[fd.palace] || "";
-    out.push(`## \u516D\u3001\u4ECA\u5929\uFF08${dt.toISOString().slice(0, 10)}\uFF09`);
-    out.push(`\u4ECA\u5929\u7684\u91CD\u5FC3\u5728${dp}\u8FD9\u4E00\u683C\uFF1B\u65E5\u5E72\u652F ${fd.stem}${fd.branch}\u3002`);
-    out.push(`\u4ECA\u5929\u7684\u56DB\u4E2A\u53D8\u5316\uFF1A${_hua_bits(fd.hua, star_branch, palace_of)}\u3002
+    out.push(`## ${L(lang2, "\u516D\u3001\u4ECA\u5929", "VI. Today")} (${dt.toISOString().slice(0, 10)})`);
+    out.push(L(
+      lang2,
+      `\u4ECA\u5929\u7684\u91CD\u5FC3\u5728${dp}\u8FD9\u4E00\u683C\uFF1B\u65E5\u5E72\u652F ${fd.stem}${fd.branch}\u3002`,
+      `Today's focus is ${palaceLabel(dp)}; the day pillar is ${gzEn(fd.stem + fd.branch)}.`
+    ));
+    out.push(`${L(lang2, "\u4ECA\u5929\u7684\u56DB\u4E2A\u53D8\u5316", "Four changes today")}\uFF1A${_hua_bits(fd.hua, star_branch, palace_of, lang2, huaName, starName, palaceLabel, role)}\u3002
 `);
     if (dp) {
       const [, _majors, _borrowed] = palace_stars(dp);
-      for (const star of _majors) emit_star(dp, star, "\u4ECA\u5929\u4E3B\u661F", _borrowed ? `\u501F\u81EA${_borrowed}\u5BAB` : `${dp}\u5BAB`);
+      for (const star of _majors) emit_star(dp, star, L(lang2, "\u4ECA\u5929\u4E3B\u661F", "Major star of the day"), _borrowed ? L(lang2, `\u501F\u81EA${_borrowed}\u5BAB`, `borrowed from ${_borrowed}`) : `${palaceLabel(dp)}`);
     }
-    const sections = [["\u4E03\u3001\u4F60\u662F\u600E\u6837\u7684\u4EBA", "\u547D\u5BAB", "\u6027\u683C"], ["\u516B\u3001\u540E\u5929\u505A\u4E8B\u7684\u65B9\u5F0F", "\u8EAB\u5BAB", "\u6027\u683C"], ["\u4E5D\u3001\u5DE5\u4F5C\u4E0E\u4E8B\u4E1A", "\u5B98\u7984", "\u4E8B\u4E1A"], ["\u5341\u3001\u94B1\u4E0E\u8D22\u8FD0", "\u8D22\u5E1B", "\u8D22\u8FD0"], ["\u5341\u4E00\u3001\u8EAB\u4F53\u5065\u5EB7", "\u75BE\u5384", "\u5065\u5EB7"], ["\u5341\u4E8C\u3001\u611F\u60C5\u4E0E\u5A5A\u59FB", "\u592B\u59BB", "\u611F\u60C5"]];
+    const sections = [
+      [L(lang2, "\u4E03\u3001\u4F60\u662F\u600E\u6837\u7684\u4EBA", "VII. What You Are Like"), "\u547D\u5BAB", "\u6027\u683C"],
+      [L(lang2, "\u516B\u3001\u540E\u5929\u505A\u4E8B\u7684\u65B9\u5F0F", "VIII. How You Work"), "\u8EAB\u5BAB", "\u6027\u683C"],
+      [L(lang2, "\u4E5D\u3001\u5DE5\u4F5C\u4E0E\u4E8B\u4E1A", "IX. Work and Career"), "\u5B98\u7984", "\u4E8B\u4E1A"],
+      [L(lang2, "\u5341\u3001\u94B1\u4E0E\u8D22\u8FD0", "X. Money and Wealth"), "\u8D22\u5E1B", "\u8D22\u8FD0"],
+      [L(lang2, "\u5341\u4E00\u3001\u8EAB\u4F53\u5065\u5EB7", "XI. Body and Health"), "\u75BE\u5384", "\u5065\u5EB7"],
+      [L(lang2, "\u5341\u4E8C\u3001\u611F\u60C5\u4E0E\u5A5A\u59FB", "XII. Love and Marriage"), "\u592B\u59BB", "\u611F\u60C5"]
+    ];
     const section_seen = /* @__PURE__ */ new Set();
     const emit_para = (key, line) => {
       if (section_seen.has(key)) return false;
@@ -13507,13 +13595,13 @@
           majors = majors_at(opp);
           borrowed = BRANCHES[opp];
         }
-        label = borrowed ? `\u501F\u81EA${borrowed}\u5BAB` : "\u8EAB\u5BAB";
+        label = borrowed ? L(lang2, `\u501F\u81EA${borrowed}\u5BAB`, `borrowed from ${branchName(borrowed)}`) : palaceLabel("\u8EAB\u5BAB");
       } else {
         [br, majors, borrowed] = palace_stars(palace);
-        label = borrowed ? `\u501F\u81EA${borrowed}\u5BAB` : palace;
+        label = borrowed ? L(lang2, `\u501F\u81EA${borrowed}\u5BAB`, `borrowed from ${branchName(borrowed)}`) : palaceLabel(palace);
       }
       if (!majors.length) {
-        out.push("\u8FD9\u4E00\u683C\u548C\u5BF9\u9762\u90FD\u6682\u65F6\u6CA1\u6709\u4E3B\u661F\uFF0C\u5148\u7559\u4E2A\u767D\uFF0C\u770B\u770B\u76F8\u90BB\u51E0\u683C\u5427\u3002\n");
+        out.push(L(lang2, "\u8FD9\u4E00\u683C\u548C\u5BF9\u9762\u90FD\u6682\u65F6\u6CA1\u6709\u4E3B\u661F\uFF0C\u5148\u7559\u4E2A\u767D\uFF0C\u770B\u770B\u76F8\u90BB\u51E0\u683C\u5427\u3002", "Neither this palace nor its opposite holds a major star; leave it open and look at the neighboring palaces.") + "\n");
         continue;
       }
       src = br;
@@ -13523,40 +13611,117 @@
         const t2 = lib.templates.get(star + "|" + dim);
         if (t2) {
           const lvl = ((r.brightness || {})[src] || {})[star];
-          const lvltxt = lvl ? `\xB7${lvl}` : "";
+          const lvltxt = lvl ? `\xB7${lang2 === "en" ? BRIGHT_EN[lvl] || lvl : lvl}` : "";
           let note = "";
           if (lvl && !lvl_written.has(lvl)) {
             lvl_written.add(lvl);
-            note = ` ${LEVEL_NOTE[lvl]}`;
+            note = ` ${lvlNote(lvl)}`;
           }
-          emit_para(star + "|" + dim + "|" + t2.text, `**${star}\uFF08${label}${lvltxt}\uFF09**\uFF1A${t2.text.trimEnd()}${note}
+          emit_para(star + "|" + dim + "|" + t2.text, `**${starName(star)} (${label}${lvltxt})**\uFF1A${t2.text.trimEnd()}${note}
 `);
         }
       }
       if (majors.length === 2) {
         const pair = lib.pairs.get([...majors].sort().join("|"));
-        if (pair) emit_para(pair, `**\u4E00\u8D77\u770B\u8FD9\u4E24\u9897\u661F**\uFF1A${pair}
+        if (pair) emit_para(pair, `**${L(lang2, "\u4E00\u8D77\u770B\u8FD9\u4E24\u9897\u661F", "Reading the two stars together")}**\uFF1A${pair}
 `);
       }
-      if (dim === "\u6027\u683C" && majors.length && lib.downNotes[majors[0]]) emit_para(lib.downNotes[majors[0]], `**\u518D\u8865\u4E00\u53E5\u5173\u4E8E${majors[0]}**\uFF1A${lib.downNotes[majors[0]]}
+      if (dim === "\u6027\u683C" && majors.length && lib.downNotes[majors[0]]) emit_para(lib.downNotes[majors[0]], `**${L(lang2, `\u518D\u8865\u4E00\u53E5\u5173\u4E8E${majors[0]}`, `One more note on ${starName(majors[0])}`)}**\uFF1A${lib.downNotes[majors[0]]}
 `);
-      if (dim === "\u8D22\u8FD0" && majors.length && lib.wealthNotes[majors[0]]) emit_para(lib.wealthNotes[majors[0]], `**\u94B1\u4E0A\u518D\u8865\u4E00\u53E5**\uFF1A${lib.wealthNotes[majors[0]]}
+      if (dim === "\u8D22\u8FD0" && majors.length && lib.wealthNotes[majors[0]]) emit_para(lib.wealthNotes[majors[0]], `**${L(lang2, "\u94B1\u4E0A\u518D\u8865\u4E00\u53E5", "A further word on money")}**\uFF1A${lib.wealthNotes[majors[0]]}
 `);
-      if (dim === "\u5065\u5EB7" && majors.length && lib.healthNotes[majors[0]]) emit_para(lib.healthNotes[majors[0]], `**\u8EAB\u4F53\u4E0A\u591A\u7559\u610F**\uFF1A${lib.healthNotes[majors[0]]}
+      if (dim === "\u5065\u5EB7" && majors.length && lib.healthNotes[majors[0]]) emit_para(lib.healthNotes[majors[0]], `**${L(lang2, "\u8EAB\u4F53\u4E0A\u591A\u7559\u610F", "Watch for this physically")}**\uFF1A${lib.healthNotes[majors[0]]}
 `);
       if (dim === "\u4E8B\u4E1A") {
-        if (majors.length && lib.careerNotes[majors[0]]) emit_para(lib.careerNotes[majors[0]], `**\u5DE5\u4F5C\u4E0A\u518D\u8865\u4E00\u53E5**\uFF1A${lib.careerNotes[majors[0]]}
+        if (majors.length && lib.careerNotes[majors[0]]) emit_para(lib.careerNotes[majors[0]], `**${L(lang2, "\u5DE5\u4F5C\u4E0A\u518D\u8865\u4E00\u53E5", "A further word on work")}**\uFF1A${lib.careerNotes[majors[0]]}
 `);
         const here = new Set(r.stars[br] || []);
         const hit = (lib.careerAux.groups || []).filter((g) => g.stars.some((s) => here.has(s)));
-        if (hit.length) emit_para("groups", "**\u5DE5\u4F5C\u4E0A\u8FD8\u6709\u8FD9\u4E9B\u5E2E\u624B**\uFF1A" + hit.map((g) => `${g.name}\u2014\u2014${g.note}`).join("\uFF1B") + "\n");
+        if (hit.length) emit_para("groups", `**${L(lang2, "\u5DE5\u4F5C\u4E0A\u8FD8\u6709\u8FD9\u4E9B\u5E2E\u624B", "Other helpers at work")}**\uFF1A` + hit.map((g) => `${g.name}\u2014\u2014${g.note}`).join(lang2 === "en" ? "; " : "\uFF1B") + "\n");
         const hua_here = ["\u7984", "\u6743", "\u79D1", "\u5FCC"].filter((tag) => Object.entries(r.hua).some(([st, v]) => here.has(st) && v.tag === tag));
-        if (hua_here.length) emit_para("hua", "**\u5DE5\u4F5C\u4E0A\u7684\u56DB\u5316**\uFF1A" + hua_here.map((t2) => `\u5316${t2}\u2014\u2014${lib.careerAux.hua[t2]}`).join("\uFF1B") + "\n");
+        if (hua_here.length) emit_para("hua", `**${L(lang2, "\u5DE5\u4F5C\u4E0A\u7684\u56DB\u5316", "Transformations at work")}**\uFF1A` + hua_here.map((t2) => `${huaName(t2)}\u2014\u2014${lib.careerAux.hua[t2]}`).join(lang2 === "en" ? "; " : "\uFF1B") + "\n");
       }
-      if (out.length === body_start) out.push("\u8FD9\u4E00\u7EC4\u661F\u521A\u624D\u5DF2\u7ECF\u804A\u8FC7\u5566\uFF0C\u8EAB\u5BAB\u548C\u547D\u5BAB\u770B\u7684\u662F\u540C\u4E00\u5904\uFF0C\u5C31\u4E0D\u91CD\u590D\u8BF4\u4E00\u904D\u4E86\u3002\n");
+      if (out.length === body_start) out.push(L(lang2, "\u8FD9\u4E00\u7EC4\u661F\u521A\u624D\u5DF2\u7ECF\u804A\u8FC7\u5566\uFF0C\u8EAB\u5BAB\u548C\u547D\u5BAB\u770B\u7684\u662F\u540C\u4E00\u5904\uFF0C\u5C31\u4E0D\u91CD\u590D\u8BF4\u4E00\u904D\u4E86\u3002", "We have already covered this group of stars; the Body and Life palaces point to the same place, so there is no need to repeat.") + "\n");
     }
-    out.push("> \u4EE5\u4E0A\u662F\u6309\u56FA\u5B9A\u89C4\u5219\u62FC\u51FA\u6765\u7684\u53C2\u8003\uFF1A14 \u4E3B\u661F \xD7 5 \u4E2A\u7EF4\u5EA6\u6309\u5BAB\u4F4D\u4E3B\u661F\u5339\u914D\uFF0C\u7A7A\u5BAB\u501F\u5BF9\u5BAB\uFF0C\u53CC\u661F\u4E00\u8D77\u770B\uFF1B\u5927\u9650\u3001\u6D41\u5E74\u6309\u672C\u547D\u5BAB\u4F4D\u843D\u70B9\u89E3\u91CA\u3002\u4EC5\u4F9B\u53C2\u8003\uFF0C\u4F60\u7684\u7ECF\u5386\u548C\u9009\u62E9\u66F4\u7B97\u6570\u3002");
+    out.push(L(
+      lang2,
+      "> \u4EE5\u4E0A\u662F\u6309\u56FA\u5B9A\u89C4\u5219\u62FC\u51FA\u6765\u7684\u53C2\u8003\uFF1A14 \u4E3B\u661F \xD7 5 \u4E2A\u7EF4\u5EA6\u6309\u5BAB\u4F4D\u4E3B\u661F\u5339\u914D\uFF0C\u7A7A\u5BAB\u501F\u5BF9\u5BAB\uFF0C\u53CC\u661F\u4E00\u8D77\u770B\uFF1B\u5927\u9650\u3001\u6D41\u5E74\u6309\u672C\u547D\u5BAB\u4F4D\u843D\u70B9\u89E3\u91CA\u3002\u4EC5\u4F9B\u53C2\u8003\uFF0C\u4F60\u7684\u7ECF\u5386\u548C\u9009\u62E9\u66F4\u7B97\u6570\u3002",
+      "> This is a reference assembled by fixed rules: 14 major stars across 5 dimensions matched by palace, empty palaces borrowing from the opposite, double stars read together; major limits and annual charts interpreted from their landing palaces. For reference only; your own experience and choices matter more."
+    ));
     return out.join("\n");
+  }
+  var PALACE_EN = {
+    "\u547D\u5BAB": "Life Palace",
+    "\u5144\u5F1F": "Siblings",
+    "\u592B\u59BB": "Spouse",
+    "\u5B50\u5973": "Children",
+    "\u8D22\u5E1B": "Wealth",
+    "\u75BE\u5384": "Health",
+    "\u8FC1\u79FB": "Travel",
+    "\u4EA4\u53CB": "Friends",
+    "\u5B98\u7984": "Career",
+    "\u7530\u5B85": "Property",
+    "\u798F\u5FB7": "Blessings",
+    "\u7236\u6BCD": "Parents",
+    "\u8EAB\u5BAB": "Body Palace"
+  };
+  var STAR_EN = {
+    "\u7D2B\u5FAE": "Ziwei",
+    "\u5929\u673A": "Tianji",
+    "\u592A\u9633": "Sun",
+    "\u6B66\u66F2": "Wuqu",
+    "\u5929\u540C": "Tiantong",
+    "\u5EC9\u8D1E": "Lianzhen",
+    "\u5929\u5E9C": "Tianfu",
+    "\u592A\u9634": "Moon",
+    "\u8D2A\u72FC": "Tanlang",
+    "\u5DE8\u95E8": "Jumen",
+    "\u5929\u76F8": "Tianxiang",
+    "\u5929\u6881": "Tianliang",
+    "\u4E03\u6740": "Qisha",
+    "\u7834\u519B": "Pojun",
+    "\u6587\u660C": "Wenchang",
+    "\u6587\u66F2": "Wenqu",
+    "\u5DE6\u8F85": "Zuofu",
+    "\u53F3\u5F3C": "Youbi",
+    "\u5929\u9B41": "Tiankui",
+    "\u5929\u94BA": "Tianyue",
+    "\u7984\u5B58": "Lucun",
+    "\u706B\u661F": "Mars",
+    "\u94C3\u661F": "Rahu",
+    "\u64CE\u7F8A": "Qingyang",
+    "\u9640\u7F57": "Tuoluo",
+    "\u5929\u9A6C": "Sky Horse"
+  };
+  var BRANCH_EN = {
+    "\u5B50": "Zi",
+    "\u4E11": "Chou",
+    "\u5BC5": "Yin",
+    "\u536F": "Mao",
+    "\u8FB0": "Chen",
+    "\u5DF3": "Si",
+    "\u5348": "Wu",
+    "\u672A": "Wei",
+    "\u7533": "Shen",
+    "\u9149": "You",
+    "\u620C": "Xu",
+    "\u4EA5": "Hai"
+  };
+  var STEM_EN = {
+    "\u7532": "Jia",
+    "\u4E59": "Yi",
+    "\u4E19": "Bing",
+    "\u4E01": "Ding",
+    "\u620A": "Wu",
+    "\u5DF1": "Ji",
+    "\u5E9A": "Geng",
+    "\u8F9B": "Xin",
+    "\u58EC": "Ren",
+    "\u7678": "Gui"
+  };
+  var BRIGHT_EN = { "\u5E99": "Enthroned", "\u65FA": "Prosperous", "\u5E73": "Even", "\u9677": "Subdued" };
+  function gzEn(s) {
+    return s.split("").map((c) => STEM_EN[c] || BRANCH_EN[c] || c).join("-");
   }
   function xiaoxianBranch(yearBranchI, gender, age) {
     const groups = [[[2, 6, 10], 4], [[8, 0, 4], 10], [[5, 9, 1], 7], [[11, 3, 7], 1]];
@@ -13568,15 +13733,15 @@
     const step = gender === "\u7537" ? 1 : -1;
     return mod3(start + (age - 1) * step, 12);
   }
-  function _hua_bits(hua, star_branch, palace_of) {
+  function _hua_bits(hua, star_branch, palace_of, lang2, huaName, starName, palaceLabel, role) {
     const bits = [];
     for (let i = 0; i < 4; i++) {
       const tag = ["\u7984", "\u6743", "\u79D1", "\u5FCC"][i];
       const star = hua[i];
       const br = star_branch[star];
-      if (br !== void 0) bits.push(`${tag}\u843D\u5728${palace_of[br] || ""}\uFF08${star}\uFF09\uFF0C${TAG_ROLE[tag]}`);
+      if (br !== void 0) bits.push(lang2 === "en" ? `${huaName(tag)} in ${palaceLabel(palace_of[br] || "")} (${starName(star)}): ${role(tag)}` : `${tag}\u843D\u5728${palace_of[br] || ""}\uFF08${star}\uFF09\uFF0C${TAG_ROLE[tag]}`);
     }
-    return bits.join("\uFF1B");
+    return bits.join(lang2 === "en" ? "; " : "\uFF1B");
   }
 
   // js/i18n.ts
@@ -14293,7 +14458,7 @@
   };
 
   // js/reading.ts
-  var L = window.__LIB__ || {};
+  var L2 = window.__LIB__ || {};
   var MAJOR2 = /* @__PURE__ */ new Set(["\u7D2B\u5FAE", "\u5929\u673A", "\u592A\u9633", "\u6B66\u66F2", "\u5929\u540C", "\u5EC9\u8D1E", "\u5929\u5E9C", "\u592A\u9634", "\u8D2A\u72FC", "\u5DE8\u95E8", "\u5929\u76F8", "\u5929\u6881", "\u4E03\u6740", "\u7834\u519B"]);
   var HUA_CLASS = { "\u7984": "lu", "\u6743": "quan", "\u79D1": "ke", "\u5FCC": "ji" };
   var HUA_TAG = ["\u7984", "\u6743", "\u79D1", "\u5FCC"];
@@ -14355,14 +14520,15 @@
   }
   var mod4 = (a, n) => (a % n + n) % n;
   function notes(name) {
-    return L["reading/" + name] || {};
+    return L2["reading/" + name] || {};
   }
-  function ziweiLibrary() {
-    const tpl = notes("templates_v03").templates || [];
-    const pairs = notes("pairs_v01").pairs || [];
-    const pats = notes("patterns").patterns || {};
-    const aux = notes("career_aux") || {};
-    const charts = notes("pan144").charts || {};
+  function ziweiLibrary(lang2 = "zh") {
+    const ns = (name) => lang2 === "en" ? L2["reading_en/" + name] || L2["reading/" + name] || {} : L2["reading/" + name] || {};
+    const tpl = ns("templates_v03").templates || [];
+    const pairs = ns("pairs_v01").pairs || [];
+    const pats = ns("patterns").patterns || {};
+    const aux = ns("career_aux") || {};
+    const charts = ns("pan144").charts || {};
     const templates = /* @__PURE__ */ new Map();
     for (const t2 of tpl) templates.set(t2.star + "|" + t2.dimension, t2);
     const pairMap = /* @__PURE__ */ new Map();
@@ -14371,10 +14537,10 @@
       templates,
       pairs: pairMap,
       patterns: pats,
-      downNotes: notes("down_notes").notes || {},
-      wealthNotes: notes("wealth_notes").notes || {},
-      healthNotes: notes("health_notes").notes || {},
-      careerNotes: notes("career_notes").notes || {},
+      downNotes: ns("down_notes").notes || {},
+      wealthNotes: ns("wealth_notes").notes || {},
+      healthNotes: ns("health_notes").notes || {},
+      careerNotes: ns("career_notes").notes || {},
       careerAux: aux,
       pan144: charts
     };
@@ -14736,7 +14902,7 @@ ${yun.dayun?.judge ? src(yun.dayun.judge, "Show the Chinese note on this fortune
     return secs;
   }
   function dailyBaziBar(r, dayGz, dateStr) {
-    const copy = (L["reading_bazi/daily_bazi_copy"] || {}).gods || {};
+    const copy = (L2["reading_bazi/daily_bazi_copy"] || {}).gods || {};
     const god = ten_god(r.day_master.gan, dayGz.charAt(0));
     const group = GOD_GROUP[god] || "";
     const fav = (r.xiji.xi || []).some((x) => x.includes(group));
@@ -14795,9 +14961,9 @@ ${yun.dayun?.judge ? src(yun.dayun.judge, "Show the Chinese note on this fortune
     "\u4E5D\u5929": { gist: "Height and expansion: visibility, travel and ambitious plans." }
   };
   var QLIB = () => ({
-    doors: L["reading_qimen/doors"] || {},
-    stars: L["reading_qimen/stars"] || {},
-    shens: L["reading_qimen/shens"] || {}
+    doors: L2["reading_qimen/doors"] || {},
+    stars: L2["reading_qimen/stars"] || {},
+    shens: L2["reading_qimen/shens"] || {}
   });
   function qimenCellHtml(c, r, gejuMap) {
     const { doors, stars, shens } = QLIB();
@@ -15141,8 +15307,8 @@ This palace is **${term(c.door_rel)}** \u2014 ${rel(c.door_rel)} Leave room in t
   </div></div>`;
     let out = `<div class="grid${S.lines ? "" : ""}">${cells}${center}<svg class="tri-lines" aria-hidden="true"></svg></div>`;
     try {
-      const lib = ziweiLibrary();
-      const md = compose(r, lib, age, year, ref).replace(/（[^（）]{0,10}第[^（）]{0,8}章[^（）]{0,10}p\d+[^（）]{0,8}）/g, "").replace(/（p\d+）/g, "");
+      const lib = ziweiLibrary(getLang());
+      const md = compose(r, lib, age, year, ref, getLang()).replace(/（[^（）]{0,10}第[^（）]{0,8}章[^（）]{0,10}p\d+[^（）]{0,8}）/g, "").replace(/（p\d+）/g, "");
       out += `<details class="dsec readmore" style="margin-top:14px"><summary>${t("readmore.ziwei")}</summary>${mdBlock(md)}</details>`;
     } catch (e) {
       out += `<p class="err">${t("err.reading")}${esc2(e.message || e)}</p>`;

@@ -1,0 +1,66 @@
+{
+ "version": "0.1",
+ "source": "English curated paraphrase.",
+ "groups": [
+  {
+   "name": "辅弼",
+   "stars": [
+    "左辅",
+    "右弼"
+   ],
+   "note": "Suited to assisting, counseling, and guiding work that doesn't grab the spotlight; cooperative environments that value coordination feel most natural."
+  },
+  {
+   "name": "魁钺",
+   "stars": [
+    "天魁",
+    "天钺"
+   ],
+   "note": "Suited to roles where skill and ambition are visible, with influential people often nearby."
+  },
+  {
+   "name": "昌曲",
+   "stars": [
+    "文昌",
+    "文曲"
+   ],
+   "note": "Arts and culture, atmosphere, analysis, and expression all fit; settings that value temperament and aesthetics bring out the best."
+  },
+  {
+   "name": "空劫",
+   "stars": [
+    "地空",
+    "地劫"
+   ],
+   "note": "Research and experimentation, chemistry and optics, healthcare, and design improvement, work that requires thought and a breakthrough, suit you."
+  },
+  {
+   "name": "火铃",
+   "stars": [
+    "火星",
+    "铃星"
+   ],
+   "note": "Suited to taking the initiative and to phase-driven work: pioneering, crafts, even challenging roles are manageable."
+  },
+  {
+   "name": "擎羊",
+   "stars": [
+    "擎羊"
+   ],
+   "note": "You like being out front. Foresight, metal and instruments, public order and justice, and reform work let you use your force."
+  },
+  {
+   "name": "陀罗",
+   "stars": [
+    "陀罗"
+   ],
+   "note": "Suited to work needing patience and repeated polishing; manufacturing and fine finishing show the real craft."
+  }
+ ],
+ "hua": {
+  "禄": "Easily brings people and matters along, with money and opportunities flowing with them.",
+  "权": "Able both to decide and to deliver; important matters are safe in your hands.",
+  "科": "Talent easily gets noticed; arts, presentation, and reputation all suit you.",
+  "忌": "You tend to hit the blocked point first; straightening out the dead corners and working through hard problems is where you grow."
+ }
+}

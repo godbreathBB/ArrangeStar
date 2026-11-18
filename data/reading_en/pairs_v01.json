@@ -1,0 +1,160 @@
+{
+ "version": "0.1",
+ "note": "English bridge sentences for double-star palaces, order independent.",
+ "pairs": [
+  {
+   "stars": [
+    "紫微",
+    "天相"
+   ],
+   "text": "One decides, one sees things through to the end: a good match. Both care about face, so neither may want to speak first."
+  },
+  {
+   "stars": [
+    "紫微",
+    "天府"
+   ],
+   "text": "One dares to decide, one knows how to hold steady, like a helmsman with a steward. Steadiness isn't conservatism; when an opening comes, you can take it calmly."
+  },
+  {
+   "stars": [
+    "紫微",
+    "贪狼"
+   ],
+   "text": "Structure meets curiosity, wanting both dignity and novelty. Saying what you want outright is easier than hiding it."
+  },
+  {
+   "stars": [
+    "紫微",
+    "破军"
+   ],
+   "text": "One wants order, one wants to tear it down, often pulling between keeping and changing. Keep one line you won't cross and it holds."
+  },
+  {
+   "stars": [
+    "紫微",
+    "七杀"
+   ],
+   "text": "Strong presence, quick decisions, and a tendency to pressure people. Put that force into deciding rather than into temper."
+  },
+  {
+   "stars": [
+    "天机",
+    "太阴"
+   ],
+   "text": "A fine mind and a fine heart; thinking is a gift. Just don't let thinking too much become repeated self-doubt."
+  },
+  {
+   "stars": [
+    "天机",
+    "巨门"
+   ],
+   "text": "A quick mind and a quick tongue. Use the cleverness to see things clearly and leave a little unsaid."
+  },
+  {
+   "stars": [
+    "天机",
+    "天梁"
+   ],
+   "text": "One proposes, one stays grounded, a good complement. You can over-worry about others; first see what is actually yours to carry."
+  },
+  {
+   "stars": [
+    "太阳",
+    "太阴"
+   ],
+   "text": "One reaches outward, one draws inward, with both warmth and stillness in you. Generous to the world, but keep some quiet for yourself."
+  },
+  {
+   "stars": [
+    "太阳",
+    "巨门"
+   ],
+   "text": "You love to speak and to make things clear. The truth is good; a little gentleness in the saying goes further."
+  },
+  {
+   "stars": [
+    "太阳",
+    "天梁"
+   ],
+   "text": "One is willing to carry, one is willing to protect; together you easily become a rock for others. Include yourself in that care to last."
+  },
+  {
+   "stars": [
+    "武曲",
+    "天府"
+   ],
+   "text": "Able to earn and able to keep, very steady with money. Beyond the numbers, leave room for people and relationships."
+  },
+  {
+   "stars": [
+    "武曲",
+    "贪狼"
+   ],
+   "text": "One calculates, one finds openings, a good complement. Daring is fine; half a second's pause before the impulse keeps it steady."
+  },
+  {
+   "stars": [
+    "武曲",
+    "七杀"
+   ],
+   "text": "Both crisp and strong in execution, but prone to head-on clashes. Getting the task done while keeping the relationship is worth more."
+  },
+  {
+   "stars": [
+    "武曲",
+    "破军"
+   ],
+   "text": "One seeks stability, one wants change, often tugging over whether to switch. See the way out clearly first and moving feels safer."
+  },
+  {
+   "stars": [
+    "天同",
+    "太阴"
+   ],
+   "text": "Easygoing and sensitive, gentle with others, yet prone to swallowing grievances. When you want to say something, a soft word is enough."
+  },
+  {
+   "stars": [
+    "天同",
+    "巨门"
+   ],
+   "text": "One soft, one sharp; the words sound crisp but inside you fear conflict. Voice objections early and there's no need to store them up."
+  },
+  {
+   "stars": [
+    "天同",
+    "天梁"
+   ],
+   "text": "Wanting ease but unable to stop caring, resting while still worrying. Gently separate what is yours to handle from what is not."
+  },
+  {
+   "stars": [
+    "廉贞",
+    "天府"
+   ],
+   "text": "Edge and proportion together; at home where rules are clear. Let rules put things in order, not make life hard for people."
+  },
+  {
+   "stars": [
+    "廉贞",
+    "贪狼"
+   ],
+   "text": "Tension and appetite together, easy to be noticed. Put the energy into completing one thing rather than rushing to prove yourself."
+  },
+  {
+   "stars": [
+    "廉贞",
+    "七杀"
+   ],
+   "text": "Willing to confront and to carry. Pause three seconds when the temper rises and many small troubles dissolve."
+  },
+  {
+   "stars": [
+    "廉贞",
+    "破军"
+   ],
+   "text": "One guards the line, one tests the boundary. Keeping one line of your own not to cross actually feels freer."
+  }
+ ]
+}

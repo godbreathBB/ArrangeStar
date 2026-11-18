@@ -1,0 +1,331 @@
+{
+ "version": "0.5",
+ "source": "English curated paraphrase; structure follows the Chinese pattern library.",
+ "patterns": {
+  "紫府同宫": {
+   "rule": "紫微、天府同宫守命（寅或申）",
+   "note": "With both major stars in one palace, life has room and a measure of luck. A touch of loneliness can surface at times; let relationships develop at their own pace.",
+   "nameEn": "Ziwei and Tianfu in the Same Palace"
+  },
+  "府相朝垣": {
+   "rule": "天府、天相会照命宫三方四正",
+   "note": "Steady, with people backing you up. Progress comes easiest by climbing step by step within an established system.",
+   "nameEn": "Tianfu and Tianxiang in Trine"
+  },
+  "机月同梁": {
+   "rule": "天机、太阴、天同、天梁齐会命宫三方四正",
+   "note": "Well suited to public service, education, and mass communication. Moving steadily forward is enough.",
+   "nameEn": "Tianji, Moon, Tiantong and Tianliang"
+  },
+  "巨机同临": {
+   "rule": "天机、巨门同宫守命（卯或酉）",
+   "note": "A quick mind and a sharp tongue. Deepening one specialty, especially in technology or a professional field, brings the most reward.",
+   "nameEn": "Jumen and Tianji Together"
+  },
+  "月朗天门": {
+   "rule": "太阴在亥守命",
+   "note": "Refined and inward, you prefer to accumulate slowly. Cultural work and behind-the-scenes roles feel natural.",
+   "nameEn": "Moon Bright at the Heavenly Gate"
+  },
+  "日照雷门": {
+   "rule": "太阳在卯守命",
+   "note": "Open and outgoing, willing to say what you think. Public service, communications, and education all fit.",
+   "nameEn": "Sun Shining at the Thunder Gate"
+  },
+  "石中隐玉": {
+   "rule": "巨门在子或午守命",
+   "note": "You speak well, but can get pulled into idle talk. Standing on one solid expertise is safest; leave a little unsaid.",
+   "nameEn": "Jade Hidden in Stone"
+  },
+  "七杀朝斗": {
+   "rule": "七杀在寅、申、子、午守命",
+   "note": "Suited to forging your own path and to disciplined, structured work. Taking the initiative helps; tempering the edge keeps it steady.",
+   "nameEn": "Qisha Facing the Big Dipper"
+  },
+  "极向离明": {
+   "rule": "紫微在午守命",
+   "note": "A clear and distinguished pattern. You shine brightest with people supporting you, so avoid carrying everything alone.",
+   "nameEn": "Supreme Toward the Bright South"
+  },
+  "贪武同行": {
+   "rule": "武曲、贪狼同宫守命（丑或未）",
+   "note": "Money and ideas arrive together. Solid, steady enterprise suits you; an oversized leap is unnecessary.",
+   "nameEn": "Tanlang and Wuqu Together"
+  },
+  "日月并明": {
+   "rule": "太阳、太阴同宫守命（丑或未）",
+   "note": "You carry both warmth and stillness. Even out your rhythm and sleep, and things settle.",
+   "nameEn": "Sun and Moon Shining Together"
+  },
+  "君臣庆会": {
+   "rule": "紫微守命，三方四正会左辅右弼、文昌文曲、天魁天钺",
+   "note": "A favorable pattern with frequent help from others. Accomplishing things through a team comes more easily than deciding alone.",
+   "nameEn": "Ruler and Ministers in Celebration"
+  },
+  "巨日同宫": {
+   "rule": "太阳、巨门同宫守命（寅或申）",
+   "note": "Expressive and open. Communications, education, and law fit well; staying out of petty friction saves energy.",
+   "nameEn": "Jumen and Sun in the Same Palace"
+  },
+  "机梁加会": {
+   "rule": "天机、天梁同宫或三方会照命宫",
+   "note": "Able to plan and to stay grounded. Planning, research, and public-interest work suit you.",
+   "nameEn": "Tianji and Tianliang in Trine"
+  },
+  "文梁振纪": {
+   "rule": "文昌、天梁会照命宫",
+   "note": "Both talent and principle. Culture, education, legal affairs, and public service all let you contribute.",
+   "nameEn": "Wenchang and Tianliang Upholding Order"
+  },
+  "阳梁昌禄": {
+   "rule": "太阳、天梁、文昌、禄存齐会命宫三方四正",
+   "note": "Examinations and steady income tend to go well. Public service and education are smooth paths.",
+   "nameEn": "Sun, Tianliang, Wenchang and Lucun"
+  },
+  "三奇加会": {
+   "rule": "化禄、化权、化科三奇会照命宫三方四正",
+   "note": "All three auspicious transformations arrive together and the pattern is bright. Follow the momentum and stay unpretentious.",
+   "nameEn": "Three Auspicious Transformations in Trine"
+  },
+  "左右同宫": {
+   "rule": "左辅、右弼同宫守命",
+   "note": "Many helpers and good rapport. Working with a team takes the least effort.",
+   "nameEn": "Zuofu and Youbi in the Same Palace"
+  },
+  "文桂文华": {
+   "rule": "文昌、文曲同宫守命",
+   "note": "Bright and multi-talented. Writing and exams tend to go well, especially when you follow through.",
+   "nameEn": "Wenchang and Wenqu Together"
+  },
+  "将星得地": {
+   "rule": "武曲守命且庙旺",
+   "note": "Strong execution. Finance and real industry both suit you; a softer tone widens the road.",
+   "nameEn": "The General Star in Its Element"
+  },
+  "月生沧海": {
+   "rule": "太阴在子守命",
+   "note": "Refined and inward. Cultural work, finance, and behind-the-scenes planning all feel at home.",
+   "nameEn": "Moon Rising over the Sea"
+  },
+  "寿星入庙": {
+   "rule": "天梁在午守命",
+   "note": "A natural protective quality. Profession and public service both fit; don't take on everyone's burdens.",
+   "nameEn": "The Longevity Star Enthroned"
+  },
+  "英星入庙": {
+   "rule": "破军在子或午守命",
+   "note": "Bold in breaking and building, with real momentum. Excellent for pioneering; stay with the finish a little longer.",
+   "nameEn": "The Hero Star Enthroned"
+  },
+  "马头带箭": {
+   "rule": "擎羊在午宫守命",
+   "note": "Fiery and full of drive. Disciplined or competitive fields suit you; half a second's pause before acting is safer.",
+   "nameEn": "Arrow at the Horse's Head"
+  },
+  "紫府朝垣": {
+   "rule": "紫微或天府庙旺守命",
+   "note": "A major star well placed, with helpful stars alongside. A clear and distinguished pattern.",
+   "nameEn": "Ziwei or Tianfu in Trine"
+  },
+  "天府朝垣": {
+   "rule": "天府在辰或戌守命",
+   "note": "A major star guarding the treasury. Deep reserves of good fortune; steady keeping brings comfort.",
+   "nameEn": "Tianfu Guarding the Treasury"
+  },
+  "金灿光辉": {
+   "rule": "太阳在午守命",
+   "note": "Like the sun at midday, a bright pattern. When ups and downs come, slow the pace.",
+   "nameEn": "Golden Brilliance"
+  },
+  "明珠出海": {
+   "rule": "命宫在未无主星，卯宫太阳天梁、亥宫太阴合照",
+   "note": "Three stars form a line, making it easier to be noticed for reputation and achievement.",
+   "nameEn": "Bright Pearl Emerging from the Sea"
+  },
+  "天乙拱命": {
+   "rule": "天魁、天钺夹命宫",
+   "note": "Noble helpers surround you; people are often willing to lend a hand.",
+   "nameEn": "Tianyi Flanking the Life Palace"
+  },
+  "权禄巡逢": {
+   "rule": "化禄与化权同守命宫",
+   "note": "Authority and reward arrive together, a bright pattern, especially when the stars are well placed.",
+   "nameEn": "Authority and Reward Together"
+  },
+  "科权禄夹": {
+   "rule": "化科、化权、化禄中有二居命宫两侧",
+   "note": "Three auspicious transformations flank you from either side, a refined pattern.",
+   "nameEn": "Fame, Authority and Reward Flanking"
+  },
+  "双禄夹命": {
+   "rule": "禄存与化禄夹命宫",
+   "note": "Two forms of reward flank the palace, bringing relative ease with money.",
+   "nameEn": "Double Reward Flanking the Life Palace"
+  },
+  "三合火贪": {
+   "rule": "火星与贪狼同宫或三合",
+   "note": "Fire meets Tanlang, often a sudden burst of brightness for a time, most marked when your state is strong.",
+   "nameEn": "Mars and Tanlang in Trine"
+  },
+  "贪铃朝垣": {
+   "rule": "铃星与贪狼同宫",
+   "note": "Lingxing with Tanlang gives presence and the ability to rally people, better when things are calm.",
+   "nameEn": "Tanlang and Rahu in the Same Palace"
+  },
+  "贵星夹命": {
+   "rule": "紫微天府夹命，或太阳太阴夹命",
+   "note": "Noble stars on either side, a favorable pattern with frequent help from others.",
+   "nameEn": "Noble Stars Flanking the Life Palace"
+  },
+  "廉贞文武": {
+   "rule": "廉贞在寅或申，文昌文曲三方拱照",
+   "note": "At home with both principle and culture. Law, public order, and the arts all let you contribute.",
+   "nameEn": "Lianzhen with Literary and Martial Stars"
+  },
+  "辅拱文星": {
+   "rule": "文昌守命，左辅三方拱照",
+   "note": "Talent backed by helpers. Cultural work and planning come easily.",
+   "nameEn": "Zuofu Supporting Wenchang"
+  },
+  "禄文拱命": {
+   "rule": "禄存守命，三方得昌曲拱照",
+   "note": "Reward and reputation both arrive smoothly. Just don't let outside noise set your rhythm.",
+   "nameEn": "Reward and Literature Flanking the Life Palace"
+  },
+  "禄合鸳鸯": {
+   "rule": "禄存与化禄同守命宫",
+   "note": "Two rewards in the same palace, bringing ample income.",
+   "nameEn": "Two Rewards in the Same Palace"
+  },
+  "双禄朝垣": {
+   "rule": "三方四正有禄存与化禄",
+   "note": "Two rewards come together; both finances and pattern are good. Slow down when ups and downs appear.",
+   "nameEn": "Double Reward in Trine"
+  },
+  "禄马交驰": {
+   "rule": "三方四正有禄存或化禄，又有天马",
+   "note": "Often on the move, and able to earn away from home.",
+   "nameEn": "Reward and Sky Horse Together"
+  },
+  "二曜同临": {
+   "rule": "命在丑日月在未，或命在未日月在丑",
+   "note": "Sun and moon shine on each other, a clear pattern. Steadiness makes it smoother.",
+   "nameEn": "The Two Luminaries Facing Each Other"
+  },
+  "丹桂": {
+   "rule": "太阳在辰或巳守命，或太阴在酉或戌守命",
+   "note": "Both major stars well placed; recognition tends to come early in life.",
+   "nameEn": "Osmanthus"
+  },
+  "甲第登庸": {
+   "rule": "化科守命，化权在三方",
+   "note": "Academic and management paths both go more smoothly when these two stars face each other.",
+   "nameEn": "Fame and Authority in Trine"
+  },
+  "科名会禄": {
+   "rule": "化科守命，化禄在三方",
+   "note": "Reputation and income both tend to grow gradually when these meet.",
+   "nameEn": "Fame Meeting Reward"
+  },
+  "明禄暗禄": {
+   "rule": "命宫有化禄或禄存，暗合宫有另一个",
+   "note": "Reward in both the open and hidden palaces; income paths connect more smoothly.",
+   "nameEn": "Reward in Open and Hidden Palaces"
+  },
+  "权星朝垣": {
+   "rule": "化权守命宫",
+   "note": "Authority in the life palace. Willing to carry responsibility, and more likely to succeed with help.",
+   "nameEn": "The Authority Star in the Life Palace"
+  },
+  "禄马佩印": {
+   "rule": "禄存或化禄与天马、天相同宫守命",
+   "note": "Reward and travel with a seal of office: steady income and a title that carries weight.",
+   "nameEn": "Reward, Horse and Seal of Office"
+  },
+  "财禄夹马": {
+   "rule": "天马守命，邻宫有武曲与化禄相夹",
+   "note": "Wealth and reward flank the traveling star. Tighter early on, easing later.",
+   "nameEn": "Wealth and Reward Flanking the Horse"
+  },
+  "日月照壁": {
+   "rule": "破军在辰或戌守命，太阳太阴在丑或未（田宅）",
+   "note": "Family assets tend to accumulate; auspicious stars in the trine make it steadier.",
+   "nameEn": "Sun and Moon Illuminating the Wall"
+  },
+  "化星返贵": {
+   "rule": "天同在戌守命逢丁年，或巨门在辰守命逢辛年",
+   "note": "An unusual pattern where an adverse transformation in an ordinary palace turns into distinction.",
+   "nameEn": "Transformation Bringing Nobility"
+  },
+  "科明禄暗": {
+   "rule": "化科守命，暗合宫有禄存或化禄",
+   "note": "Reputation in the open, reward in the hidden; name and income arrive together.",
+   "nameEn": "Fame Open, Reward Hidden"
+  },
+  "羊陀夹煞": {
+   "rule": "煞星坐宫被两邻宫擎羊、陀罗夹制",
+   "note": "Two harsh stars press in from either side, easily stirring the temper. Give yourself more cushion in this phase.",
+   "nameEn": "Qingyang and Tuoluo Flanking a Harsh Star"
+  },
+  "火铃夹煞": {
+   "rule": "煞星坐宫被两邻宫火星、铃星夹制",
+   "note": "Fire and bell press in; small surprises can appear from nowhere. Leave a margin and you won't be flustered.",
+   "nameEn": "Mars and Rahu Flanking a Harsh Star"
+  },
+  "空劫夹煞": {
+   "rule": "煞星坐宫被两邻宫地空、地劫夹制",
+   "note": "Void and robbery press in; ideas and reality tug against each other. Make the task in front of you solid.",
+   "nameEn": "Void and Robbery Flanking a Harsh Star"
+  },
+  "双忌夹煞": {
+   "rule": "生年忌与大限忌夹制煞星坐宫",
+   "note": "Two adverse transformations press in; matters easily repeat. Go slowly and give yourself more time.",
+   "nameEn": "Double Affliction Flanking a Harsh Star"
+  },
+  "三方皆煞": {
+   "rule": "命宫、财帛、官禄、迁移皆坐煞星",
+   "note": "Harsh stars in all four key palaces. More obstacles along the way, but taking them one at a time keeps you steady.",
+   "nameEn": "Harsh Stars in All Four Directions"
+  },
+  "七杀羊陀迭并": {
+   "rule": "七杀守命，羊陀同宫或会照",
+   "note": "Quick-tempered and prone to head-on conflict. Structured, disciplined fields let you use that force well.",
+   "nameEn": "Qisha with Qingyang and Tuoluo"
+  },
+  "刑囚夹印": {
+   "rule": "廉贞、天相、擎羊（或陀罗）三合会照",
+   "note": "Rules and disputes easily arise. Legal affairs and public order, where rules are clear, suit you.",
+   "nameEn": "Punishment and Prison Flanking the Seal"
+  },
+  "路上埋尸": {
+   "rule": "廉贞、七杀、擎羊（或陀罗）会照",
+   "note": "Much coming and going, and a tendency to knock against things. Structured, rhythmic roles are safer.",
+   "nameEn": "A Grave on the Road"
+  },
+  "巨火羊": {
+   "rule": "巨门、火星、擎羊会照",
+   "note": "Words and temper both tend to come first. Pause half a beat before speaking.",
+   "nameEn": "Jumen, Mars and Qingyang"
+  },
+  "巨铃羊": {
+   "rule": "巨门、铃星、擎羊会照",
+   "note": "Easily startled by idle talk. Steady yourself before acting.",
+   "nameEn": "Jumen, Rahu and Qingyang"
+  },
+  "铃昌陀武": {
+   "rule": "铃星、文昌、陀罗、武曲会照",
+   "note": "Things tend to stall and restart. Holding the rhythm beats rushing.",
+   "nameEn": "Rahu, Wenchang, Tuoluo and Wuqu"
+  },
+  "天机天梁擎羊会": {
+   "rule": "天机、天梁、擎羊会照",
+   "note": "Ups and downs with a hard edge. Rooting yourself in a technical specialty puts that force to good use.",
+   "nameEn": "Tianji, Tianliang and Qingyang"
+  },
+  "权杀化禄": {
+   "rule": "羊陀火铃坐命入庙，三方有化禄化权",
+   "note": "Strong presence and boldness. Challenging or disciplined work suits you, especially with helpful stars nearby.",
+   "nameEn": "Authority, Harsh Stars and Reward"
+  }
+ }
+}

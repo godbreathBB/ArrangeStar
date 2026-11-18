@@ -11,8 +11,11 @@ data_dir = root / "data"
 out = root / "js" / "data.js"
 
 lib = {}
-for f in sorted(data_dir.rglob("*.json")):
-    key = "/".join(f.relative_to(data_dir).with_suffix("").parts)
+for f in sorted((root / "data").rglob("*.json")):
+    rel = f.relative_to(root / "data")
+    # 英文库放到 reading_en/ 前缀下，与中文库分开
+    parts = rel.with_suffix("").parts
+    key = "/".join(parts)
     lib[key] = json.loads(f.read_text(encoding="utf-8"))
 
 out.write_text(

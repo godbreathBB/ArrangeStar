@@ -79,22 +79,23 @@ const mod = (a: number, n: number) => ((a % n) + n) % n;
 // ── 紫微文案库 ───────────────────────────────────────────────
 function notes(name: string): any { return L['reading/' + name] || {}; }
 
-export function ziweiLibrary(): any {
-  const tpl = notes('templates_v03').templates || [];
-  const pairs = notes('pairs_v01').pairs || [];
-  const pats = notes('patterns').patterns || {};
-  const aux = notes('career_aux') || {};
-  const charts = notes('pan144').charts || {};
+export function ziweiLibrary(lang: 'zh' | 'en' = 'zh'): any {
+  const ns = (name: string): any => lang === 'en' ? (L['reading_en/' + name] || L['reading/' + name] || {}) : (L['reading/' + name] || {});
+  const tpl = ns('templates_v03').templates || [];
+  const pairs = ns('pairs_v01').pairs || [];
+  const pats = ns('patterns').patterns || {};
+  const aux = ns('career_aux') || {};
+  const charts = ns('pan144').charts || {};
   const templates = new Map<string, { text: string }>();
   for (const t of tpl) templates.set(t.star + '|' + t.dimension, t);
   const pairMap = new Map<string, string>();
   for (const p of pairs) pairMap.set([...p.stars].sort().join('|'), p.text);
   return {
     templates, pairs: pairMap, patterns: pats,
-    downNotes: notes('down_notes').notes || {},
-    wealthNotes: notes('wealth_notes').notes || {},
-    healthNotes: notes('health_notes').notes || {},
-    careerNotes: notes('career_notes').notes || {},
+    downNotes: ns('down_notes').notes || {},
+    wealthNotes: ns('wealth_notes').notes || {},
+    healthNotes: ns('health_notes').notes || {},
+    careerNotes: ns('career_notes').notes || {},
     careerAux: aux, pan144: charts,
   };
 }

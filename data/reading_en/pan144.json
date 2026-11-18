@@ -1,0 +1,1292 @@
+{
+ "version": "0.1",
+ "source": "《图解道教天文历算学·紫微斗数（上·命理卷）》第捌章 144种命盘论断（OCR 整理，136/144 收录）",
+ "charts": {
+  "子": {
+   "子": {
+    "names": [
+     "紫府朝垣格"
+    ],
+    "page": 305,
+    "namesEn": [
+     "Ziwei or Tianfu in Trine"
+    ]
+   },
+   "丑": {
+    "names": [
+     "同巨阴阳格",
+     "命无正曜格"
+    ],
+    "page": 306,
+    "namesEn": [
+     "Tiantong, Jumen, Moon and Sun",
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "寅": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 307,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "卯": {
+    "names": [
+     "同巨阳梁格",
+     "命无正曜格"
+    ],
+    "page": 308,
+    "namesEn": [
+     "Tiantong, Jumen, Sun and Tianliang",
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "辰": {
+    "names": [
+     "天府朝垣格",
+     "紫府朝垣格"
+    ],
+    "page": 309,
+    "namesEn": [
+     "Tianfu Guarding the Treasury",
+     "Ziwei or Tianfu in Trine"
+    ]
+   },
+   "巳": {
+    "names": [
+     "机月阳梁格"
+    ],
+    "page": 310,
+    "namesEn": [
+     "Tianji, Moon, Sun and Tianliang"
+    ]
+   },
+   "午": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 311,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "未": {
+    "names": [
+     "同巨同宫格"
+    ],
+    "page": 312,
+    "namesEn": [
+     "Tiantong and Jumen in the Same Palace"
+    ]
+   },
+   "申": {
+    "names": [
+     "紫府武相格"
+    ],
+    "page": 313,
+    "namesEn": [
+     "Ziwei, Tianfu, Wuqu and Tianxiang"
+    ]
+   },
+   "酉": {
+    "names": [
+     "日月天梁格"
+    ],
+    "page": 314,
+    "namesEn": [
+     "Sun, Moon and Tianliang"
+    ]
+   },
+   "戌": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 315,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "亥": {
+    "names": [
+     "机阴同巨格"
+    ],
+    "page": 316,
+    "namesEn": [
+     "Tianji, Taiyin and Jumen"
+    ]
+   }
+  },
+  "丑": {
+   "子": {
+    "names": [
+     "机月同梁格"
+    ],
+    "page": 317,
+    "namesEn": [
+     "Tianji, Moon, Tiantong and Tianliang"
+    ]
+   },
+   "丑": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 318,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "寅": {
+    "names": [
+     "巨日格"
+    ],
+    "page": 319,
+    "namesEn": [
+     "Jumen and Sun"
+    ]
+   },
+   "卯": {
+    "names": [
+     "府相朝垣格"
+    ],
+    "page": 320,
+    "namesEn": [
+     "Tianfu and Tianxiang in Trine"
+    ]
+   },
+   "辰": {
+    "names": [
+     "日月反背格"
+    ],
+    "page": 321,
+    "namesEn": [
+     "Sun and Moon Turned Away"
+    ]
+   },
+   "巳": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 322,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "午": {
+    "names": [
+     "石中隐玉格"
+    ],
+    "page": 323,
+    "namesEn": [
+     "Jade Hidden in Stone"
+    ]
+   },
+   "未": {
+    "names": [
+     "紫武廉相格",
+     "杀破狼格",
+     "府相朝垣格"
+    ],
+    "page": 324,
+    "namesEn": [
+     "Ziwei, Wuqu, Lianzhen and Tianxiang",
+     "The Killing, Destroying and Wolf Stars",
+     "Tianfu and Tianxiang in Trine"
+    ]
+   },
+   "申": {
+    "names": [
+     "机月同梁格"
+    ],
+    "page": 325,
+    "namesEn": [
+     "Tianji, Moon, Tiantong and Tianliang"
+    ]
+   },
+   "酉": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 326,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "戌": {
+    "names": [
+     "日月反背格"
+    ],
+    "page": 327,
+    "namesEn": [
+     "Sun and Moon Turned Away"
+    ]
+   },
+   "亥": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 328,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   }
+  },
+  "寅": {
+   "子": {
+    "names": [
+     "英星人庙格"
+    ],
+    "page": 329,
+    "namesEn": [
+     "The Hero Star Enthroned"
+    ]
+   },
+   "丑": {
+    "names": [
+     "机梁同巨格"
+    ],
+    "page": 330,
+    "namesEn": [
+     "Tianji, Tianliang and Jumen"
+    ]
+   },
+   "寅": {
+    "names": [
+     "紫府同宫格"
+    ],
+    "page": 331,
+    "namesEn": [
+     "Ziwei and Tianfu in the Same Palace"
+    ]
+   },
+   "卯": {
+    "names": [
+     "日月同梁格"
+    ],
+    "page": 332,
+    "namesEn": [
+     "Sun, Moon and Tianliang"
+    ]
+   },
+   "辰": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 333,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "巳": {
+    "names": [
+     "巨日格"
+    ],
+    "page": 334,
+    "namesEn": [
+     "Jumen and Sun"
+    ]
+   },
+   "午": {
+    "names": [
+     "紫府武廉相格"
+    ],
+    "page": 335,
+    "namesEn": [
+     "Ziwei, Tianfu, Wuqu, Lianzhen and Tianxiang"
+    ]
+   },
+   "未": {
+    "names": [
+     "机月阳梁格"
+    ],
+    "page": 336,
+    "namesEn": [
+     "Tianji, Moon, Sun and Tianliang"
+    ]
+   },
+   "申": {
+    "names": [
+     "七杀朝斗格"
+    ],
+    "page": 337,
+    "namesEn": [
+     "Qisha Facing the Big Dipper"
+    ]
+   },
+   "酉": {
+    "names": [
+     "机月同阴格"
+    ],
+    "page": 338,
+    "namesEn": [
+     "Tianji, Moon and Taiyin"
+    ]
+   },
+   "戌": {
+    "names": [
+     "将星得地格"
+    ],
+    "page": 339,
+    "namesEn": [
+     "The General Star in Its Element"
+    ]
+   },
+   "亥": {
+    "names": [
+     "巨日格"
+    ],
+    "page": 340,
+    "namesEn": [
+     "Jumen and Sun"
+    ]
+   }
+  },
+  "卯": {
+   "子": {
+    "names": [
+     "巨日格"
+    ],
+    "page": 341,
+    "namesEn": [
+     "Jumen and Sun"
+    ]
+   },
+   "丑": {
+    "names": [
+     "日月夹命格"
+    ],
+    "page": 342,
+    "namesEn": [
+     "Sun and Moon Flanking the Life Palace"
+    ]
+   },
+   "寅": {
+    "names": [
+     "机月同梁格"
+    ],
+    "page": 343,
+    "namesEn": [
+     "Tianji, Moon, Tiantong and Tianliang"
+    ]
+   },
+   "卯": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 344,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "辰": {
+    "names": [
+     "同巨格"
+    ],
+    "page": 345,
+    "namesEn": [
+     "Tiantong and Jumen"
+    ]
+   },
+   "巳": {
+    "names": [
+     "府相朝垣格"
+    ],
+    "page": 346,
+    "namesEn": [
+     "Tianfu and Tianxiang in Trine"
+    ]
+   },
+   "午": {
+    "names": [
+     "寿星人庙格"
+    ],
+    "page": 347,
+    "namesEn": [
+     "The Longevity Star Enthroned"
+    ]
+   },
+   "未": {
+    "names": [
+     "雄宿朝元格"
+    ],
+    "page": 348,
+    "namesEn": [
+     "The Hero Star Bearing Tribute"
+    ]
+   },
+   "申": {
+    "names": [
+     "机阴格"
+    ],
+    "page": 349,
+    "namesEn": [
+     "Tianji and Taiyin"
+    ]
+   },
+   "酉": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 350,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "亥": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 352,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   }
+  },
+  "辰": {
+   "子": {
+    "names": [
+     "紫府武廉相格"
+    ],
+    "page": 353,
+    "namesEn": [
+     "Ziwei, Tianfu, Wuqu, Lianzhen and Tianxiang"
+    ]
+   },
+   "丑": {
+    "names": [
+     "日月同临格"
+    ],
+    "page": 354,
+    "namesEn": [
+     "The Two Luminaries Facing Each Other"
+    ]
+   },
+   "寅": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 355,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "卯": {
+    "names": [
+     "巨机同临格"
+    ],
+    "page": 356,
+    "namesEn": [
+     "Jumen and Tianji Together"
+    ]
+   },
+   "辰": {
+    "names": [
+     "府相朝垣格"
+    ],
+    "page": 357,
+    "namesEn": [
+     "Tianfu and Tianxiang in Trine"
+    ]
+   },
+   "巳": {
+    "names": [
+     "日月同梁格"
+    ],
+    "page": 358,
+    "namesEn": [
+     "Sun, Moon and Tianliang"
+    ]
+   },
+   "午": {
+    "names": [
+     "七杀朝斗格"
+    ],
+    "page": 359,
+    "namesEn": [
+     "Qisha Facing the Big Dipper"
+    ]
+   },
+   "未": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 360,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "申": {
+    "names": [
+     "雄宿朝元格"
+    ],
+    "page": 361,
+    "namesEn": [
+     "The Hero Star Bearing Tribute"
+    ]
+   },
+   "酉": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 362,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "戌": {
+    "names": [
+     "日月照壁格"
+    ],
+    "page": 363,
+    "namesEn": [
+     "Sun and Moon Illuminating the Wall"
+    ]
+   },
+   "亥": {
+    "names": [
+     "机巨同梁格"
+    ],
+    "page": 364,
+    "namesEn": [
+     "Tianji, Jumen and Tianliang"
+    ]
+   }
+  },
+  "巳": {
+   "子": {
+    "names": [
+     "月生沧海格",
+     "水澄桂萼格"
+    ],
+    "page": 365,
+    "namesEn": [
+     "Moon Rising over the Sea",
+     "Clear Water and Osmanthus Calyx"
+    ]
+   },
+   "丑": {
+    "names": [
+     "贪武同行格",
+     "日月夹命格"
+    ],
+    "page": 366,
+    "namesEn": [
+     "Tanlang and Wuqu Together",
+     "Sun and Moon Flanking the Life Palace"
+    ]
+   },
+   "寅": {
+    "names": [
+     "巨日同宫格"
+    ],
+    "page": 367,
+    "namesEn": [
+     "Jumen and Sun in the Same Palace"
+    ]
+   },
+   "卯": {
+    "names": [
+     "府相朝垣格"
+    ],
+    "page": 368,
+    "namesEn": [
+     "Tianfu and Tianxiang in Trine"
+    ]
+   },
+   "辰": {
+    "names": [
+     "善荫朝纲格",
+     "机月同梁格"
+    ],
+    "page": 369,
+    "namesEn": [
+     "Virtue and Shelter Upholding Order",
+     "Tianji, Moon, Tiantong and Tianliang"
+    ]
+   },
+   "巳": {
+    "names": [
+     "紫府武廉格",
+     "杀破狼格"
+    ],
+    "page": 370,
+    "namesEn": [
+     "Ziwei, Tianfu, Wuqu and Lianzhen",
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "午": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 371,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "未": {
+    "names": [
+     "命无正曜格",
+     "武曲贪狼格"
+    ],
+    "page": 372,
+    "namesEn": [
+     "No Major Star in the Life Palace",
+     "Wuqu and Tanlang"
+    ]
+   },
+   "申": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 373,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "酉": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 374,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   }
+  },
+  "午": {
+   "子": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 377,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "丑": {
+    "names": [
+     "同巨机格"
+    ],
+    "page": 378,
+    "namesEn": [
+     "Tiantong, Jumen and Tianji"
+    ]
+   },
+   "寅": {
+    "names": [
+     "府相朝垣格"
+    ],
+    "page": 379,
+    "namesEn": [
+     "Tianfu and Tianxiang in Trine"
+    ]
+   },
+   "卯": {
+    "names": [
+     "日出扶桑格",
+     "日照雷门格"
+    ],
+    "page": 380,
+    "namesEn": [
+     "Sun Rising at Fusang",
+     "Sun Shining at the Thunder Gate"
+    ]
+   },
+   "辰": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 381,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "巳": {
+    "names": [
+     "机阴同巨格"
+    ],
+    "page": 382,
+    "namesEn": [
+     "Tianji, Taiyin and Jumen"
+    ]
+   },
+   "午": {
+    "names": [
+     "极向离明格"
+    ],
+    "page": 383,
+    "namesEn": [
+     "Supreme Toward the Bright South"
+    ]
+   },
+   "未": {
+    "names": [
+     "日月并明格",
+     "明珠出海格"
+    ],
+    "page": 384,
+    "namesEn": [
+     "Sun and Moon Shining Together",
+     "Bright Pearl Emerging from the Sea"
+    ]
+   },
+   "申": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 385,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "酉": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 386,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "戌": {
+    "names": [
+     "天府朝垣格",
+     "紫府武廉相格"
+    ],
+    "page": 387,
+    "namesEn": [
+     "Tianfu Guarding the Treasury",
+     "Ziwei, Tianfu, Wuqu, Lianzhen and Tianxiang"
+    ]
+   },
+   "亥": {
+    "names": [
+     "月朗天门格"
+    ],
+    "page": 388,
+    "namesEn": [
+     "Moon Bright at the Heavenly Gate"
+    ]
+   }
+  },
+  "未": {
+   "子": {
+    "names": [
+     "石中隐玉格"
+    ],
+    "page": 389,
+    "namesEn": [
+     "Jade Hidden in Stone"
+    ]
+   },
+   "丑": {
+    "names": [
+     "紫府天相格"
+    ],
+    "page": 390,
+    "namesEn": [
+     "Ziwei, Tianfu and Tianxiang"
+    ]
+   },
+   "寅": {
+    "names": [
+     "机月同梁格"
+    ],
+    "page": 391,
+    "namesEn": [
+     "Tianji, Moon, Tiantong and Tianliang"
+    ]
+   },
+   "卯": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 392,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "辰": {
+    "names": [
+     "巨日格"
+    ],
+    "page": 393,
+    "namesEn": [
+     "Jumen and Sun"
+    ]
+   },
+   "巳": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 394,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "午": {
+    "names": [
+     "机月同梁格"
+    ],
+    "page": 395,
+    "namesEn": [
+     "Tianji, Moon, Tiantong and Tianliang"
+    ]
+   },
+   "未": {
+    "names": [
+     "杀破狼格",
+     "日月照壁格"
+    ],
+    "page": 396,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars",
+     "Sun and Moon Illuminating the Wall"
+    ]
+   },
+   "申": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 397,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "戌": {
+    "names": [
+     "机月同梁格"
+    ],
+    "page": 398,
+    "namesEn": [
+     "Tianji, Moon, Tiantong and Tianliang"
+    ]
+   },
+   "酉": {
+    "names": [
+     "府相武杀格"
+    ],
+    "page": 399,
+    "namesEn": [
+     "Tianfu, Tianxiang, Wuqu and Qisha"
+    ]
+   }
+  },
+  "申": {
+   "子": {
+    "names": [
+     "紫府武廉相格"
+    ],
+    "page": 401,
+    "namesEn": [
+     "Ziwei, Tianfu, Wuqu, Lianzhen and Tianxiang"
+    ]
+   },
+   "丑": {
+    "names": [
+     "丹桂格",
+     "日月并明格"
+    ],
+    "page": 402,
+    "namesEn": [
+     "Osmanthus",
+     "Sun and Moon Shining Together"
+    ]
+   },
+   "寅": {
+    "names": [
+     "七杀朝斗格"
+    ],
+    "page": 403,
+    "namesEn": [
+     "Qisha Facing the Big Dipper"
+    ]
+   },
+   "卯": {
+    "names": [
+     "机月同巨格"
+    ],
+    "page": 404,
+    "namesEn": [
+     "Tianji, Moon and Jumen"
+    ]
+   },
+   "辰": {
+    "names": [
+     "将星得地格"
+    ],
+    "page": 405,
+    "namesEn": [
+     "The General Star in Its Element"
+    ]
+   },
+   "巳": {
+    "names": [
+     "巨日格"
+    ],
+    "page": 406,
+    "namesEn": [
+     "Jumen and Sun"
+    ]
+   },
+   "午": {
+    "names": [
+     "英星人庙格"
+    ],
+    "page": 407,
+    "namesEn": [
+     "The Hero Star Enthroned"
+    ]
+   },
+   "未": {
+    "names": [
+     "机月同梁格"
+    ],
+    "page": 408,
+    "namesEn": [
+     "Tianji, Moon, Tiantong and Tianliang"
+    ]
+   },
+   "申": {
+    "names": [
+     "紫府同宫格"
+    ],
+    "page": 409,
+    "namesEn": [
+     "Ziwei and Tianfu in the Same Palace"
+    ]
+   },
+   "酉": {
+    "names": [
+     "日月同梁格"
+    ],
+    "page": 410,
+    "namesEn": [
+     "Sun, Moon and Tianliang"
+    ]
+   },
+   "戌": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 411,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "亥": {
+    "names": [
+     "巨日格"
+    ],
+    "page": 412,
+    "namesEn": [
+     "Jumen and Sun"
+    ]
+   }
+  },
+  "酉": {
+   "子": {
+    "names": [
+     "寿星人庙格"
+    ],
+    "page": 413,
+    "namesEn": [
+     "The Longevity Star Enthroned"
+    ]
+   },
+   "丑": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 414,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "寅": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 415,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "卯": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 416,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "辰": {
+    "names": [
+     "机月同梁格"
+    ],
+    "page": 417,
+    "namesEn": [
+     "Tianji, Moon, Tiantong and Tianliang"
+    ]
+   },
+   "巳": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 418,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "午": {
+    "names": [
+     "日丽中天格",
+     "金灿光辉格"
+    ],
+    "page": 419,
+    "namesEn": [
+     "Sun at Midday",
+     "Golden Brilliance"
+    ]
+   },
+   "未": {
+    "names": [
+     "日月夹命格"
+    ],
+    "page": 420,
+    "namesEn": [
+     "Sun and Moon Flanking the Life Palace"
+    ]
+   },
+   "申": {
+    "names": [
+     "机月同梁格"
+    ],
+    "page": 421,
+    "namesEn": [
+     "Tianji, Moon, Tiantong and Tianliang"
+    ]
+   },
+   "酉": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 422,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "亥": {
+    "names": [
+     "武破府相格"
+    ],
+    "page": 424,
+    "namesEn": [
+     "Wuqu, Pojun, Tianfu and Tianxiang"
+    ]
+   }
+  },
+  "戌": {
+   "丑": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 426,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "寅": {
+    "names": [
+     "紫府武廉相格"
+    ],
+    "page": 427,
+    "namesEn": [
+     "Ziwei, Tianfu, Wuqu, Lianzhen and Tianxiang"
+    ]
+   },
+   "卯": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 428,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "辰": {
+    "names": [
+     "日月照壁格"
+    ],
+    "page": 429,
+    "namesEn": [
+     "Sun and Moon Illuminating the Wall"
+    ]
+   },
+   "巳": {
+    "names": [
+     "机巨同梁格"
+    ],
+    "page": 430,
+    "namesEn": [
+     "Tianji, Jumen and Tianliang"
+    ]
+   },
+   "午": {
+    "names": [
+     "紫府武廉相格"
+    ],
+    "page": 431,
+    "namesEn": [
+     "Ziwei, Tianfu, Wuqu, Lianzhen and Tianxiang"
+    ]
+   },
+   "申": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 433,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "酉": {
+    "names": [
+     "巨机同临格"
+    ],
+    "page": 434,
+    "namesEn": [
+     "Jumen and Tianji Together"
+    ]
+   },
+   "亥": {
+    "names": [
+     "日月同梁格"
+    ],
+    "page": 436,
+    "namesEn": [
+     "Sun, Moon and Tianliang"
+    ]
+   }
+  },
+  "亥": {
+   "子": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 437,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "丑": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 438,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "寅": {
+    "names": [
+     "命无正曜格"
+    ],
+    "page": 439,
+    "namesEn": [
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "卯": {
+    "names": [
+     "杀破狼格"
+    ],
+    "page": 440,
+    "namesEn": [
+     "The Killing, Destroying and Wolf Stars"
+    ]
+   },
+   "辰": {
+    "names": [
+     "善荫朝纲格",
+     "命无正曜格"
+    ],
+    "page": 441,
+    "namesEn": [
+     "Virtue and Shelter Upholding Order",
+     "No Major Star in the Life Palace"
+    ]
+   },
+   "巳": {
+    "names": [
+     "紫府武廉相格"
+    ],
+    "page": 442,
+    "namesEn": [
+     "Ziwei, Tianfu, Wuqu, Lianzhen and Tianxiang"
+    ]
+   },
+   "午": {
+    "names": [
+     "机月同梁格"
+    ],
+    "page": 443,
+    "namesEn": [
+     "Tianji, Moon, Tiantong and Tianliang"
+    ]
+   },
+   "未": {
+    "names": [
+     "将星得地格",
+     "贪武同行格"
+    ],
+    "page": 444,
+    "namesEn": [
+     "The General Star in Its Element",
+     "Tanlang and Wuqu Together"
+    ]
+   },
+   "申": {
+    "names": [
+     "巨日同宫格"
+    ],
+    "page": 445,
+    "namesEn": [
+     "Jumen and Sun in the Same Palace"
+    ]
+   },
+   "酉": {
+    "names": [
+     "府相朝垣格"
+    ],
+    "page": 446,
+    "namesEn": [
+     "Tianfu and Tianxiang in Trine"
+    ]
+   },
+   "戌": {
+    "names": [
+     "善荫朝纲格",
+     "机月同梁格"
+    ],
+    "page": 447,
+    "namesEn": [
+     "Virtue and Shelter Upholding Order",
+     "Tianji, Moon, Tiantong and Tianliang"
+    ]
+   },
+   "亥": {
+    "names": [
+     "紫府武廉相格"
+    ],
+    "page": 448,
+    "namesEn": [
+     "Ziwei, Tianfu, Wuqu, Lianzhen and Tianxiang"
+    ]
+   }
+  }
+ }
+}

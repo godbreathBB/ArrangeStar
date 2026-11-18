@@ -1,0 +1,763 @@
+{
+ "version": "0.3",
+ "note": "English reading library for the five-dimension narrative. Curated, not machine translated.",
+ "count": 84,
+ "templates": [
+  {
+   "id": "ziwei-性格",
+   "star": "紫微",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 88,
+   "text": "You draw attention without saying a word. In a tangle you spot the main thread first, and you dislike being directed. That natural sense of presence is both a strength and a snag: when challenged you stay polite outwardly but remember it for a long time. Allowing yourself to be wrong now and then is actually lighter.",
+   "basis": "紫微（命宫）"
+  },
+  {
+   "id": "ziwei-事业",
+   "star": "紫微",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 94,
+   "text": "You live by talent and personal style. Creative work, expression, and anything that puts you in front of people suit you best. You can bring a scattered group to life, though emotions can throw off your rhythm. Having a steady person handle the books lets you focus on ideas and on facing outward. Helpful people tend to appear together with a stage.",
+   "basis": "紫微（官禄）"
+  },
+  {
+   "id": "ziwei-财运",
+   "star": "紫微",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 83,
+   "text": "Money comes from skill. The more professional and harder you are to replace, the steadier the income. You don't spend for appearances and you can save, though sometimes you overdo it. There is no rush into high-risk things you don't understand; keep a reserve and put agreements in writing. Slow and steady works better here.",
+   "basis": "紫微（财帛）"
+  },
+  {
+   "id": "ziwei-健康",
+   "star": "紫微",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 79,
+   "text": "Your constitution is not bad; what holds you back is lifestyle, sitting when you could stand and rarely moving enough. When something weighs on you, you keep it in, and eventually sleep and digestion speak up first. A little movement every day beats one hard session now and then. Your body does not need to be forced by willpower.",
+   "basis": "紫微（疾厄）"
+  },
+  {
+   "id": "ziwei-感情",
+   "star": "紫微",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 93,
+   "text": "You want respect, not being pacified. If someone only agrees with you, you soon lose interest; the ones who can disagree face to face with good reasons are the ones who stay. The steadiness you offer lives in actions, so say it out loud once in a while and they won't have to guess. Softening your posture now and then makes the relationship last longer.",
+   "basis": "紫微（夫妻）"
+  },
+  {
+   "id": "tianfu-性格",
+   "star": "天府",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 87,
+   "text": "You look ordinary but are actually very steady. You don't chase the spotlight, yet you keep a clear account and can hold things together when it matters. In your younger years you moved half a beat slower, while peers rushed ahead you were accumulating. Middle age is when that steadiness pays off, with money, home, and relationships all holding. Your start is a bit slow; just walk it steadily.",
+   "basis": "天府（命宫）"
+  },
+  {
+   "id": "tianfu-事业",
+   "star": "天府",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 79,
+   "text": "Your strength is behind the scenes. Being the core support in a larger organization suits you more than standing at the very front: administration, finance, legal, operations. The sounder the system, the smoother things go. Quiet contributions get overlooked, so talking about what you have done now and then is perfectly fine.",
+   "basis": "天府（官禄）"
+  },
+  {
+   "id": "tianfu-财运",
+   "star": "天府",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 85,
+   "text": "Your money follows your position, with steady income from salary and title. Speculation and get-rich-quick schemes are not your route. You care about appearances and like buying good things, so saving comes slowly; you also trust your own judgment too much, so spur-of-the-moment decisions can cost extra. Things become noticeably easier after middle age.",
+   "basis": "天府（财帛）"
+  },
+  {
+   "id": "tianfu-健康",
+   "star": "天府",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 76,
+   "text": "Your constitution is a little sensitive; when your mind runs too long, your body gives out first. Sleep is the most likely trouble spot. With something on your mind you don't rest well, and you tire and get headaches easily. Keep regular hours and eat lighter. When emotions tighten, the body tightens with them.",
+   "basis": "天府（疾厄）"
+  },
+  {
+   "id": "tianfu-感情",
+   "star": "天府",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 81,
+   "text": "You are like a dependable partner, not romantic, but you won't suddenly disappear. You value decorum and whether the other person can build a stable life with you. You don't have to keep everything in; saying what you care about now and then loosens things up a lot. Decorum is for outsiders, ease is for home.",
+   "basis": "天府（夫妻）"
+  },
+  {
+   "id": "qisha-性格",
+   "star": "七杀",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 84,
+   "text": "Your presence is strong, not from volume but from an aura that is not easy to push around. You are decisive, dislike detours, and don't look back once you have decided. You can't stand wishy-washy people, so teamwork often causes friction. You are impatient, hard on yourself, and prone to suspicion. You don't say much, but you have already worked it out inside.",
+   "basis": "七杀（命宫）"
+  },
+  {
+   "id": "qisha-事业",
+   "star": "七杀",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 75,
+   "text": "Your career feeds on breaking and changing. Opening new ground and pushing reform are where you shine; repeating the same old routine day after day is unbearable. You are suited to going outward, switching fields, or working for yourself. Stick with a thing a little longer and earlier effort slowly starts to pay off.",
+   "basis": "七杀（官禄）"
+  },
+  {
+   "id": "qisha-财运",
+   "star": "七杀",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 78,
+   "text": "Your money rarely arrives as a steady monthly paycheck. Big sums usually come outside the plan, deal by deal through contacts and opportunities, arriving hard and leaving fast. You earn a lot but find it hard to keep. Set aside part of the principal when income arrives; with principal intact you can catch the next opportunity.",
+   "basis": "七杀（财帛）"
+  },
+  {
+   "id": "qisha-健康",
+   "star": "七杀",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 94,
+   "text": "Your body and mood are linked. When you feel good you have energy; when emotions are suppressed you are the first to say you are tired. You are rather sensitive, and when things stay bottled up, sleep and spirits tend to react first. Eat warm food on time, choose gentler exercise, and work up a sweat to let the mood go with it. An annual checkup is simply a small summary for the body.",
+   "basis": "七杀（疾厄）"
+  },
+  {
+   "id": "qisha-感情",
+   "star": "七杀",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 80,
+   "text": "You are direct but not delicate. What you give is the steadiness of doing what you say, not the tenderness of reading minds. The other person needs to handle your urgency and have a mind of their own. Care shown in action works better than words: picking them up once, remembering a date, these are more memorable than silence.",
+   "basis": "七杀（夫妻）"
+  },
+  {
+   "id": "wuqu-性格",
+   "star": "武曲",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 75,
+   "text": "You are practical, direct, and result-oriented. You dislike empty talk; when a task lands in your hands it must be accounted for. Your words can be blunt and sometimes push people away. You are actually soft-hearted, just not used to showing it. Pause half a beat before speaking and your words naturally soften.",
+   "basis": "武曲（命宫）"
+  },
+  {
+   "id": "wuqu-事业",
+   "star": "武曲",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 91,
+   "text": "You are suited to money, resources, and execution: finance, banking, engineering, real industry. You stand on expertise and efficiency and dislike socializing for its own sake. Moving up comes from getting things done, not from smooth talk. Having someone good with people help out is even better. The deeper your expertise, the wider the road.",
+   "basis": "武曲（官禄）"
+  },
+  {
+   "id": "wuqu-财运",
+   "star": "武曲",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 84,
+   "text": "You are sensitive to money and can manage it well. Income tracks ability and position, a steady path. You are willing to act but don't need to max out leverage. You spend practically and rarely pay for appearances; holding understandable assets long-term is enough. Don't bet everything on a single judgment.",
+   "basis": "武曲（财帛）"
+  },
+  {
+   "id": "wuqu-健康",
+   "star": "武曲",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 81,
+   "text": "You tend to use yourself like a machine, pushing on when tired. Pay attention to muscles, joints, teeth, and routine, and rest before it hurts. Strength-based exercise suits you more than cardio alone; get checked once a year. Putting rest on the schedule actually lets you run longer.",
+   "basis": "武曲（疾厄）"
+  },
+  {
+   "id": "wuqu-感情",
+   "star": "武曲",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 87,
+   "text": "You express love by solving problems, not by sweet talk. If someone only wants emotional validation, they will find you cold. Saying what you care about once in a while warms more than doing ten things for them. Also allow them to show care in their own way. Two people both comfortable is what makes it last.",
+   "basis": "武曲（夫妻）"
+  },
+  {
+   "id": "tianji-性格",
+   "star": "天机",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 97,
+   "text": "Your mind is an engine that never turns off. Others see you spacing out while a dozen threads run inside. You pick things up fast and get the hang of almost anything, though you tend to stay a bit shallow across the board. Your best place is coming up with ideas, not carrying the banner. In relationships you also go back and forth, not because you are not devoted, but because you keep recalculating.",
+   "basis": "天机（命宫）"
+  },
+  {
+   "id": "tianji-事业",
+   "star": "天机",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 89,
+   "text": "You are suited to earning with your brain and planning: consulting, technical review, education and training, analysis and research. You are efficient when the environment has warmth. Places that demand constant head-on performance targets wear you out. You often bring new angles to a team, but seeing things through from start to finish is not your strength; having someone help implement makes it smoother.",
+   "basis": "天机（官禄）"
+  },
+  {
+   "id": "tianji-财运",
+   "star": "天机",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 96,
+   "text": "Your money is accumulated slowly, small in early years and taking shape after middle age. It comes mainly from salary and expertise; the real earning method is reputation. Do one thing people can trust and clients will bring clients. Money tends to go to small comforts: food, travel, a little indulgence.",
+   "basis": "天机（财帛）"
+  },
+  {
+   "id": "tianji-健康",
+   "star": "天机",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 93,
+   "text": "When you are tired you don't collapse, you go empty. Thinking too long hits sleep and the nerves first, and sitting too long brings neck and lower-back trouble. You tend to swallow emotions, calm outside but still carrying inside. Steadier hours and a daily stretch of doing nothing at all will feel much better.",
+   "basis": "天机（疾厄）"
+  },
+  {
+   "id": "tianji-感情",
+   "star": "天机",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 83,
+   "text": "You think a lot; an ordinary remark from the other person can be unpacked into three layers. It is not distrust, your mind just won't stop. You need someone who speaks clearly and is willing to explain, to fill in what you are guessing. Otherwise you act out the whole drama in your head before remembering to ask.",
+   "basis": "天机（夫妻）"
+  },
+  {
+   "id": "taiyang-性格",
+   "star": "太阳",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 78,
+   "text": "The moment you walk in, the room brightens. Generous, straightforward, happy to take a stand, even strangers tend to like you. You are not used to being alone; when idle you look for something to do. Being seen gives you energy, not vanity so much as recharging.",
+   "basis": "太阳（命宫）"
+  },
+  {
+   "id": "taiyang-事业",
+   "star": "太阳",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 87,
+   "text": "Your career rests on your voice and your sense of justice: education, media, public service, sales, law, any role that persuades people or fights for their rights. Speaking the truth is your strength, though sometimes people can't take it. Switch to a private setting and soften your tone and the road gets much smoother.",
+   "basis": "太阳（官禄）"
+  },
+  {
+   "id": "taiyang-财运",
+   "star": "太阳",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 84,
+   "text": "Your income swings quite a bit, coming from fame and expression. Teaching, consulting, writing, proposals, turning your mind into money comes naturally. You are better at earning than keeping; too many ideas split you across directions. Big swings early on, gradually steadying after forty.",
+   "basis": "太阳（财帛）"
+  },
+  {
+   "id": "taiyang-健康",
+   "star": "太阳",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 89,
+   "text": "You carry a kind of inner fire; when emotions shift, the body reacts immediately. You are prone to overheating and restless sleep, with the eyes and cardiovascular system needing attention first. Alcohol and rich food fan that fire. Your health and mood are basically the same thing; when you are worked up, early rest beats staying up.",
+   "basis": "太阳（疾厄）"
+  },
+  {
+   "id": "taiyang-感情",
+   "star": "太阳",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 74,
+   "text": "You give generously and can be carried away by your own enthusiasm. You tend to give first, then wait for a response; if the other person is slower, you wonder whether they love you enough. Saying your needs softly is steadier than giving more to buy an answer.",
+   "basis": "太阳（夫妻）"
+  },
+  {
+   "id": "tiantong-性格",
+   "star": "天同",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 81,
+   "text": "You are the least likely to make enemies. Good-tempered, uncompetitive, you get along with almost anyone; many things you cannot do alone get done when you pull someone in. You lack a bit of must-succeed drive, and too much comfort can make you uneasy. When you feel like taking initiative, you don't have to wait for a push.",
+   "basis": "天同（命宫）"
+  },
+  {
+   "id": "tiantong-事业",
+   "star": "天同",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 96,
+   "text": "You earn with your brain and adaptability; your brightest moments are not in head-down execution but in ideas and setting direction. Public service, back-office work, consulting, education and training, planning all suit you. A steady salary with your judgment put to use is safer than carrying risk yourself. Beyond comfort, just keep a little wish to move forward.",
+   "basis": "天同（官禄）"
+  },
+  {
+   "id": "tiantong-财运",
+   "star": "天同",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 79,
+   "text": "Your money arrives steadily, from accumulation rather than bursts. You don't worry much about money and tend to spend on comfort. Setting aside a small sum when salary arrives is more solid than waiting for a big windfall; your network is also a money path, so spending time with people helps.",
+   "basis": "天同（财帛）"
+  },
+  {
+   "id": "tiantong-健康",
+   "star": "天同",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 75,
+   "text": "You are the comfort-seeking type, lying down when you could sit. Weight, blood sugar, and sleep are three things to watch; swelling and digestion follow your routine. Make walking and early nights regular and the body settles down a lot, without waiting for a report to remind you.",
+   "basis": "天同（疾厄）"
+  },
+  {
+   "id": "tiantong-感情",
+   "star": "天同",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 82,
+   "text": "You are afraid of conflict and swallow small things, which over time turns cold. You want to be cared for and are willing to care, but don't turn care into a trade. Learn to speak up while dissatisfaction is still small, better than saving it all up for an old-account reckoning. Talking it through early feels better than being wronged later.",
+   "basis": "天同（夫妻）"
+  },
+  {
+   "id": "lianzhen-性格",
+   "star": "廉贞",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 88,
+   "text": "Inside you are always more complex than your face shows. It is not that you are easy-going; that fire is usually held down. You love and dislike clearly, with deep affection and a long memory for dislikes. Your mind is fine and you can chew on one line for ages. A path with an edge actually suits you. Put that edge into work rather than people and things go more smoothly.",
+   "basis": "廉贞（命宫）"
+  },
+  {
+   "id": "lianzhen-事业",
+   "star": "廉贞",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 91,
+   "text": "You speak with real skill, neither connections nor image. Finance, industrial manufacturing, law enforcement and security, engineering management, or positions with real authority all suit you. You don't drag your feet and push teams fast. You can be a bit hard managing people, so those around you may feel pressure; soften your words a little and it flows better.",
+   "basis": "廉贞（官禄）"
+  },
+  {
+   "id": "lianzhen-财运",
+   "star": "廉贞",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 88,
+   "text": "Your money follows your position. Salary and title bring steady income; speculation and quick money are not your route. You care about appearances, buying good and expensive things, so saving is slow; you also trust your own judgment too much, so spur-of-the-moment calls cost extra. Things ease up after middle age.",
+   "basis": "廉贞（财帛）"
+  },
+  {
+   "id": "lianzhen-健康",
+   "star": "廉贞",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 82,
+   "text": "Your nerves are sensitive; when your mind runs too long, the body gives out first. Sleep is the most likely trouble spot. With something weighing on you, you don't rest, you tire and your head aches. When emotions tighten, the body tightens too. Enduring is not a virtue here; loosen up when you should and put rest on the schedule.",
+   "basis": "廉贞（疾厄）"
+  },
+  {
+   "id": "lianzhen-感情",
+   "star": "廉贞",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 79,
+   "text": "You love deeply and remember long. You can tolerate coldness but not being brushed off. You want an equal who can handle your edge; once you decide, you rarely leave a way out. Talking it out feels better than turning it over in your head; direct is easier than testing.",
+   "basis": "廉贞（夫妻）"
+  },
+  {
+   "id": "taiyin-性格",
+   "star": "太阴",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 86,
+   "text": "Your heart is soft and your consideration almost thorough. You notice emotions others overlook and remember likes mentioned in passing. Gentle by nature, you avoid head-on confrontation and prefer getting things done quietly behind the scenes. You are at your best in quiet, undisturbed settings; crowds drain you.",
+   "basis": "太阴（命宫）"
+  },
+  {
+   "id": "taiyin-事业",
+   "star": "太阴",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 93,
+   "text": "You build a reputation through subtlety and expertise. The more useful your work is to others, the more you stand out. Culture, education, healthcare, consulting, finance all suit you. You are the one who steadies a scene, clearest when things fall apart. Your quiet manner makes others hesitant to approach, but deepening your expertise slowly gets you seen.",
+   "basis": "太阴（官禄）"
+  },
+  {
+   "id": "taiyin-财运",
+   "star": "太阴",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 90,
+   "text": "Your income can't be predicted far ahead; opportunities come from connections and visibility. There are plenty of invitations but mixed quality, so choose. You spend generously, with notable costs for hosting, gifts, and image. Money usually comes late, becoming substantial after middle age. Keep a limit on appearance-related spending and you will feel more at ease.",
+   "basis": "太阴（财帛）"
+  },
+  {
+   "id": "taiyin-健康",
+   "star": "太阴",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 86,
+   "text": "Your base is on the softer side; emotions and sleep are the first to signal. Fine minds tend to swallow words, and pent-up feelings settle in the body as vague aches and fatigue. Regular hours and less late nights work better than supplements. Treat sleep as a real task, not something always last on the list.",
+   "basis": "太阴（疾厄）"
+  },
+  {
+   "id": "taiyin-感情",
+   "star": "太阴",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 86,
+   "text": "You are subtle and slow to warm. You show care by remembering small things about the other person but rarely say what you need. With an easygoing partner you may feel wronged. Say your expectations clearly and your tenderness won't be taken for granted. Let them know what matters to you.",
+   "basis": "太阴（夫妻）"
+  },
+  {
+   "id": "tanlang-性格",
+   "star": "贪狼",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 84,
+   "text": "Wherever you are becomes the center of attention. You have a way with words, naturally wide connections, and a head start in business that others can't match. But warmth is the surface; underneath you are quite hard, once you decide, no nine oxen can pull you back. You want a bit of everything; pick one thing to do seriously and it is actually more satisfying.",
+   "basis": "贪狼（命宫）"
+  },
+  {
+   "id": "tanlang-事业",
+   "star": "贪狼",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 89,
+   "text": "You suit competitive, fast-changing fields: sales, entertainment, PR, foreign trade. The more of a stage, the more alive you are. Pure paperwork and administration blunt you. You are the team's point person, pushing fast; when you refuse to compromise you can lock horns with people. Treating them as peers instead feels freer.",
+   "basis": "贪狼（官禄）"
+  },
+  {
+   "id": "tanlang-财运",
+   "star": "贪狼",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 89,
+   "text": "Your money swings big. When it is good it arrives hard; when it is slow it is really slow. Regular income follows your career; windfalls often appear in times of change, so timing beats grinding. You are strong at earning and weak at keeping, and spend big when in a good mood. Set a little aside before spending and you will feel more grounded.",
+   "basis": "贪狼（财帛）"
+  },
+  {
+   "id": "tanlang-健康",
+   "star": "贪狼",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 82,
+   "text": "You have good stamina and abundant energy, and are most prone to overextending. When busy you don't know how to stop, and when emotions rise so does your fire. Heavy screen and eye use needs extra care; too much socializing lowers resistance. Really stop for a day when you should, your body will remember it.",
+   "basis": "贪狼（疾厄）"
+  },
+  {
+   "id": "tanlang-感情",
+   "star": "贪狼",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 92,
+   "text": "You are affectionate and curious. You are easily carried by novelty; those who stay are usually the ones who can play with you and also hold you steady. It is not that you refuse to settle, you fear life becoming stagnant. Set boundaries upfront, easier than explaining afterward; beyond the bustle, keep one person you can speak your heart to.",
+   "basis": "贪狼（夫妻）"
+  },
+  {
+   "id": "jumen-性格",
+   "star": "巨门",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 75,
+   "text": "You speak with structure and think deeply, seeing angles others miss. Asking and thinking are gifts, but you can hold one line in your mind for a long time. You are not suspicious; you see too finely. Thinking is enough, so don't rush to conclusions.",
+   "basis": "巨门（命宫）"
+  },
+  {
+   "id": "jumen-事业",
+   "star": "巨门",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 83,
+   "text": "You live off expertise and eloquence: law, education, media, consulting, research, any trade about making things clear and settling arguments. You dig out details others miss. In discussion you don't need to win; making things clear wins people over instead.",
+   "basis": "巨门（官禄）"
+  },
+  {
+   "id": "jumen-财运",
+   "star": "巨门",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 79,
+   "text": "Your money follows professional reputation, steady but slow. Real income comes from people trusting you enough to pay for your judgment. Money leaks through guaranteeing others and through petty annoyances. Put contracts and promises in writing; keeping money and friendship separate makes both easier.",
+   "basis": "巨门（财帛）"
+  },
+  {
+   "id": "jumen-健康",
+   "star": "巨门",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 77,
+   "text": "Your body follows your emotions. You think a lot and say little, and restraint at the mouth becomes a burden on digestion and sleep. Regular hours are your biggest safeguard; one late night takes days to recover. Writing down what you can't resolve is lighter than running it through your head again and again.",
+   "basis": "巨门（疾厄）"
+  },
+  {
+   "id": "jumen-感情",
+   "star": "巨门",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 84,
+   "text": "You need someone who can actually talk things through. If the other person defaults to silence or vagueness, you will spend half a day judging yourself. Ask doubts directly; don't replace communication with testing. You don't want to win, you want to be understood. Saying it straight saves the other person from guessing why you are upset.",
+   "basis": "巨门（夫妻）"
+  },
+  {
+   "id": "tianxiang-性格",
+   "star": "天相",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 80,
+   "text": "Put you anywhere and people feel at ease. Steady, cooperative, fond of face but not showy. Being the right hand to a leader feels better than being the head yourself; whatever you take on gets handled properly. Your inner ruler of right and wrong is very straight, and you get quietly angry at dishonest things.",
+   "basis": "天相（命宫）"
+  },
+  {
+   "id": "tianxiang-事业",
+   "star": "天相",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 85,
+   "text": "You live off your position. Roles with a title and real say bring out more than grinding at the bottom: administration, secretarial work, PR, executive staff. You are good at setting direction and dislike fiddly details, so you need capable people to implement. Moving up slowly makes income steady too.",
+   "basis": "天相（官禄）"
+  },
+  {
+   "id": "tianxiang-财运",
+   "star": "天相",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 89,
+   "text": "Your money is saved, not gambled. Income comes from steady work and day-by-day accumulation. You spend with restraint and become quite comfortable after middle age. Two leaks: being too conservative to take a good opening, and large outlays for love and family. When it is right to spend, don't be too hard on yourself.",
+   "basis": "天相（财帛）"
+  },
+  {
+   "id": "tianxiang-健康",
+   "star": "天相",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 91,
+   "text": "Your base is good, but you tend to bottle things up. Used to keeping up appearances, you endure discomfort at first. Skin, urinary tract, and sleep are three often-overlooked areas. Get regular checkups and don't let small issues become habits. Find an outlet for emotions too. After reading the report, slowly change one or two small habits, that is enough.",
+   "basis": "天相（疾厄）"
+  },
+  {
+   "id": "tianxiang-感情",
+   "star": "天相",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 86,
+   "text": "You value decorum and cooperation. You are at ease only when the other person presents well and things look acceptable at home. You are not good at stating needs and tend to substitute helping for intimacy. Showing vulnerability once in a while is more useful than always being the reliable one. Say what you need, then they have a chance to be good to you.",
+   "basis": "天相（夫妻）"
+  },
+  {
+   "id": "tianliang-性格",
+   "star": "天梁",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 88,
+   "text": "You seem more mature than your peers, not in looks but in that unflappable steadiness. You are decent, with your own inner line, and reluctant to settle. Naturally inclined to look after people, friends think of you first when in trouble. That warmth can tire you at times; take care of yourself first to help for the long run.",
+   "basis": "天梁（命宫）"
+  },
+  {
+   "id": "tianliang-事业",
+   "star": "天梁",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 89,
+   "text": "You are in the reputation business; being known more widely brings opportunities. Healthcare, education, public service, oversight, media all suit you. You are a natural at leading and expressing; your weak spots are details and back-end execution, so you need someone to close things out. A reputation built on expertise lasts longer than one built on appearances.",
+   "basis": "天梁（官禄）"
+  },
+  {
+   "id": "tianliang-财运",
+   "star": "天梁",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 91,
+   "text": "Your money accumulates slowly, from expertise, salary, and aesthetic work. Property and real estate are your real savings pot; fast-in-fast-out speculation is not your route. Two leaks: large outlays for family or partner, and decisions made in a mood. Steadier actually feels more reassuring.",
+   "basis": "天梁（财帛）"
+  },
+  {
+   "id": "tianliang-健康",
+   "star": "天梁",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 87,
+   "text": "Your base is fairly solid, but emotions and body are tightly tied. With strong pride, a setback buries stress inside, and sleep and the head give out first. Eat on time, to seven-tenths full, with less alcohol and oil; don't alternate feast and fast. Leave an outlet for emotions instead of putting it all into the body.",
+   "basis": "天梁（疾厄）"
+  },
+  {
+   "id": "tianliang-感情",
+   "star": "天梁",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 84,
+   "text": "You tend to attract younger or more dependent people, and you enjoy being needed. Care is goodwill; loosening your grip a little is still goodwill. When the other person needs to grow, letting go is harder and more useful than holding on. You don't need to bind anyone through care, or trade giving for return.",
+   "basis": "天梁（夫妻）"
+  },
+  {
+   "id": "pojun-性格",
+   "star": "破军",
+   "dimension": "性格",
+   "palace": "命宫",
+   "chars": 101,
+   "text": "You are born to take things apart, not out of malice, but because you can't settle for the status quo. Three years in a stable job and you want to change; one look at an old process and you want to rewrite it. Few beat you at pioneering, but repeating the same routine is hard to bear. Your mind jumps fast and the middle steps often go missing; gathering your ideas into one line makes them much easier to land.",
+   "basis": "破军（命宫）"
+  },
+  {
+   "id": "pojun-事业",
+   "star": "破军",
+   "dimension": "事业",
+   "palace": "官禄",
+   "chars": 77,
+   "text": "You suit opening new ground and pushing reform: startups, technical breakthroughs, law enforcement and security, rebuilding projects. Repeating one fixed set of things is unbearable. Stay with a thing a bit longer to accumulate real skill; give some of your opening energy to the finish and it becomes whole.",
+   "basis": "破军（官禄）"
+  },
+  {
+   "id": "pojun-财运",
+   "star": "破军",
+   "dimension": "财运",
+   "palace": "财帛",
+   "chars": 84,
+   "text": "Your money arrives fast and leaves fast. One big gain when it is good, one big loss when it is not. You dare to take risks, so you see more opportunities than others, and can lose a big chunk on aggressive investing. Set part aside before spending; with principal steady, the next chance can be caught.",
+   "basis": "破军（财帛）"
+  },
+  {
+   "id": "pojun-健康",
+   "star": "破军",
+   "dimension": "健康",
+   "palace": "疾厄",
+   "chars": 79,
+   "text": "You have good stamina and are the most likely to overdraw it. When busy you don't stop, and when emotions rise so does your fire. A draining lifestyle eventually sends the whole bill at once. Get checked yearly and make sleep and exercise small daily appointments, your body will stay with you longer.",
+   "basis": "破军（疾厄）"
+  },
+  {
+   "id": "pojun-感情",
+   "star": "破军",
+   "dimension": "感情",
+   "palace": "夫妻",
+   "chars": 82,
+   "text": "Your relationships are either warm or fierce. You look down on lukewarm and can't stand being managed. What really holds you is someone who can stir things up with you and also stay steady. Leave harsh words until the next day and they usually dissolve; in the heat, leave each other a little room.",
+   "basis": "破军（夫妻）"
+  },
+  {
+   "id": "ziwei-大限",
+   "star": "紫微",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 84,
+   "text": "At Ziwei's position you are pushed to the front, with responsibility and exposure arriving together. You can be a bit stiff and feel the weight of expectations. This is a good stretch for setting direction and leading a team; you don't have to carry everything, so delegate the small stuff and the road gets steadier. Share the credit too.",
+   "basis": "紫微（大限）"
+  },
+  {
+   "id": "tianji-大限",
+   "star": "天机",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 87,
+   "text": "At Tianji's position there is a lot of change and information; chances to switch environments or learn something new appear. Your mind runs fast and you may open several threads at once. Give each small thing a deadline, finish one before the rest. Once you decide, run with it for a while and see, less exhausting than rewriting it repeatedly.",
+   "basis": "天机（大限）"
+  },
+  {
+   "id": "taiyang-大限",
+   "star": "太阳",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 78,
+   "text": "At Taiyang's position, exposure and giving both increase, busy helping others and proving yourself. Fame comes fast and so does depletion. Save some energy for yourself and don't let body and wallet both overdraw. Rest when you need to; a pause won't make people forget you.",
+   "basis": "太阳（大限）"
+  },
+  {
+   "id": "wuqu-大限",
+   "star": "武曲",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 75,
+   "text": "At Wuqu's position, more of your work involves money, resources, and execution, a good time to make the career solid and the books clear. You tend to meet force with force; winning the point but losing the person is not a good trade. Clear accounts and kept relationships are worth more than one breath of pride.",
+   "basis": "武曲（大限）"
+  },
+  {
+   "id": "tiantong-大限",
+   "star": "天同",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 78,
+   "text": "At Tiantong's position the pace slows, a time to rest, mend relationships, and make life comfortable. Too much comfort turns into procrastination. Keep one small thing moving slowly and the stretch won't spin idle. Comfort is a repair, and you set the pace yourself.",
+   "basis": "天同（大限）"
+  },
+  {
+   "id": "lianzhen-大限",
+   "star": "廉贞",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 77,
+   "text": "At Lianzhen's position, pressure and opportunity arrive together. Power and responsibility are tied, so blurry boundaries cause trouble. Decline gently when you should and keep records of what matters. Energy spent doing the work is worth more than proving yourself.",
+   "basis": "廉贞（大限）"
+  },
+  {
+   "id": "tianfu-大限",
+   "star": "天府",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 73,
+   "text": "At Tianfu's position it is a stretch of consolidation and accumulation, good for expanding the base, steadying assets, and thickening the foundations. Too much conservatism can miss the window; try a little of something new. Foundations are for doing things with, so using them steadily feels safer.",
+   "basis": "天府（大限）"
+  },
+  {
+   "id": "taiyin-大限",
+   "star": "太阴",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 75,
+   "text": "At Taiyin's position it is a time of turning inward, good for accumulating, learning, and nurturing relationships. You tend to hold feelings in; say them or write them down and they won't settle in the body. Quiet accumulation suits you more than loud proving.",
+   "basis": "太阴（大限）"
+  },
+  {
+   "id": "tanlang-大限",
+   "star": "贪狼",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 72,
+   "text": "At Tanlang's position there are many opportunities, many social events, and many wants. Actually completing one or two things you truly want beats dipping into everything. Keep some boundaries and the bustle won't become depletion. Picking a few events beats attending them all.",
+   "basis": "贪狼（大限）"
+  },
+  {
+   "id": "jumen-大限",
+   "star": "巨门",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 75,
+   "text": "At Jumen's position, speech and expertise run side by side. Building a name on skill is safest; building it on argument is riskiest. Keep contracts, promises, and chat records clear. Making things clear is a skill, winning the argument is not, so save your energy for the craft.",
+   "basis": "巨门（大限）"
+  },
+  {
+   "id": "tianxiang-大限",
+   "star": "天相",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 63,
+   "text": "At Tianxiang's position it is a stretch of support and stability, good for moving up within a system and making your position solid. You don't have to be only the good-natured one; raise your voice gently when needed so what you have done gets seen.",
+   "basis": "天相（大限）"
+  },
+  {
+   "id": "tianliang-大限",
+   "star": "天梁",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 73,
+   "text": "At Tianliang's position, responsibility and protection come together; you are pushed to carry things and be the rock. Take care of yourself before others, and you don't have to tough it out when you should say no. You are not responsible for everyone; letting some go actually lets you last longer.",
+   "basis": "天梁（大限）"
+  },
+  {
+   "id": "qisha-大限",
+   "star": "七杀",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 74,
+   "text": "At Qisha's position it is a stretch of sprinting and change, good for opening new ground and working hard. When you charge too fast, don't burn the relationships; keep a few people you can speak frankly with. Keep a little clarity in the charge and a little dignity in the retreat, and a way back remains.",
+   "basis": "七杀（大限）"
+  },
+  {
+   "id": "pojun-大限",
+   "star": "破军",
+   "dimension": "大限",
+   "palace": "大限",
+   "chars": 85,
+   "text": "At Pojun's position it is a time of tearing down and rebuilding; changing jobs, cities, or starting over are common. Prepare an exit before you act. Change is fine, but don't dismantle yourself too. Before switching, ask whether this place doesn't fit or you just can't stay put; different answers, different ways forward.",
+   "basis": "破军（大限）"
+  }
+ ]
+}

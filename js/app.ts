@@ -131,8 +131,8 @@ function chartView(r: any, age: number, year: number, ref: string): string {
   </div></div>`;
   let out = `<div class="grid${S.lines ? '' : ''}">${cells}${center}<svg class="tri-lines" aria-hidden="true"></svg></div>`;
   try {
-    const lib = RD.ziweiLibrary();
-    const md = compose(r, lib, age, year, ref)
+    const lib = RD.ziweiLibrary(getLang());
+    const md = compose(r, lib, age, year, ref, getLang())
       .replace(/（[^（）]{0,10}第[^（）]{0,8}章[^（）]{0,10}p\d+[^（）]{0,8}）/g, '')
       .replace(/（p\d+）/g, '');
     out += `<details class="dsec readmore" style="margin-top:14px"><summary>${t('readmore.ziwei')}</summary>${RD.mdBlock(md)}</details>`;
