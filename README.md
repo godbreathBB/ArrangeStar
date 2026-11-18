@@ -51,7 +51,7 @@ ArrangeStars/
 ├── tools/build_data.py     把 data/ 的 JSON 合并为 js/data.js
 ├── package.json            依赖与构建脚本
 ├── .env.example            环境变量模板（本应用无需密钥）
-├── LICENSE                 MIT 许可证
+├── LICENSE                 CC BY-NC 4.0 非商业许可
 └── README.md               本文档
 ```
 
@@ -71,4 +71,10 @@ GitHub Pages：仓库 Settings → Pages → Source 选择 `main` 分支根目�
 
 ## 许可证
 
-MIT，见 [LICENSE](LICENSE)。
+CC BY-NC 4.0（署名-非商业性使用 4.0 国际），版权归 godbreathBB 所有，见 [LICENSE](LICENSE)。
+
+- 允许：非商业目的下复制、分享、修改，须保留署名与许可声明并标明改动。
+- 禁止：商业使用（以商业优势或金钱报酬为主要目的的使用）。
+- 商用授权：需另行取得著作权人书面许可。
+
+此前版本曾以 MIT 发布，本变更不追溯适用于变更日前已取得的副本。
