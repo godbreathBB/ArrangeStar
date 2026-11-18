@@ -1,0 +1,263 @@
+/* ═══════════════════════════════════════════════════════════
+   星垣 · 首次启动引导动画（4 页 · 奇门主题）
+   纯 CSS，无外部依赖。动画触发由 .ob-slide.active 控制。
+   ═══════════════════════════════════════════════════════════ */
+:root{
+  --ob-gold:#d4af37;
+  --ob-gold-soft:#e6c766;
+  --ob-dark:#0a0a0a;
+  --ob-ink:#e9e2c8;
+  --ob-mute:#a9a3bd;
+}
+
+/* ── 状态类 ── */
+.onboarding-hidden{display:none !important}
+.onboarding-active{display:flex}
+
+/* ── 遮罩层：全屏、最上、半透明深色 ── */
+.ob-root{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  padding:20px;
+  background:rgba(0,0,0,.85);
+  color:var(--ob-ink);
+  touch-action:pan-y;               /* 纵向滚动交还页面，横向留给引导滑动 */
+  overflow:hidden;
+  font-family:-apple-system,"PingFang SC","Noto Sans SC",sans-serif;
+  opacity:1;
+  transition:opacity .45s ease;
+}
+.ob-root.ob-fade-out{opacity:0}      /* 结束引导的淡出 */
+
+/* 背景星空 */
+.ob-sky{position:absolute;inset:0;pointer-events:none}
+.ob-sky-star{
+  position:absolute;left:var(--x);top:var(--y);
+  width:3px;height:3px;border-radius:50%;background:var(--ob-gold);
+  box-shadow:0 0 8px var(--ob-gold);
+  animation:obTwinkle 2.6s ease-in-out var(--d) infinite;
+}
+
+/* ── 内容区：居中、宽 90%、最大 400px ── */
+.ob-viewport{
+  position:relative;
+  width:90%;
+  max-width:400px;
+  flex:0 1 auto;
+  overflow:hidden;
+}
+
+/* 切换轨道：横向 flex，滑动平移 */
+.ob-track{
+  display:flex;
+  transition:transform .4s ease;
+  will-change:transform;
+}
+.ob-track.ob-dragging{transition:none} /* 手指跟随时不加缓动 */
+
+/* 单页 */
+.ob-slide{
+  min-width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding:4px 2px 0;
+  box-sizing:border-box;
+}
+
+/* 每页动画展示区统一尺寸 */
+.ob-art{
+  width:260px;height:260px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:22px;
+}
+
+/* 标题 / 描述 */
+.ob-title{
+  margin:0 0 10px;
+  font-size:1.65rem;letter-spacing:.14em;
+  font-family:"Songti SC","STSong","Noto Serif SC",serif;
+  color:var(--ob-gold-soft);
+  text-shadow:0 0 18px rgba(212,175,55,.3);
+}
+.ob-desc{
+  margin:0;max-width:320px;
+  font-size:.9rem;line-height:1.9;color:var(--ob-ink);
+  opacity:.9;
+}
+
+/* ── 页码指示器 ── */
+.ob-dots{display:flex;gap:9px;justify-content:center;margin:26px 0 0}
+.ob-dot{
+  width:8px;height:8px;padding:0;border:0;border-radius:50%;
+  background:rgba(233,226,200,.3);cursor:pointer;
+  transition:width .3s ease,background .3s ease;
+}
+.ob-dot.ob-dot-on{width:24px;border-radius:99px;background:var(--ob-gold)}
+
+/* ── 底部按钮 ── */
+.ob-footer{
+  width:90%;max-width:400px;
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:28px;
+}
+.ob-skip,.ob-next{
+  font:inherit;cursor:pointer;border-radius:99px;
+  transition:transform .15s ease,background .2s ease;
+}
+.ob-skip{
+  border:1px solid rgba(233,226,200,.28);
+  background:transparent;color:var(--ob-mute);
+  font-size:.85rem;padding:9px 20px;
+}
+.ob-skip:hover{color:var(--ob-ink);border-color:rgba(233,226,200,.55)}
+.ob-next{
+  border:0;background:var(--ob-gold);color:var(--ob-dark);
+  font-size:.9rem;font-weight:700;padding:12px 30px;
+  box-shadow:0 6px 22px rgba(212,175,55,.32);
+}
+.ob-next:hover{transform:translateY(-2px);background:var(--ob-gold-soft)}
+.ob-skip:focus-visible,.ob-next:focus-visible,.ob-dot:focus-visible{
+  outline:2px solid var(--ob-gold-soft);outline-offset:3px;
+}
+
+/* ═══════════ 页 1 · 八卦旋转 ═══════════ */
+.bagua-svg{width:100%;height:100%;overflow:visible}
+.bg-ring-outer{fill:none;stroke:rgba(212,175,55,.35);stroke-width:1.5}
+.bg-ring-inner{fill:none;stroke:rgba(212,175,55,.18);stroke-width:1}
+.bg-spin{transform-origin:110px 110px}
+.ob-slide.active .bg-spin{animation:obSpin 26s linear infinite}
+.bg-glyph{
+  fill:var(--ob-gold-soft);font-size:20px;text-anchor:middle;dominant-baseline:middle;
+  font-family:"Songti SC","STSong",serif;
+}
+.bg-taiji-bg{fill:var(--ob-ink)}
+.bg-taiji-yang{fill:var(--ob-dark)}
+.bg-eye-light{fill:var(--ob-ink)}
+.bg-eye-dark{fill:var(--ob-dark)}
+
+/* ═══════════ 页 2 · 九宫逐格亮起 ═══════════ */
+.ob-jiugong{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:7px;
+  width:230px;height:230px;
+}
+.ob-gong{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border:1px solid rgba(212,175,55,.35);border-radius:6px;
+  background:rgba(212,175,55,.04);
+  opacity:.3;
+}
+.ob-gong b{font-size:1.35rem;color:var(--ob-gold-soft);font-family:"Songti SC",serif;line-height:1.2}
+.ob-gong small{font-size:.7rem;color:var(--ob-mute)}
+/* 进入当前页后按宫序依次高亮（--i:0→8，即坎一→离九） */
+.ob-slide.active .ob-gong{
+  animation:obGlow .7s ease forwards;
+  animation-delay:calc(var(--i) * .13s);
+}
+
+/* ═══════════ 页 3 · 竹简文字浮现 ═══════════ */
+.ob-bamboo{display:flex;gap:8px;height:230px;align-items:stretch}
+.ob-strip{
+  width:52px;padding:16px 0;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;
+  border:1px solid rgba(212,175,55,.22);border-radius:8px;
+  background:linear-gradient(180deg,rgba(212,175,55,.1),rgba(212,175,55,.02));
+}
+.ob-strip span{
+  font-family:"Songti SC","STSong",serif;font-size:1.35rem;color:var(--ob-gold-soft);
+  opacity:0;
+}
+/* 竹简展开 + 文字自上而下逐字浮现 */
+.ob-slide.active .ob-strip{animation:obUnroll .5s ease both;animation-delay:calc(var(--i) * .18s)}
+.ob-slide.active .ob-strip span{
+  animation:obFadeInUp .5s ease forwards;
+  animation-delay:calc(.2s + var(--i) * .18s + (var(--word,0) * .09s));
+}
+/* 逐字延迟：用 nth-child 精确控时 */
+.ob-slide.active .ob-strip span:nth-child(1){--word:0}
+.ob-slide.active .ob-strip span:nth-child(2){--word:1}
+.ob-slide.active .ob-strip span:nth-child(3){--word:2}
+.ob-slide.active .ob-strip span:nth-child(4){--word:3}
+
+/* ═══════════ 页 4 · 卷轴展开 + 书签 ═══════════ */
+.ob-scroll-wrap{display:flex;align-items:center;justify-content:center;width:100%}
+.ob-scroll-rod{
+  width:12px;height:170px;flex:0 0 12px;border-radius:6px;
+  background:linear-gradient(90deg,#6b5318,#d4af37,#6b5318);
+  box-shadow:0 0 12px rgba(212,175,55,.3);
+}
+.ob-scroll-paper{
+  width:0;opacity:0;height:170px;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;gap:18px;
+  background:linear-gradient(180deg,rgba(233,226,200,.14),rgba(233,226,200,.04));
+  border-top:1px solid rgba(212,175,55,.3);border-bottom:1px solid rgba(212,175,55,.3);
+}
+.ob-slide.active .ob-scroll-paper{animation:obUnroll .85s ease .2s forwards}
+.ob-bookmark{width:34px;height:46px;flex:0 0 34px;opacity:0}
+.ob-slide.active .ob-bookmark{animation:obFadeInUp .5s ease .85s forwards}
+.ob-scroll-lines{display:flex;flex-direction:column;gap:10px}
+.ob-scroll-lines i{display:block;width:70px;height:5px;border-radius:3px;background:rgba(233,226,200,.28);opacity:0}
+.ob-slide.active .ob-scroll-lines i{animation:obFadeInUp .5s ease forwards}
+.ob-slide.active .ob-scroll-lines i:nth-child(1){animation-delay:.95s}
+.ob-slide.active .ob-scroll-lines i:nth-child(2){animation-delay:1.08s}
+.ob-slide.active .ob-scroll-lines i:nth-child(3){animation-delay:1.21s}
+
+/* ═══════════ 关键帧 ═══════════ */
+@keyframes obSpin{to{transform:rotate(360deg)}}
+@keyframes obGlow{
+  0%{opacity:.3}
+  100%{opacity:1;box-shadow:0 0 15px var(--ob-gold)}
+}
+@keyframes obFadeInUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes obUnroll{
+  from{width:0;opacity:0}
+  to{width:170px;opacity:1}
+}
+@keyframes obTwinkle{
+  0%,100%{opacity:.2;transform:scale(.8)}
+  50%{opacity:1;transform:scale(1.3)}
+}
+
+/* ═══════════ 移动端适配 ═══════════ */
+@media (max-width:520px){
+  .ob-root{padding:14px}
+  .ob-art{width:230px;height:230px}
+  .ob-title{font-size:1.45rem}
+  .ob-desc{font-size:.84rem}
+  .ob-jiugong{width:205px;height:205px}
+  .ob-bamboo{height:205px}
+}
+/* 横屏矮屏：压缩展示区，保证按钮可见 */
+@media (max-height:640px){
+  .ob-art{width:180px;height:180px;margin-bottom:10px}
+  .ob-jiugong,.ob-bamboo{width:170px;height:170px}
+  .ob-scroll-paper{height:120px}
+  .ob-scroll-rod{height:120px}
+  .ob-dots{margin-top:14px}
+  .ob-footer{margin-top:14px}
+}
+
+/* ═══════════ 减少动效偏好（无障碍） ═══════════ */
+@media (prefers-reduced-motion:reduce){
+  .ob-root,.ob-track{transition:none}
+  .ob-slide.active .bg-spin,
+  .ob-slide.active .ob-gong,
+  .ob-slide.active .ob-strip,
+  .ob-slide.active .ob-strip span,
+  .ob-slide.active .ob-scroll-paper,
+  .ob-slide.active .ob-bookmark,
+  .ob-slide.active .ob-scroll-lines i,
+  .ob-sky-star{animation:none !important;opacity:1}
+  .ob-gong{opacity:1}
+  .ob-strip span{opacity:1}
+  .ob-scroll-paper{width:170px;opacity:1}
+  .ob-bookmark,.ob-scroll-lines i{opacity:1}
+}

@@ -5,7 +5,6 @@ import { bazi, liunian, current_dayun } from './engine/bazi.ts';
 import { qimen, daily_qimen } from './engine/qimen.ts';
 import { limit_chart, annual_chart, flow_months, flow_day, compose } from './engine/composer.ts';
 import * as RD from './reading.ts';
-import { initIntro, replayIntro } from './onboarding.ts';
 import { getLang, toggleLang, onLangChange, applyStatic, t, bi, term, tx, ganzhi } from './i18n.ts';
 
 type View = 'chart' | 'bazi' | 'qimen';
@@ -376,7 +375,12 @@ window.addEventListener('DOMContentLoaded', () => {
       if (confirm(t('confirm.clearArchive'))) { localStorage.removeItem(ARCHIVE_KEY); renderArchive(); }
       return;
     }
-    if (t.closest('#replayIntro')) { replayIntro(); return; }
+    if (t.closest('#replayIntro')) {
+      // 新引导为原生 onboarding.js，挂在 window 上；未就绪时静默降级
+      const intro = (window as any).XyOnboarding;
+      if (intro) intro.replay();
+      return;
+    }
     const goto = t.closest('[data-goto]') as HTMLElement | null;
     if (goto) { showDrawer(Number(goto.dataset.goto)); return; }
     if (t.closest('[data-close]')) { closeDrawer(); return; }
@@ -408,5 +412,5 @@ window.addEventListener('DOMContentLoaded', () => {
     if (open) drawLines(Number(open.dataset.branch));
   });
   go();
-  initIntro();
+  // 首次引导由原生 js/onboarding.js 接管（在 bundle.js 之后加载，自动初始化）
 });

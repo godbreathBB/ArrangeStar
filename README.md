@@ -34,10 +34,12 @@ ArrangeStar/
 ├── index.html              应用入口（相对路径引用资源）
 ├── bundle.js               [构建产物] esbuild 打包的前端脚本
 ├── manifest.webmanifest    PWA 配置（含 180/192/512 图标）
-├── sw.js                   Service Worker（缓存版本 xingyuan-v8，含离线回退）
+├── sw.js                   Service Worker（缓存版本 xingyuan-v9，含离线回退）
 ├── icon-180/192/512.png    PWA 图标
 ├── css/style.css           样式
+├── css/onboarding.css      首次启动引导样式（4 页 · 奇门主题 · 原生 CSS 动画）
 ├── js/
+│   ├── onboarding.js       首次启动引导逻辑（原生 ES6，滑动/按钮/双语/首次检测）
 │   ├── i18n.ts             中英双语层（界面文案、术语表、语言状态）
 │   ├── app.ts              入口与交互（排盘表单、页签、档案、设置）
 │   ├── reading.ts          解读文案装配与弹层
