@@ -13,7 +13,7 @@
 ## 本地运行
 
 ```bash
-# 方式一：仅查看（需先用构建命令生成产物，见下）
+# 方式一：直接用仓库自带产物查看
 python3 -m http.server 8080
 # 浏览器打开 http://localhost:8080
 
@@ -23,7 +23,7 @@ npm run build      # 生成 bundle.js 与 js/data.js
 npm run serve      # 启动本地服务
 ```
 
-> `bundle.js` 与 `js/data.js` 是构建产物，已加入 `.gitignore`，不随仓库提交。克隆后需先执行 `npm install && npm run build`。
+> `bundle.js` 与 `js/data.js` 是构建产物，已随仓库提交，克隆后可直接用方式一启动，也可启用 GitHub Pages 直接部署。修改源码后执行 `npm install && npm run build` 重新生成这两个文件并提交即可。
 
 ## 目录结构
 
@@ -59,7 +59,7 @@ ArrangeStars/
 
 任意静态托管均可，例如 GitHub Pages、Netlify、Vercel 或自有 Nginx：
 
-1. 克隆仓库后执行 `npm install && npm run build` 生成产物；
+1. 仓库已自带构建产物，可直接发布为静态站点根目录；修改源码后执行 `npm install && npm run build` 并提交新产物；
 2. 将整个目录（含构建产物）发布为静态站点根目录；
 3. 确保以 HTTPS 访问（Service Worker 注册要求安全上下文，`localhost` 除外）。
 
