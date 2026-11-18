@@ -331,3 +331,62 @@ html[lang="en"] header h1,html[lang="en"] .cname{letter-spacing:.12em;font-famil
 .zh-source-body{padding:2px 11px 9px;font-size:0.8125rem;line-height:1.75;color:#cfc9de;
   font-family:"PingFang SC","Noto Sans SC",sans-serif;max-height:340px;overflow:auto}
 .en-lead{font-size:0.8125rem;color:var(--ink2);margin:0 0 10px;line-height:1.8}
+
+/* ── 首次启动引导动画页（借鉴 introduction_animation 结构，星垣深空风格） ── */
+.onboarding{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+  padding:20px;background:radial-gradient(1000px 700px at 50% 30%,#1c2545 0%,#141a2e 60%,#0d1124 100%)}
+.onboarding.on{display:flex;animation:introFade .4s ease both}
+body.intro-open{overflow:hidden}
+.intro-card{position:relative;width:min(420px,100%);height:min(720px,92vh);display:flex;flex-direction:column;
+  border:1px solid rgba(201,162,39,.32);border-radius:24px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(28,37,69,.9),rgba(16,20,42,.94));
+  box-shadow:0 24px 80px rgba(0,0,0,.55),0 0 0 1px rgba(233,226,200,.05) inset}
+.intro-top{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 0;min-height:46px}
+.intro-back{width:32px;height:32px;border-radius:50%;border:1px solid rgba(233,226,200,.22);background:transparent;
+  color:var(--ink);font-size:1.25rem;line-height:1;cursor:pointer}
+.intro-skip{border:0;background:transparent;color:var(--mute);font-size:0.8125rem;cursor:pointer;padding:6px 4px}
+.intro-skip:hover{color:var(--ink)}
+.intro-stage{position:relative;flex:1;overflow:hidden}
+.intro-page{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:8px 32px 16px;text-align:center;opacity:0;transform:translateX(36px);pointer-events:none;
+  transition:opacity .42s ease,transform .42s ease}
+.intro-page.on{opacity:1;transform:none;pointer-events:auto}
+.intro-art{width:min(260px,72vw);height:216px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.intro-art svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 14px rgba(201,162,39,.18))}
+.intro-title{margin:0 0 8px;font-family:var(--font-display);font-size:1.6rem;letter-spacing:.12em;color:var(--ink)}
+.intro-sub{margin:0 0 14px;font-size:0.8125rem;color:#c9a227;letter-spacing:.06em}
+.intro-desc{margin:0;max-width:300px;font-size:0.875rem;line-height:1.9;color:var(--ink2)}
+.intro-bottom{display:flex;align-items:center;justify-content:space-between;padding:12px 26px 26px;min-height:88px}
+.intro-dots{display:flex;gap:7px}
+.intro-dot{width:7px;height:7px;padding:0;border:0;border-radius:50%;background:rgba(233,226,200,.28);cursor:pointer;transition:all .25s}
+.intro-dot.on{width:22px;border-radius:99px;background:#c9a227}
+.intro-next{display:flex;align-items:center;justify-content:center;gap:6px;min-width:52px;height:52px;padding:0 16px;
+  border:0;border-radius:99px;background:#c9a227;color:#141a2e;font-size:0.875rem;font-weight:700;cursor:pointer;
+  transition:transform .15s,background .2s}
+.intro-next:hover{transform:translateY(-2px);background:#d9b542}
+.intro-next .intro-arrow{font-size:1.4rem;line-height:0}
+.intro-next.enter{min-width:132px}
+.intro-next.enter .intro-arrow{display:none}
+.intro-card[data-page="0"] .intro-back{visibility:hidden}
+@keyframes introFade{from{opacity:0}to{opacity:1}}
+@keyframes introSpin{to{transform:rotate(360deg)}}
+@keyframes introSpinRev{to{transform:rotate(-360deg)}}
+@keyframes introTwinkle{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes introFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.intro-art .spin{animation:introSpin 22s linear infinite}
+.intro-art .spin-rev{animation:introSpinRev 26s linear infinite}
+.intro-art .spin-slow{animation:introSpin 40s linear infinite}
+.intro-art .float{animation:introFloat 4s ease-in-out infinite}
+.intro-art .twinkle{animation:introTwinkle 2.4s ease-in-out infinite}
+.intro-art .twinkle.d1{animation-delay:1.2s}
+@media (max-width:520px){
+  .onboarding{padding:12px}
+  .intro-card{height:min(700px,94vh);border-radius:20px}
+  .intro-art{height:190px}
+  .intro-title{font-size:1.4rem}
+  .intro-desc{font-size:0.8125rem}
+}
+@media (prefers-reduced-motion:reduce){
+  .onboarding.on,.intro-page,.intro-dot,.intro-next{animation:none;transition:none}
+  .intro-art svg *{animation:none!important}
+}
