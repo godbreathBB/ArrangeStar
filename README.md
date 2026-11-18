@@ -1,4 +1,4 @@
-# 星垣 ArrangeStars
+# 星垣 ArrangeStar
 
 紫微斗数 / 八字 / 奇门遁甲的纯前端排盘与解读应用。所有计算在浏览器本地完成，档案只保存在本机，不上传任何数据。可作为网页使用，也可「添加到主屏幕」当离线应用（PWA）。
 
@@ -29,11 +29,11 @@ npm run serve      # 启动本地服务
 ## 目录结构
 
 ```
-ArrangeStars/
+ArrangeStar/
 ├── index.html              应用入口（相对路径引用资源）
 ├── bundle.js               [构建产物] esbuild 打包的前端脚本
 ├── manifest.webmanifest    PWA 配置（含 180/192/512 图标）
-├── sw.js                   Service Worker（缓存版本 xingyuan-v4，含离线回退）
+├── sw.js                   Service Worker（缓存版本 xingyuan-v5，含离线回退）
 ├── icon-180/192/512.png    PWA 图标
 ├── css/style.css           样式
 ├── js/

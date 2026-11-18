@@ -1,8 +1,8 @@
 {
-  "name": "arrangestars",
+  "name": "arrangestar",
   "version": "1.0.0",
   "private": true,
-  "description": "星垣 ArrangeStars — 紫微斗数 / 八字 / 奇门遁甲 纯前端排盘应用",
+  "description": "星垣 ArrangeStar — 紫微斗数 / 八字 / 奇门遁甲 纯前端排盘应用",
   "type": "module",
   "scripts": {
     "build": "npm run build:data && npm run build:js",

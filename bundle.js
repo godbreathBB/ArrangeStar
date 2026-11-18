@@ -13957,8 +13957,8 @@
       "source.body": "\u4E2D\u6587\u539F\u6587"
     },
     en: {
-      "app.title": "ArrangeStars \xB7 Zi Wei Dou Shu / Ba Zi / Qi Men Dun Jia",
-      "brand": "ARRANGESTARS",
+      "app.title": "ArrangeStar \xB7 Zi Wei Dou Shu / Ba Zi / Qi Men Dun Jia",
+      "brand": "ARRANGESTAR",
       "tab.chart": "Zi Wei",
       "tab.bazi": "Ba Zi",
       "tab.qimen": "Qi Men",
@@ -14004,7 +14004,7 @@
       "badge.life": "Life",
       "badge.body": "Body",
       "hua.title": "transforms into",
-      "center.name": "ARRANGESTARS",
+      "center.name": "ARRANGESTAR",
       "center.gender": "chart",
       "center.solarTime": "True solar time",
       "center.lunar": "Lunar",
@@ -14076,7 +14076,7 @@
     "\u7D2B\u5FAE\u6597\u6570": "Zi Wei Dou Shu",
     "\u516B\u5B57": "Ba Zi",
     "\u5947\u95E8\u9041\u7532": "Qi Men Dun Jia",
-    "\u661F\u57A3": "ArrangeStars",
+    "\u661F\u57A3": "ArrangeStar",
     "\u7D2B\u5FAE": "Ziwei",
     "\u5929\u5E9C": "Tianfu",
     "\u547D\u76D8": "chart",
@@ -15177,6 +15177,11 @@ This palace is **${term(c.door_rel)}** \u2014 ${rel(c.door_rel)} Leave room in t
   var mod5 = (a, n) => (a % n + n) % n;
   var $ = (id) => document.getElementById(id);
   var esc2 = esc;
+  function formatBirthValue(id, v) {
+    if (id === "lon") return v.toFixed(4);
+    const len = id === "y" ? 4 : 2;
+    return String(Math.trunc(v)).padStart(len, "0").slice(-len);
+  }
   var S = { ...DEFAULT };
   var zw = null;
   var bz = null;
@@ -15518,7 +15523,7 @@ You are currently in the **${ganzhi(dy.ganzhi)}** major fortune, with **${term(d
       go();
     });
     for (const [id, v] of [["y", S.y], ["mo", S.mo], ["d", S.d], ["hh", S.hh], ["mi", S.mi], ["lon", S.lon]]) {
-      $(id).value = String(v);
+      $(id).value = formatBirthValue(id, v);
     }
     $("g").value = S.g;
     $("ref").value = S.ref;

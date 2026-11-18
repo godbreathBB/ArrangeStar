@@ -28,6 +28,13 @@ const mod = (a: number, n: number) => ((a % n) + n) % n;
 const $ = (id: string) => document.getElementById(id) as HTMLElement;
 const esc = RD.esc;
 
+// 出生资料按固定位数显示：年4、月2、日2、时2、分2、经度7（含小数点共8字符，如 120.0000）
+function formatBirthValue(id: string, v: number): string {
+  if (id === 'lon') return v.toFixed(4);
+  const len = id === 'y' ? 4 : 2;
+  return String(Math.trunc(v)).padStart(len, '0').slice(-len);
+}
+
 let S: State = { ...DEFAULT };
 let zw: any = null, bz: any = null, qm: any = null;
 let overlays: Record<number, string> = {};
@@ -332,7 +339,7 @@ window.addEventListener('DOMContentLoaded', () => {
   applyStatic();
   onLangChange(() => { closeStar(); closeDrawer(); showNote(''); renderArchive(); go(); });
   for (const [id, v] of [['y', S.y], ['mo', S.mo], ['d', S.d], ['hh', S.hh], ['mi', S.mi], ['lon', S.lon]] as [string, number][]) {
-    ($(id) as HTMLInputElement).value = String(v);
+    ($(id) as HTMLInputElement).value = formatBirthValue(id, v);
   }
   ($('g') as HTMLSelectElement).value = S.g;
   ($('ref') as HTMLInputElement).value = S.ref;

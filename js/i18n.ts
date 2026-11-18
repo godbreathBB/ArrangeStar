@@ -170,8 +170,8 @@ const UI: Record<Lang, Record<string, string>> = {
     'source.body': '中文原文',
   },
   en: {
-    'app.title': 'ArrangeStars · Zi Wei Dou Shu / Ba Zi / Qi Men Dun Jia',
-    'brand': 'ARRANGESTARS',
+    'app.title': 'ArrangeStar · Zi Wei Dou Shu / Ba Zi / Qi Men Dun Jia',
+    'brand': 'ARRANGESTAR',
     'tab.chart': 'Zi Wei', 'tab.bazi': 'Ba Zi', 'tab.qimen': 'Qi Men',
     'btn.today': 'Today', 'btn.archive': 'Archive', 'btn.settings': 'Settings',
     'title.today': 'Daily line & reference date', 'title.archive': 'Local archive', 'title.settings': 'Settings',
@@ -192,7 +192,7 @@ const UI: Record<Lang, Record<string, string>> = {
     'aria.palace': 'Palace reading', 'aria.starsheet': 'Star notes',
     'palace.empty': 'Empty palace', 'badge.life': 'Life', 'badge.body': 'Body',
     'hua.title': 'transforms into',
-    'center.name': 'ARRANGESTARS',
+    'center.name': 'ARRANGESTAR',
     'center.gender': 'chart', 'center.solarTime': 'True solar time', 'center.lunar': 'Lunar', 'center.leap': 'leap',
     'center.lifePalace': 'Life palace', 'center.bodyPalace': 'Body palace',
     'readmore.ziwei': 'Chart reading · five dimensions',
@@ -231,7 +231,7 @@ const UI: Record<Lang, Record<string, string>> = {
 // ── 命理术语对照 ────────────────────────────────────────────
 export const TERMS: Record<string, string> = {
   // 三式与总称
-  '紫微斗数': 'Zi Wei Dou Shu', '八字': 'Ba Zi', '奇门遁甲': 'Qi Men Dun Jia', '星垣': 'ArrangeStars',
+  '紫微斗数': 'Zi Wei Dou Shu', '八字': 'Ba Zi', '奇门遁甲': 'Qi Men Dun Jia', '星垣': 'ArrangeStar',
   '紫微': 'Ziwei', '天府': 'Tianfu', '命盘': 'chart', '盘': 'chart',
   // 十二宫
   '命宫': 'Life Palace', '兄弟': 'Siblings', '夫妻': 'Spouse', '子女': 'Children',

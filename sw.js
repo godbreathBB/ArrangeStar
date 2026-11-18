@@ -1,4 +1,4 @@
-const CACHE = 'xingyuan-v4';
+const CACHE = 'xingyuan-v5';
 const SHELL = [
   './', './index.html', './bundle.js', './css/style.css', './js/data.js',
   './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'
