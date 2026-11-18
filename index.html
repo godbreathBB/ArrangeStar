@@ -6,71 +6,74 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#141a2e">
-  <title>星垣 · 紫微斗数 / 八字 / 奇门遁甲</title>
+  <title data-i18n="app.title">星垣 · 紫微斗数 / 八字 / 奇门遁甲</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon-180.png">
 </head>
 <body>
 <header>
-  <div class="brand"><h1>星 垣</h1></div>
+  <div class="brand"><h1 data-i18n="brand">星 垣</h1></div>
   <div class="hright">
     <nav class="tabs">
-      <button class="tab on" data-view="chart">紫微</button>
-      <button class="tab" data-view="bazi">八字</button>
-      <button class="tab" data-view="qimen">奇门</button>
+      <button class="tab on" data-view="chart" data-i18n="tab.chart">紫微</button>
+      <button class="tab" data-view="bazi" data-i18n="tab.bazi">八字</button>
+      <button class="tab" data-view="qimen" data-i18n="tab.qimen">奇门</button>
     </nav>
-    <button class="vt" id="todayBtn" title="今日一句与参考日期">今日</button>
-    <button class="vt" id="archiveBtn" title="本机档案">档案</button>
-    <button class="vt" id="settingsBtn" title="设置">设置</button>
+    <button class="vt" id="todayBtn" data-i18n="btn.today" data-i18n-title="title.today" title="今日一句与参考日期">今日</button>
+    <button class="vt" id="archiveBtn" data-i18n="btn.archive" data-i18n-title="title.archive" title="本机档案">档案</button>
+    <button class="vt" id="settingsBtn" data-i18n="btn.settings" data-i18n-title="title.settings" title="设置">设置</button>
+    <button class="vt lang" id="langBtn" data-i18n="lang.switch" data-i18n-title="lang.title" title="Switch to English">EN</button>
   </div>
 </header>
 
 <section class="params" id="settingsPanel">
-  <p class="db-top">本机设置 · 档案只存在这台设备上</p>
+  <p class="db-top" data-i18n="settings.title">本机设置 · 档案只存在这台设备上</p>
   <div class="row">
-    <label>参考日期 <input type="date" id="ref"></label>
-    <label>今日一句日期 <input type="date" id="daily"></label>
-    <button class="cbtn" id="clearArchive">清空档案</button>
+    <label><span data-i18n="label.refDate">参考日期</span> <input type="date" id="ref"></label>
+    <label><span data-i18n="label.dailyDate">今日一句日期</span> <input type="date" id="daily"></label>
+    <button class="cbtn" id="clearArchive" data-i18n="btn.clearArchive">清空档案</button>
   </div>
-  <p class="ratio">紫微的「大限 / 流年 / 流月 / 流日」按参考日期切换；「今日一句」按当前命盘八字的日干十神与喜忌生成。</p>
+  <p class="ratio" data-i18n="settings.ratio">紫微的「大限 / 流年 / 流月 / 流日」按参考日期切换；「今日一句」按当前命盘八字的日干十神与喜忌生成。</p>
 </section>
 
 <section class="params" id="archivePanel">
-  <p class="db-top">我的档案 <button class="cbtn" id="saveBtn">保存当前盘</button></p>
+  <p class="db-top"><span data-i18n="archive.title">我的档案</span> <button class="cbtn" id="saveBtn" data-i18n="btn.saveChart">保存当前盘</button></p>
   <div id="archiveBody"></div>
 </section>
 
 <div class="wrap">
   <div class="layerbar">
     <div class="vts">
-      <button class="vt on" data-layer="benming">本命</button>
-      <button class="vt" data-layer="limit">大限</button>
-      <button class="vt" data-layer="annual">流年</button>
-      <button class="vt" data-layer="month">流月</button>
-      <button class="vt" data-layer="day">流日</button>
+      <button class="vt on" data-layer="benming" data-i18n="layer.benming">本命</button>
+      <button class="vt" data-layer="limit" data-i18n="layer.limit">大限</button>
+      <button class="vt" data-layer="annual" data-i18n="layer.annual">流年</button>
+      <button class="vt" data-layer="month" data-i18n="layer.month">流月</button>
+      <button class="vt" data-layer="day" data-i18n="layer.day">流日</button>
     </div>
-    <button class="vt" id="linesBtn">隐藏连线</button>
+    <button class="vt" id="linesBtn" data-i18n="btn.hideLines">隐藏连线</button>
   </div>
 
   <form class="bar birth" id="birthform" onsubmit="return false;">
-    <label>年 <input id="y" type="number" min="1900" max="2100" inputmode="numeric"></label>
-    <label>月 <input id="mo" type="number" min="1" max="12" inputmode="numeric"></label>
-    <label>日 <input id="d" type="number" min="1" max="31" inputmode="numeric"></label>
-    <label>时 <input id="hh" type="number" min="0" max="23" inputmode="numeric"></label>
-    <label>分 <input id="mi" type="number" min="0" max="59" inputmode="numeric"></label>
-    <label>性别 <select id="g"><option value="女">女</option><option value="男">男</option></select></label>
-    <label>经度 <input id="lon" type="number" step="0.1" inputmode="decimal"></label>
-    <button type="button" id="go" class="go">排盘</button>
+    <label><span data-i18n="birth.year">年</span> <input id="y" type="number" min="1900" max="2100" inputmode="numeric"></label>
+    <label><span data-i18n="birth.month">月</span> <input id="mo" type="number" min="1" max="12" inputmode="numeric"></label>
+    <label><span data-i18n="birth.day">日</span> <input id="d" type="number" min="1" max="31" inputmode="numeric"></label>
+    <label><span data-i18n="birth.hour">时</span> <input id="hh" type="number" min="0" max="23" inputmode="numeric"></label>
+    <label><span data-i18n="birth.minute">分</span> <input id="mi" type="number" min="0" max="59" inputmode="numeric"></label>
+    <label><span data-i18n="birth.gender">性别</span> <select id="g">
+      <option value="女" data-i18n="birth.female">女</option><option value="男" data-i18n="birth.male">男</option>
+    </select></label>
+    <label><span data-i18n="birth.lon">经度</span> <input id="lon" type="number" step="0.1" inputmode="decimal"></label>
+    <button type="button" id="go" class="go" data-i18n="btn.chart">排盘</button>
   </form>
 
   <main id="out" class="out"></main>
 </div>
 
 <div id="notepanel" class="notepanel" hidden></div>
-<aside id="drawer" role="region" aria-label="宫位解读" tabindex="-1"></aside>
+<aside id="drawer" role="region" data-i18n-aria="aria.palace" aria-label="宫位解读" tabindex="-1"></aside>
 <div id="starmask"></div>
-<aside id="starsheet" role="dialog" aria-modal="true" aria-label="星曜说明" tabindex="-1" aria-hidden="true" inert></aside>
+<aside id="starsheet" role="dialog" aria-modal="true" data-i18n-aria="aria.starsheet" aria-label="星曜说明" tabindex="-1" aria-hidden="true" inert></aside>
 
 <script src="js/data.js"></script>
 <script src="bundle.js"></script>

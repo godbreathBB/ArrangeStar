@@ -4671,17 +4671,17 @@
         _I18n.updateArrayDictionary(keys[x]);
       }
     }
-    static setMessages(lang, messages) {
+    static setMessages(lang2, messages) {
       if (!messages) {
         return;
       }
-      if (!_I18n._MESSAGES[lang]) {
-        _I18n._MESSAGES[lang] = {};
+      if (!_I18n._MESSAGES[lang2]) {
+        _I18n._MESSAGES[lang2] = {};
       }
       const keys = Object.keys(messages);
       for (let x = 0, y = keys.length; x < y; x++) {
         const key = keys[x];
-        _I18n._MESSAGES[lang][key] = messages[key];
+        _I18n._MESSAGES[lang2][key] = messages[key];
       }
       _I18n.update();
     }
@@ -4695,9 +4695,9 @@
       }
       return s;
     }
-    static setLanguage(lang) {
-      if (_I18n._MESSAGES[lang]) {
-        _I18n._LANG = lang;
+    static setLanguage(lang2) {
+      if (_I18n._MESSAGES[lang2]) {
+        _I18n._LANG = lang2;
         _I18n.update();
       }
     }
@@ -8672,22 +8672,22 @@
       s = s.replace(/F/g, o);
       return s;
     }
-    static nutationLon2(t) {
-      let a = -1.742 * t;
-      const t2 = t * t;
+    static nutationLon2(t2) {
+      let a = -1.742 * t2;
+      const t22 = t2 * t2;
       let dl = 0;
       for (let i = 0, j = _ShouXingUtil.NUT_B.length; i < j; i += 5) {
-        dl += (_ShouXingUtil.NUT_B[i + 3] + a) * Math.sin(_ShouXingUtil.NUT_B[i] + _ShouXingUtil.NUT_B[i + 1] * t + _ShouXingUtil.NUT_B[i + 2] * t2);
+        dl += (_ShouXingUtil.NUT_B[i + 3] + a) * Math.sin(_ShouXingUtil.NUT_B[i] + _ShouXingUtil.NUT_B[i + 1] * t2 + _ShouXingUtil.NUT_B[i + 2] * t22);
         a = 0;
       }
       return dl / 100 / _ShouXingUtil.SECOND_PER_RAD;
     }
-    static eLon(t, n) {
-      t /= 10;
+    static eLon(t2, n) {
+      t2 /= 10;
       let v = 0, tn = 1;
       const pn = 1;
       const m0 = _ShouXingUtil.XL0[pn + 1] - _ShouXingUtil.XL0[pn];
-      for (let i = 0; i < 6; i++, tn *= t) {
+      for (let i = 0; i < 6; i++, tn *= t2) {
         const n1 = Math.floor(_ShouXingUtil.XL0[pn + i]);
         const n2 = Math.floor(_ShouXingUtil.XL0[pn + 1 + i]);
         const n0 = n2 - n1;
@@ -8708,36 +8708,36 @@
         }
         let c = 0;
         for (let j = n1; j < m; j += 3) {
-          c += _ShouXingUtil.XL0[j] * Math.cos(_ShouXingUtil.XL0[j + 1] + t * _ShouXingUtil.XL0[j + 2]);
+          c += _ShouXingUtil.XL0[j] * Math.cos(_ShouXingUtil.XL0[j + 1] + t2 * _ShouXingUtil.XL0[j + 2]);
         }
         v += c * tn;
       }
       v /= _ShouXingUtil.XL0[0];
-      const t2 = t * t;
-      v += (-0.0728 - 2.7702 * t - 1.1019 * t2 - 0.0996 * t2 * t) / _ShouXingUtil.SECOND_PER_RAD;
+      const t22 = t2 * t2;
+      v += (-0.0728 - 2.7702 * t2 - 1.1019 * t22 - 0.0996 * t22 * t2) / _ShouXingUtil.SECOND_PER_RAD;
       return v;
     }
-    static mLon(t, n) {
+    static mLon(t2, n) {
       const ob = _ShouXingUtil.XL1;
       const obl = ob[0].length;
       let tn = 1;
       let v = 0;
-      let t2 = t * t, t3 = t2 * t, t4 = t3 * t;
-      const t5 = t4 * t;
-      const tx = t - 10;
-      v += (3.81034409 + 8399.684730072 * t - 3319e-8 * t2 + 311e-10 * t3 - 2033e-13 * t4) * _ShouXingUtil.SECOND_PER_RAD;
-      v += 5028.792262 * t + 1.1124406 * t2 + 7699e-8 * t3 - 23479e-9 * t4 - 178e-10 * t5;
-      if (tx > 0) {
-        v += -0.866 + 1.43 * tx + 0.054 * tx * tx;
+      let t22 = t2 * t2, t3 = t22 * t2, t4 = t3 * t2;
+      const t5 = t4 * t2;
+      const tx2 = t2 - 10;
+      v += (3.81034409 + 8399.684730072 * t2 - 3319e-8 * t22 + 311e-10 * t3 - 2033e-13 * t4) * _ShouXingUtil.SECOND_PER_RAD;
+      v += 5028.792262 * t2 + 1.1124406 * t22 + 7699e-8 * t3 - 23479e-9 * t4 - 178e-10 * t5;
+      if (tx2 > 0) {
+        v += -0.866 + 1.43 * tx2 + 0.054 * tx2 * tx2;
       }
-      t2 /= 1e4;
+      t22 /= 1e4;
       t3 /= 1e8;
       t4 /= 1e8;
       n *= 6;
       if (n < 0) {
         n = obl;
       }
-      for (let i = 0, x = ob.length; i < x; i++, tn *= t) {
+      for (let i = 0, x = ob.length; i < x; i++, tn *= t2) {
         const f = ob[i];
         const l = f.length;
         let m = Math.floor(n * l / obl + 0.5);
@@ -8749,25 +8749,25 @@
         }
         let c = 0;
         for (let j = 0; j < m; j += 6) {
-          c += f[j] * Math.cos(f[j + 1] + t * f[j + 2] + t2 * f[j + 3] + t3 * f[j + 4] + t4 * f[j + 5]);
+          c += f[j] * Math.cos(f[j + 1] + t2 * f[j + 2] + t22 * f[j + 3] + t3 * f[j + 4] + t4 * f[j + 5]);
         }
         v += c * tn;
       }
       v /= _ShouXingUtil.SECOND_PER_RAD;
       return v;
     }
-    static gxcSunLon(t) {
-      const t2 = t * t;
-      const v = -0.043126 + 628.301955 * t - 2732e-9 * t2;
-      const e = 0.016708634 - 42037e-9 * t - 1267e-10 * t2;
+    static gxcSunLon(t2) {
+      const t22 = t2 * t2;
+      const v = -0.043126 + 628.301955 * t2 - 2732e-9 * t22;
+      const e = 0.016708634 - 42037e-9 * t2 - 1267e-10 * t22;
       return -20.49552 * (1 + e * Math.cos(v)) / _ShouXingUtil.SECOND_PER_RAD;
     }
-    static ev(t) {
-      const f = 628.307585 * t;
-      return 628.332 + 21 * Math.sin(1.527 + f) + 0.44 * Math.sin(1.48 + f * 2) + 0.129 * Math.sin(5.82 + f) * t + 55e-5 * Math.sin(4.21 + f) * t * t;
+    static ev(t2) {
+      const f = 628.307585 * t2;
+      return 628.332 + 21 * Math.sin(1.527 + f) + 0.44 * Math.sin(1.48 + f * 2) + 0.129 * Math.sin(5.82 + f) * t2 + 55e-5 * Math.sin(4.21 + f) * t2 * t2;
     }
-    static saLon(t, n) {
-      return _ShouXingUtil.eLon(t, n) + _ShouXingUtil.nutationLon2(t) + _ShouXingUtil.gxcSunLon(t) + Math.PI;
+    static saLon(t2, n) {
+      return _ShouXingUtil.eLon(t2, n) + _ShouXingUtil.nutationLon2(t2) + _ShouXingUtil.gxcSunLon(t2) + Math.PI;
     }
     static dtExt(y, jsd) {
       const dy = (y - 1820) / 100;
@@ -8795,84 +8795,84 @@
       const t3 = t2 * t1;
       return _ShouXingUtil.DT_AT[i + 1] + _ShouXingUtil.DT_AT[i + 2] * t1 + _ShouXingUtil.DT_AT[i + 3] * t2 + _ShouXingUtil.DT_AT[i + 4] * t3;
     }
-    static dtT(t) {
-      return _ShouXingUtil.dtCalc(t / 365.2425 + 2e3) / _ShouXingUtil.SECOND_PER_DAY;
+    static dtT(t2) {
+      return _ShouXingUtil.dtCalc(t2 / 365.2425 + 2e3) / _ShouXingUtil.SECOND_PER_DAY;
     }
-    static mv(t) {
-      let v = 8399.71 - 914 * Math.sin(0.7848 + 8328.691425 * t + 1523e-7 * t * t);
-      v -= 179 * Math.sin(2.543 + 15542.7543 * t) + 160 * Math.sin(0.1874 + 7214.0629 * t) + 62 * Math.sin(3.14 + 16657.3828 * t) + 34 * Math.sin(4.827 + 16866.9323 * t) + 22 * Math.sin(4.9 + 23871.4457 * t) + 12 * Math.sin(2.59 + 14914.4523 * t) + 7 * Math.sin(0.23 + 6585.7609 * t) + 5 * Math.sin(0.9 + 25195.624 * t) + 5 * Math.sin(2.32 - 7700.3895 * t) + 5 * Math.sin(3.88 + 8956.9934 * t) + 5 * Math.sin(0.49 + 7771.3771 * t);
+    static mv(t2) {
+      let v = 8399.71 - 914 * Math.sin(0.7848 + 8328.691425 * t2 + 1523e-7 * t2 * t2);
+      v -= 179 * Math.sin(2.543 + 15542.7543 * t2) + 160 * Math.sin(0.1874 + 7214.0629 * t2) + 62 * Math.sin(3.14 + 16657.3828 * t2) + 34 * Math.sin(4.827 + 16866.9323 * t2) + 22 * Math.sin(4.9 + 23871.4457 * t2) + 12 * Math.sin(2.59 + 14914.4523 * t2) + 7 * Math.sin(0.23 + 6585.7609 * t2) + 5 * Math.sin(0.9 + 25195.624 * t2) + 5 * Math.sin(2.32 - 7700.3895 * t2) + 5 * Math.sin(3.88 + 8956.9934 * t2) + 5 * Math.sin(0.49 + 7771.3771 * t2);
       return v;
     }
     static saLonT(w) {
       let v = 628.3319653318;
-      let t = (w - 1.75347 - Math.PI) / v;
-      v = _ShouXingUtil.ev(t);
-      t += (w - _ShouXingUtil.saLon(t, 10)) / v;
-      v = _ShouXingUtil.ev(t);
-      t += (w - _ShouXingUtil.saLon(t, -1)) / v;
-      return t;
+      let t2 = (w - 1.75347 - Math.PI) / v;
+      v = _ShouXingUtil.ev(t2);
+      t2 += (w - _ShouXingUtil.saLon(t2, 10)) / v;
+      v = _ShouXingUtil.ev(t2);
+      t2 += (w - _ShouXingUtil.saLon(t2, -1)) / v;
+      return t2;
     }
-    static msaLon(t, mn, sn) {
-      return _ShouXingUtil.mLon(t, mn) + -34e-7 - (_ShouXingUtil.eLon(t, sn) + _ShouXingUtil.gxcSunLon(t) + Math.PI);
+    static msaLon(t2, mn, sn) {
+      return _ShouXingUtil.mLon(t2, mn) + -34e-7 - (_ShouXingUtil.eLon(t2, sn) + _ShouXingUtil.gxcSunLon(t2) + Math.PI);
     }
     static msaLonT(w) {
       let v = 7771.37714500204;
-      let t = (w + 1.08472) / v;
-      t += (w - _ShouXingUtil.msaLon(t, 3, 3)) / v;
-      v = _ShouXingUtil.mv(t) - _ShouXingUtil.ev(t);
-      t += (w - _ShouXingUtil.msaLon(t, 20, 10)) / v;
-      t += (w - _ShouXingUtil.msaLon(t, -1, 60)) / v;
-      return t;
+      let t2 = (w + 1.08472) / v;
+      t2 += (w - _ShouXingUtil.msaLon(t2, 3, 3)) / v;
+      v = _ShouXingUtil.mv(t2) - _ShouXingUtil.ev(t2);
+      t2 += (w - _ShouXingUtil.msaLon(t2, 20, 10)) / v;
+      t2 += (w - _ShouXingUtil.msaLon(t2, -1, 60)) / v;
+      return t2;
     }
     static saLonT2(w) {
       const v = 628.3319653318;
-      let t = (w - 1.75347 - Math.PI) / v;
-      t -= (5297e-9 * t * t + 0.0334166 * Math.cos(4.669257 + 628.307585 * t) + 2061e-7 * Math.cos(2.67823 + 628.307585 * t) * t) / v;
-      t += (w - _ShouXingUtil.eLon(t, 8) - Math.PI + (20.5 + 17.2 * Math.sin(2.1824 - 33.75705 * t)) / _ShouXingUtil.SECOND_PER_RAD) / v;
-      return t;
+      let t2 = (w - 1.75347 - Math.PI) / v;
+      t2 -= (5297e-9 * t2 * t2 + 0.0334166 * Math.cos(4.669257 + 628.307585 * t2) + 2061e-7 * Math.cos(2.67823 + 628.307585 * t2) * t2) / v;
+      t2 += (w - _ShouXingUtil.eLon(t2, 8) - Math.PI + (20.5 + 17.2 * Math.sin(2.1824 - 33.75705 * t2)) / _ShouXingUtil.SECOND_PER_RAD) / v;
+      return t2;
     }
     static msaLonT2(w) {
       let v = 7771.37714500204;
-      let t = (w + 1.08472) / v;
-      let t2 = t * t;
-      t -= (-3309e-8 * t2 + 0.10976 * Math.cos(0.784758 + 8328.6914246 * t + 152292e-9 * t2) + 0.02224 * Math.cos(0.1874 + 7214.0628654 * t - 21848e-8 * t2) - 0.03342 * Math.cos(4.669257 + 628.307585 * t)) / v;
-      t2 = t * t;
-      const l = _ShouXingUtil.mLon(t, 20) - (4.8950632 + 628.3319653318 * t + 5297e-9 * t2 + 0.0334166 * Math.cos(4.669257 + 628.307585 * t) + 2061e-7 * Math.cos(2.67823 + 628.307585 * t) * t + 349e-6 * Math.cos(4.6261 + 1256.61517 * t) - 20.5 / _ShouXingUtil.SECOND_PER_RAD);
-      v = 7771.38 - 914 * Math.sin(0.7848 + 8328.691425 * t + 1523e-7 * t2) - 179 * Math.sin(2.543 + 15542.7543 * t) - 160 * Math.sin(0.1874 + 7214.0629 * t);
-      t += (w - l) / v;
-      return t;
+      let t2 = (w + 1.08472) / v;
+      let t22 = t2 * t2;
+      t2 -= (-3309e-8 * t22 + 0.10976 * Math.cos(0.784758 + 8328.6914246 * t2 + 152292e-9 * t22) + 0.02224 * Math.cos(0.1874 + 7214.0628654 * t2 - 21848e-8 * t22) - 0.03342 * Math.cos(4.669257 + 628.307585 * t2)) / v;
+      t22 = t2 * t2;
+      const l = _ShouXingUtil.mLon(t2, 20) - (4.8950632 + 628.3319653318 * t2 + 5297e-9 * t22 + 0.0334166 * Math.cos(4.669257 + 628.307585 * t2) + 2061e-7 * Math.cos(2.67823 + 628.307585 * t2) * t2 + 349e-6 * Math.cos(4.6261 + 1256.61517 * t2) - 20.5 / _ShouXingUtil.SECOND_PER_RAD);
+      v = 7771.38 - 914 * Math.sin(0.7848 + 8328.691425 * t2 + 1523e-7 * t22) - 179 * Math.sin(2.543 + 15542.7543 * t2) - 160 * Math.sin(0.1874 + 7214.0629 * t2);
+      t2 += (w - l) / v;
+      return t2;
     }
     static qiHigh(w) {
-      let t = _ShouXingUtil.saLonT2(w) * 36525;
-      t = t - _ShouXingUtil.dtT(t) + _ShouXingUtil.ONE_THIRD;
-      const v = (t + 0.5) % 1 * _ShouXingUtil.SECOND_PER_DAY;
+      let t2 = _ShouXingUtil.saLonT2(w) * 36525;
+      t2 = t2 - _ShouXingUtil.dtT(t2) + _ShouXingUtil.ONE_THIRD;
+      const v = (t2 + 0.5) % 1 * _ShouXingUtil.SECOND_PER_DAY;
       if (v < 1200 || v > _ShouXingUtil.SECOND_PER_DAY - 1200) {
-        t = _ShouXingUtil.saLonT(w) * 36525 - _ShouXingUtil.dtT(t) + _ShouXingUtil.ONE_THIRD;
+        t2 = _ShouXingUtil.saLonT(w) * 36525 - _ShouXingUtil.dtT(t2) + _ShouXingUtil.ONE_THIRD;
       }
-      return t;
+      return t2;
     }
     static shuoHigh(w) {
-      let t = _ShouXingUtil.msaLonT2(w) * 36525;
-      t = t - _ShouXingUtil.dtT(t) + _ShouXingUtil.ONE_THIRD;
-      const v = (t + 0.5) % 1 * _ShouXingUtil.SECOND_PER_DAY;
+      let t2 = _ShouXingUtil.msaLonT2(w) * 36525;
+      t2 = t2 - _ShouXingUtil.dtT(t2) + _ShouXingUtil.ONE_THIRD;
+      const v = (t2 + 0.5) % 1 * _ShouXingUtil.SECOND_PER_DAY;
       if (v < 1800 || v > _ShouXingUtil.SECOND_PER_DAY - 1800) {
-        t = _ShouXingUtil.msaLonT(w) * 36525 - _ShouXingUtil.dtT(t) + _ShouXingUtil.ONE_THIRD;
+        t2 = _ShouXingUtil.msaLonT(w) * 36525 - _ShouXingUtil.dtT(t2) + _ShouXingUtil.ONE_THIRD;
       }
-      return t;
+      return t2;
     }
     static qiLow(w) {
       const v = 628.3319653318;
-      let t = (w - 4.895062166) / v;
-      t -= (53 * t * t + 334116 * Math.cos(4.67 + 628.307585 * t) + 2061 * Math.cos(2.678 + 628.3076 * t) * t) / v / 1e7;
-      const n = 4895062166e-2 + 6283319653318e-3 * t + 53 * t * t + 334166 * Math.cos(4.669257 + 628.307585 * t) + 3489 * Math.cos(4.6261 + 1256.61517 * t) + 2060.6 * Math.cos(2.67823 + 628.307585 * t) * t - 994 - 834 * Math.sin(2.1824 - 33.75705 * t);
-      t -= (n / 1e7 - w) / 628.332 + (32 * (t + 1.8) * (t + 1.8) - 20) / _ShouXingUtil.SECOND_PER_DAY / 36525;
-      return t * 36525 + _ShouXingUtil.ONE_THIRD;
+      let t2 = (w - 4.895062166) / v;
+      t2 -= (53 * t2 * t2 + 334116 * Math.cos(4.67 + 628.307585 * t2) + 2061 * Math.cos(2.678 + 628.3076 * t2) * t2) / v / 1e7;
+      const n = 4895062166e-2 + 6283319653318e-3 * t2 + 53 * t2 * t2 + 334166 * Math.cos(4.669257 + 628.307585 * t2) + 3489 * Math.cos(4.6261 + 1256.61517 * t2) + 2060.6 * Math.cos(2.67823 + 628.307585 * t2) * t2 - 994 - 834 * Math.sin(2.1824 - 33.75705 * t2);
+      t2 -= (n / 1e7 - w) / 628.332 + (32 * (t2 + 1.8) * (t2 + 1.8) - 20) / _ShouXingUtil.SECOND_PER_DAY / 36525;
+      return t2 * 36525 + _ShouXingUtil.ONE_THIRD;
     }
     static shuoLow(w) {
       const v = 7771.37714500204;
-      let t = (w + 1.08472) / v;
-      t -= (-331e-7 * t * t + 0.10976 * Math.cos(0.785 + 8328.6914 * t) + 0.02224 * Math.cos(0.187 + 7214.0629 * t) - 0.03342 * Math.cos(4.669 + 628.3076 * t)) / v + (32 * (t + 1.8) * (t + 1.8) - 20) / _ShouXingUtil.SECOND_PER_DAY / 36525;
-      return t * 36525 + _ShouXingUtil.ONE_THIRD;
+      let t2 = (w + 1.08472) / v;
+      t2 -= (-331e-7 * t2 * t2 + 0.10976 * Math.cos(0.785 + 8328.6914 * t2) + 0.02224 * Math.cos(0.187 + 7214.0629 * t2) - 0.03342 * Math.cos(4.669 + 628.3076 * t2)) / v + (32 * (t2 + 1.8) * (t2 + 1.8) - 20) / _ShouXingUtil.SECOND_PER_DAY / 36525;
+      return t2 * 36525 + _ShouXingUtil.ONE_THIRD;
     }
     static calcShuo(jd) {
       const size = _ShouXingUtil.SHUO_KB.length;
@@ -8945,8 +8945,8 @@
       return d;
     }
     static qiAccurate(w) {
-      const t = _ShouXingUtil.saLonT(w) * 36525;
-      return t - _ShouXingUtil.dtT(t) + _ShouXingUtil.ONE_THIRD;
+      const t2 = _ShouXingUtil.saLonT(w) * 36525;
+      return t2 - _ShouXingUtil.dtT(t2) + _ShouXingUtil.ONE_THIRD;
     }
     static qiAccurate2(jd) {
       const d = Math.PI / 12;
@@ -10420,8 +10420,8 @@
       return jq;
     }
     checkLang() {
-      const lang = I18n.getLanguage();
-      if (this._lang != lang) {
+      const lang2 = I18n.getLanguage();
+      if (this._lang != lang2) {
         for (let i = 0, j = LunarUtil.JIE_QI_IN_USE.length; i < j; i++) {
           const newKey = LunarUtil.JIE_QI_IN_USE[i];
           const oldKey = this._jieQiList[i];
@@ -10429,7 +10429,7 @@
           this._jieQiList[i] = newKey;
           this._jieQi[newKey] = value;
         }
-        this._lang = lang;
+        this._lang = lang2;
       }
     }
     getJie() {
@@ -12031,10 +12031,10 @@
   }
   function trueSolar(hh, mm, year, month, day, lon) {
     const dst = isDst(year, month, day);
-    let t = hh * 60 + mm - (dst ? 60 : 0);
-    t += (lon - 120) * 4 + eot(month, day);
-    t = mod(t, 1440);
-    return [Math.floor(t / 60), Math.round(t % 60), dst];
+    let t2 = hh * 60 + mm - (dst ? 60 : 0);
+    t2 += (lon - 120) * 4 + eot(month, day);
+    t2 = mod(t2, 1440);
+    return [Math.floor(t2 / 60), Math.round(t2 % 60), dst];
   }
   function branchOf(hh) {
     return Math.floor((hh + 1) / 2) % 12;
@@ -12697,7 +12697,7 @@
     const top = Object.entries(c).sort((a, b) => b[1] - a[1]);
     const [first, second] = [top[0], top[1]];
     const season = SEASON[pillars[1].zhi];
-    const has = (a, b, t = 0.22) => (c[a] || 0) >= t && (c[b] || 0) >= t;
+    const has = (a, b, t2 = 0.22) => (c[a] || 0) >= t2 && (c[b] || 0) >= t2;
     if (has("\u6728", "\u706B") && c["\u6728"] >= 0.25 && c["\u706B"] >= 0.2) return { name: "\u6728\u706B\u901A\u660E", text: "\u6728\u706B\u6210\u8C61\uFF0C\u806A\u660E\u5916\u9732\u3001\u6587\u91C7\u6216\u8868\u8FBE\u4E0A\u6709\u957F\u5904\uFF1B\u6015\u706B\u592A\u65FA\u628A\u6728\u70E7\u5E72\uFF0C\u89C1\u6C34\u6ECB\u6DA6\u66F4\u597D\u3002" };
     if (has("\u91D1", "\u6C34") && c["\u91D1"] >= 0.25 && c["\u6C34"] >= 0.2) return { name: "\u91D1\u767D\u6C34\u6E05", text: "\u91D1\u6C34\u6210\u8C61\uFF0C\u601D\u8DEF\u6E05\u3001\u8BB2\u9053\u7406\uFF0C\u9002\u5408\u505A\u9700\u8981\u6761\u7406\u548C\u5224\u65AD\u7684\u4E8B\uFF1B\u6015\u571F\u591A\u628A\u6C34\u6405\u6D51\u3002" };
     if (has("\u6C34", "\u6728") && c["\u6C34"] >= 0.25 && c["\u6728"] >= 0.2) return { name: "\u6C34\u6728\u6E05\u534E", text: "\u6C34\u6728\u76F8\u751F\uFF0C\u6027\u5B50\u504F\u9759\u3001\u7231\u5B66\uFF0C\u9002\u5408\u957F\u671F\u79EF\u7D2F\uFF1B\u6015\u6C34\u591A\u6728\u6F02\uFF0C\u9700\u8981\u4E00\u70B9\u571F\u6216\u706B\u6765\u624E\u6839\u3002" };
@@ -13026,8 +13026,8 @@
     });
     const yi_pal = {};
     for (const [p2, y2] of Object.entries(di)) yi_pal[y2] = Number(p2);
-    const t = _gz_idx(gz_hour);
-    const group = Math.floor(t / 10);
+    const t2 = _gz_idx(gz_hour);
+    const group = Math.floor(t2 / 10);
     const xun = XUN_NAME[group];
     const xun_yi = XUN_YI[group];
     const zf_pal = yi_pal[xun_yi];
@@ -13215,15 +13215,15 @@
     return { age, range: [lim.start, lim.end], life: lim.palace, stem: lim.stem, branch: lim.branch, hua: lim.hua, palaces: palaces_from(lim.palace) };
   }
   function annual_chart(r, year) {
-    const [si, bi] = yearGanzhi(year);
-    return { year, stem: STEMS[si], branch: BRANCHES[bi], stem_i: si, branch_i: bi, life: bi, hua: sihuaOf(si), palaces: palaces_from(bi) };
+    const [si, bi3] = yearGanzhi(year);
+    return { year, stem: STEMS[si], branch: BRANCHES[bi3], stem_i: si, branch_i: bi3, life: bi3, hua: sihuaOf(si), palaces: palaces_from(bi3) };
   }
   function doujun(year_branch_i, birth_month, birth_hour_i) {
     return mod3(year_branch_i - (birth_month - 1) + birth_hour_i, 12);
   }
   function flow_months(r, year, birth_month, birth_hour_i) {
-    const [si, bi] = yearGanzhi(year);
-    const dj = doujun(bi, birth_month, birth_hour_i);
+    const [si, bi3] = yearGanzhi(year);
+    const dj = doujun(bi3, birth_month, birth_hour_i);
     const out = [];
     for (let m = 1; m <= 12; m++) {
       const palace = mod3(dj + m - 1, 12);
@@ -13382,12 +13382,12 @@
     const out = [];
     const seen_star_texts = {};
     const emit_star = (palace, star, title, tag) => {
-      const t = lib.templates.get(star + "|\u5927\u9650");
-      if (!t) return;
+      const t2 = lib.templates.get(star + "|\u5927\u9650");
+      if (!t2) return;
       const key = palace + "|" + star;
-      if (seen_star_texts[key] === t.text) return;
-      seen_star_texts[key] = t.text;
-      out.push(`**${title}\uFF08${star}\xB7${tag}\uFF09**\uFF1A${t.text.trimEnd()}
+      if (seen_star_texts[key] === t2.text) return;
+      seen_star_texts[key] = t2.text;
+      out.push(`**${title}\uFF08${star}\xB7${tag}\uFF09**\uFF1A${t2.text.trimEnd()}
 `);
     };
     out.push(`# \u547D\u76D8\u89E3\u8BFB\uFF08${r.gender}\uFF0C${r.solar[0]}-${String(r.solar[1]).padStart(2, "0")}-${String(r.solar[2]).padStart(2, "0")} ${String(r.solar_time[0]).padStart(2, "0")}:${String(r.solar_time[1]).padStart(2, "0")}\uFF09
@@ -13520,8 +13520,8 @@
       if (borrowed) src = BRANCHES.indexOf(borrowed);
       const lvl_written = /* @__PURE__ */ new Set();
       for (const star of majors) {
-        const t = lib.templates.get(star + "|" + dim);
-        if (t) {
+        const t2 = lib.templates.get(star + "|" + dim);
+        if (t2) {
           const lvl = ((r.brightness || {})[src] || {})[star];
           const lvltxt = lvl ? `\xB7${lvl}` : "";
           let note = "";
@@ -13529,7 +13529,7 @@
             lvl_written.add(lvl);
             note = ` ${LEVEL_NOTE[lvl]}`;
           }
-          emit_para(star + "|" + dim + "|" + t.text, `**${star}\uFF08${label}${lvltxt}\uFF09**\uFF1A${t.text.trimEnd()}${note}
+          emit_para(star + "|" + dim + "|" + t2.text, `**${star}\uFF08${label}${lvltxt}\uFF09**\uFF1A${t2.text.trimEnd()}${note}
 `);
         }
       }
@@ -13551,7 +13551,7 @@
         const hit = (lib.careerAux.groups || []).filter((g) => g.stars.some((s) => here.has(s)));
         if (hit.length) emit_para("groups", "**\u5DE5\u4F5C\u4E0A\u8FD8\u6709\u8FD9\u4E9B\u5E2E\u624B**\uFF1A" + hit.map((g) => `${g.name}\u2014\u2014${g.note}`).join("\uFF1B") + "\n");
         const hua_here = ["\u7984", "\u6743", "\u79D1", "\u5FCC"].filter((tag) => Object.entries(r.hua).some(([st, v]) => here.has(st) && v.tag === tag));
-        if (hua_here.length) emit_para("hua", "**\u5DE5\u4F5C\u4E0A\u7684\u56DB\u5316**\uFF1A" + hua_here.map((t) => `\u5316${t}\u2014\u2014${lib.careerAux.hua[t]}`).join("\uFF1B") + "\n");
+        if (hua_here.length) emit_para("hua", "**\u5DE5\u4F5C\u4E0A\u7684\u56DB\u5316**\uFF1A" + hua_here.map((t2) => `\u5316${t2}\u2014\u2014${lib.careerAux.hua[t2]}`).join("\uFF1B") + "\n");
       }
       if (out.length === body_start) out.push("\u8FD9\u4E00\u7EC4\u661F\u521A\u624D\u5DF2\u7ECF\u804A\u8FC7\u5566\uFF0C\u8EAB\u5BAB\u548C\u547D\u5BAB\u770B\u7684\u662F\u540C\u4E00\u5904\uFF0C\u5C31\u4E0D\u91CD\u590D\u8BF4\u4E00\u904D\u4E86\u3002\n");
     }
@@ -13579,16 +13579,731 @@
     return bits.join("\uFF1B");
   }
 
+  // js/i18n.ts
+  var LANG_KEY = "xingyuan.lang.v1";
+  var listeners = /* @__PURE__ */ new Set();
+  function initialLang() {
+    try {
+      const q = new URLSearchParams(location.search).get("lang");
+      if (q === "en" || q === "zh") {
+        try {
+          localStorage.setItem(LANG_KEY, q);
+        } catch {
+        }
+        return q;
+      }
+    } catch {
+    }
+    try {
+      const v = localStorage.getItem(LANG_KEY);
+      if (v === "en" || v === "zh") return v;
+    } catch {
+    }
+    return "zh";
+  }
+  var lang = initialLang();
+  function getLang() {
+    return lang;
+  }
+  function setLang(v) {
+    if (v === lang) return;
+    lang = v;
+    try {
+      localStorage.setItem(LANG_KEY, v);
+    } catch {
+    }
+    applyStatic();
+    listeners.forEach((fn) => fn());
+  }
+  function toggleLang() {
+    setLang(lang === "zh" ? "en" : "zh");
+  }
+  function onLangChange(fn) {
+    listeners.add(fn);
+  }
+  function t(key) {
+    return UI[lang][key] ?? UI.zh[key] ?? key;
+  }
+  function bi(zh, en) {
+    return lang === "en" ? en : zh;
+  }
+  function term(s) {
+    const k = String(s ?? "");
+    if (lang === "zh") return k;
+    if (TERMS[k]) return TERMS[k];
+    return replaceKnown(k).replace(/([阳阴])遁\s*(\d+)\s*局/g, (_m, d, n) => `${d === "\u9633" ? "Yang" : "Yin"} Dun ${n}`).replace(/(\d+)\s*局/g, "$1 chart");
+  }
+  function termBoth(s) {
+    const k = String(s ?? "");
+    if (lang === "zh") return k;
+    const e = TERMS[k];
+    return e ? `${e} (${k})` : k;
+  }
+  function ganzhi(s) {
+    const k = String(s ?? "");
+    if (lang === "zh") return k;
+    return k.split("").map((c) => TERMS[c] ?? c).join("-");
+  }
+  var termKeys = null;
+  function replaceKnown(s) {
+    if (!termKeys) termKeys = Object.keys(TERMS).sort((a, b) => b.length - a.length);
+    let out = s;
+    for (const k of termKeys) if (out.includes(k)) out = out.split(k).join(TERMS[k]);
+    return out;
+  }
+  function tx(s) {
+    const text = String(s ?? "");
+    return lang === "zh" ? text : replaceKnown(text);
+  }
+  function sourceBlock(zhText, label) {
+    if (!zhText) return "";
+    if (lang === "zh") return zhText;
+    const head = label ?? t("source.label");
+    return `<details class="zh-source"><summary>${head}</summary><div class="zh-source-body">${zhText}</div></details>`;
+  }
+  function applyStatic(root = document) {
+    document.documentElement.lang = lang === "en" ? "en" : "zh-CN";
+    root.querySelectorAll("[data-i18n]").forEach((el) => {
+      const v = UI[lang][el.dataset.i18n || ""];
+      if (v !== void 0) el.textContent = v;
+    });
+    root.querySelectorAll("[data-i18n-title]").forEach((el) => {
+      const v = UI[lang][el.dataset.i18nTitle || ""];
+      if (v !== void 0) el.title = v;
+    });
+    root.querySelectorAll("[data-i18n-aria]").forEach((el) => {
+      const v = UI[lang][el.dataset.i18nAria || ""];
+      if (v !== void 0) el.setAttribute("aria-label", v);
+    });
+  }
+  var UI = {
+    zh: {
+      "app.title": "\u661F\u57A3 \xB7 \u7D2B\u5FAE\u6597\u6570 / \u516B\u5B57 / \u5947\u95E8\u9041\u7532",
+      "brand": "\u661F \u57A3",
+      "tab.chart": "\u7D2B\u5FAE",
+      "tab.bazi": "\u516B\u5B57",
+      "tab.qimen": "\u5947\u95E8",
+      "btn.today": "\u4ECA\u65E5",
+      "btn.archive": "\u6863\u6848",
+      "btn.settings": "\u8BBE\u7F6E",
+      "title.today": "\u4ECA\u65E5\u4E00\u53E5\u4E0E\u53C2\u8003\u65E5\u671F",
+      "title.archive": "\u672C\u673A\u6863\u6848",
+      "title.settings": "\u8BBE\u7F6E",
+      "lang.switch": "EN",
+      "lang.title": "Switch to English",
+      "settings.title": "\u672C\u673A\u8BBE\u7F6E \xB7 \u6863\u6848\u53EA\u5B58\u5728\u8FD9\u53F0\u8BBE\u5907\u4E0A",
+      "label.refDate": "\u53C2\u8003\u65E5\u671F",
+      "label.dailyDate": "\u4ECA\u65E5\u4E00\u53E5\u65E5\u671F",
+      "btn.clearArchive": "\u6E05\u7A7A\u6863\u6848",
+      "settings.ratio": "\u7D2B\u5FAE\u7684\u300C\u5927\u9650 / \u6D41\u5E74 / \u6D41\u6708 / \u6D41\u65E5\u300D\u6309\u53C2\u8003\u65E5\u671F\u5207\u6362\uFF1B\u300C\u4ECA\u65E5\u4E00\u53E5\u300D\u6309\u5F53\u524D\u547D\u76D8\u516B\u5B57\u7684\u65E5\u5E72\u5341\u795E\u4E0E\u559C\u5FCC\u751F\u6210\u3002",
+      "archive.title": "\u6211\u7684\u6863\u6848",
+      "btn.saveChart": "\u4FDD\u5B58\u5F53\u524D\u76D8",
+      "archive.empty": "\u8FD8\u6CA1\u6709\u5B58\u6863\u3002\u6392\u597D\u76D8\u540E\u70B9\u300C\u4FDD\u5B58\u5F53\u524D\u76D8\u300D\uFF0C\u5C31\u7559\u5728\u8FD9\u53F0\u8BBE\u5907\u4E0A\u3002",
+      "archive.open": "\u6253\u5F00",
+      "archive.delete": "\u5220\u9664",
+      "confirm.clearArchive": "\u6E05\u7A7A\u8FD9\u53F0\u8BBE\u5907\u4E0A\u7684\u5168\u90E8\u6863\u6848\uFF1F",
+      "layer.benming": "\u672C\u547D",
+      "layer.limit": "\u5927\u9650",
+      "layer.annual": "\u6D41\u5E74",
+      "layer.month": "\u6D41\u6708",
+      "layer.day": "\u6D41\u65E5",
+      "btn.hideLines": "\u9690\u85CF\u8FDE\u7EBF",
+      "btn.showLines": "\u663E\u793A\u8FDE\u7EBF",
+      "birth.year": "\u5E74",
+      "birth.month": "\u6708",
+      "birth.day": "\u65E5",
+      "birth.hour": "\u65F6",
+      "birth.minute": "\u5206",
+      "birth.gender": "\u6027\u522B",
+      "birth.female": "\u5973",
+      "birth.male": "\u7537",
+      "birth.lon": "\u7ECF\u5EA6",
+      "btn.chart": "\u6392\u76D8",
+      "aria.palace": "\u5BAB\u4F4D\u89E3\u8BFB",
+      "aria.starsheet": "\u661F\u66DC\u8BF4\u660E",
+      "palace.empty": "\u7A7A\u5BAB",
+      "badge.life": "\u547D",
+      "badge.body": "\u8EAB",
+      "hua.title": "\u843D\u5BAB",
+      "center.name": "\u661F \u57A3",
+      "center.gender": "\u547D",
+      "center.solarTime": "\u771F\u592A\u9633\u65F6",
+      "center.lunar": "\u519C\u5386",
+      "center.leap": "\u95F0",
+      "center.lifePalace": "\u547D\u5BAB",
+      "center.bodyPalace": "\u8EAB\u5BAB",
+      "readmore.ziwei": "\u547D\u76D8\u89E3\u8BFB \xB7 \u4E94\u7EF4\u767D\u8BDD",
+      "err.reading": "\u89E3\u8BFB\u6682\u65F6\u6CA1\u80FD\u751F\u6210\uFF1A",
+      "err.year": "\u5E74\u4EFD\u9700\u5728 1900\u20132100 \u4E4B\u95F4",
+      "err.lon": "\u7ECF\u5EA6\u9700\u5728 60\u2013150 \u4E4B\u95F4",
+      "section.pillars": "\u56DB\u67F1",
+      "section.wuxing": "\u4E94\u884C\u529B\u91CF",
+      "section.pattern": "\u547D\u5C40",
+      "section.dayun": "\u5927\u8FD0",
+      "bazi.wuxingNote": "\u5929\u5E72\u5404 1 \u5206\uFF1B\u85CF\u5E72\u6309\u6708\u4EE4 \xD73\u3001\u65E5\u652F \xD71.5\u3001\u5176\u4F59 \xD71\uFF0C\u5E76\u4E58\u672C\u6C14 1 / \u4E2D\u6C14 0.5 / \u4F59\u6C14 0.3\u3002",
+      "bazi.qiyun": "\u8D77\u8FD0",
+      "bazi.forward": "\u987A",
+      "bazi.backward": "\u9006",
+      "bazi.yearsOld": "\u5C81",
+      "qform.date": "\u7528\u4E8B\u65E5\u671F",
+      "qform.time": "\u7528\u4E8B\u65F6\u523B",
+      "qform.go": "\u8D77\u5C40",
+      "qimen.grid": "\u4E5D\u5BAB\u76D8",
+      "qimen.gridNote": "\u7528\u4E8B\u65F6\u5E72\u6240\u5728\u5BAB\u5E26\u91D1\u8FB9\uFF08\u95EE\u4E8B\u7684\u4EBA\uFF09\uFF1B\u300C\u7A7A\u300D\u4E3A\u65F6\u65EC\u7A7A\u4EA1\uFF0C\u300C\u9A6C\u300D\u4E3A\u9A7F\u9A6C\u3002\u70B9\u4EFB\u4F55\u4E00\u5BAB\u53EF\u770B\u8FD9\u4E00\u683C\u7684\u767D\u8BDD\u3002\u8F6C\u76D8\u5947\u95E8\uFF08\u65F6\u5BB6\uFF09\uFF0C\u62C6\u8865\u6CD5\u5B9A\u5C40\u3002",
+      "qimen.fuyin": "\u4F0F\u541F\u5C40",
+      "qimen.fuyinNote": "\u661F\u95E8\u5404\u56DE\u672C\u5BAB\uFF0C\u5B9C\u5B88\u4E0D\u5B9C\u52A8\u3002",
+      "qimen.fanyin": "\u53CD\u541F\u5C40",
+      "qimen.fanyinNote": "\u661F\u95E8\u5750\u5BF9\u5BAB\uFF0C\u4E8B\u5FEB\u800C\u53CD\u590D\u3002",
+      "drawer.close": "\u5173\u95ED",
+      "drawer.tapNote": "\u70B9\u4E00\u4E0B\u770B\u6CE8\u89E3",
+      "drawer.starEmpty": "\u8FD9\u4E00\u683C\u6682\u65F6\u7A7A\u7740",
+      "drawer.borrow": "\u8FD9\u4E00\u683C\u7A7A\u7740\uFF0C\u501F\u5BF9\u9762\u7684",
+      "drawer.noHua": "\u4ECA\u5E74\u8FD9\u5F20\u76D8\u91CC\uFF0C\u6682\u65F6\u6CA1\u6709\u56DB\u5316\u843D\u8FDB\u6765\u3002",
+      "drawer.opp": "\u5BF9\u9762",
+      "drawer.sec1": "\u8FD9\u4E00\u683C\u5728\u8BF4\u4EC0\u4E48",
+      "drawer.sec2": "\u56DB\u5316\u53BB\u4E86\u54EA",
+      "drawer.sec3": "\u4E09\u65B9\u56DB\u6B63",
+      "drawer.sec4": "\u8FD9\u4E00\u683C\u7BA1\u4EC0\u4E48",
+      "drawer.noText": "\u8FD9\u4E00\u683C\u6682\u65F6\u8FD8\u6CA1\u6709\u53EF\u5199\u4E0B\u7684\u89E3\u8BFB\uFF0C\u5148\u770B\u770B\u522B\u7684\u5427\u3002",
+      "ss.kind": "\u661F\u66DC",
+      "ss.sec": "\u770B\u770B\u5B83\u5728\u5404\u7EF4\u5EA6\u7684\u8BF4\u6CD5",
+      "ss.cite": "\u4EE5\u4E0A\u4F9D\u636E\u672C\u7AD9\u6587\u6848\u5E93\uFF0C\u662F\u767D\u8BDD\u6539\u5199\uFF0C\u4E0D\u662F\u5BBF\u547D\u65AD\u8BED\u3002",
+      "daily.tag": "\u4ECA\u65E5\u4E00\u53E5",
+      "daily.src": "\u5341\u795E \xB7 \u559C\u5FCC",
+      "qcell.kong": "\u843D\u7A7A",
+      "qcell.ma": "\u9A7F\u9A6C",
+      "qcell.kongNote": "\u6B64\u5BAB\u843D\u7A7A\uFF1A\u4E8B\u60AC\u7740\uFF0C\u7EA6\u597D\u7684\u5BB9\u6613\u53D8\u3002",
+      "qcell.maNote": "\u9A7F\u9A6C\u5230\u5BAB\uFF1A\u4E3B\u52A8\u3001\u51FA\u884C\u3001\u6D88\u606F\u3002",
+      "qgrid.aria": "\u5947\u95E8\u4E5D\u5BAB\u76D8",
+      "qgrid.year": "\u5E74",
+      "qgrid.month": "\u6708",
+      "qgrid.day": "\u65E5",
+      "qgrid.hour": "\u65F6",
+      "qgrid.zhifu": "\u503C\u7B26",
+      "qgrid.zhishi": "\u503C\u4F7F",
+      "qgrid.land": "\u843D",
+      "bcard.dayMaster": "\u65E5\u4E3B",
+      "bcard.strength": "\u65FA\u8870",
+      "bcard.pattern": "\u683C\u5C40",
+      "bcard.xi": "\u559C",
+      "bcard.ji": "\u5FCC",
+      "bcard.help": "\u5E2E\u8EAB",
+      "source.label": "\u67E5\u770B\u4E2D\u6587\u539F\u6587",
+      "source.body": "\u4E2D\u6587\u539F\u6587"
+    },
+    en: {
+      "app.title": "ArrangeStars \xB7 Zi Wei Dou Shu / Ba Zi / Qi Men Dun Jia",
+      "brand": "ARRANGESTARS",
+      "tab.chart": "Zi Wei",
+      "tab.bazi": "Ba Zi",
+      "tab.qimen": "Qi Men",
+      "btn.today": "Today",
+      "btn.archive": "Archive",
+      "btn.settings": "Settings",
+      "title.today": "Daily line & reference date",
+      "title.archive": "Local archive",
+      "title.settings": "Settings",
+      "lang.switch": "\u4E2D\u6587",
+      "lang.title": "\u5207\u6362\u5230\u4E2D\u6587",
+      "settings.title": "Local settings \xB7 archives stay on this device",
+      "label.refDate": "Reference date",
+      "label.dailyDate": "Daily line date",
+      "btn.clearArchive": "Clear archive",
+      "settings.ratio": "Zi Wei layers (Major Limit / Annual / Monthly / Daily) follow the reference date. The daily line comes from this chart\u2019s Ba Zi day-stem Ten God and favorable/unfavorable elements.",
+      "archive.title": "My archive",
+      "btn.saveChart": "Save current chart",
+      "archive.empty": "No saved charts yet. Set up a chart, then tap \u201CSave current chart\u201D \u2014 it stays on this device.",
+      "archive.open": "Open",
+      "archive.delete": "Delete",
+      "confirm.clearArchive": "Delete all archives stored on this device?",
+      "layer.benming": "Natal",
+      "layer.limit": "Major Limit",
+      "layer.annual": "Annual",
+      "layer.month": "Monthly",
+      "layer.day": "Daily",
+      "btn.hideLines": "Hide lines",
+      "btn.showLines": "Show lines",
+      "birth.year": "Year",
+      "birth.month": "Month",
+      "birth.day": "Day",
+      "birth.hour": "Hour",
+      "birth.minute": "Minute",
+      "birth.gender": "Sex",
+      "birth.female": "Female",
+      "birth.male": "Male",
+      "birth.lon": "Longitude",
+      "btn.chart": "Cast chart",
+      "aria.palace": "Palace reading",
+      "aria.starsheet": "Star notes",
+      "palace.empty": "Empty palace",
+      "badge.life": "Life",
+      "badge.body": "Body",
+      "hua.title": "transforms into",
+      "center.name": "ARRANGESTARS",
+      "center.gender": "chart",
+      "center.solarTime": "True solar time",
+      "center.lunar": "Lunar",
+      "center.leap": "leap",
+      "center.lifePalace": "Life palace",
+      "center.bodyPalace": "Body palace",
+      "readmore.ziwei": "Chart reading \xB7 five dimensions",
+      "err.reading": "Reading could not be generated: ",
+      "err.year": "Year must be between 1900 and 2100",
+      "err.lon": "Longitude must be between 60 and 150",
+      "section.pillars": "Four Pillars",
+      "section.wuxing": "Five Elements balance",
+      "section.pattern": "Chart structure",
+      "section.dayun": "Major Fortune",
+      "bazi.wuxingNote": "Each heavenly stem scores 1. Hidden stems: month branch \xD73, day branch \xD71.5, others \xD71, then \xD71 / 0.5 / 0.3 for primary / secondary / residual qi.",
+      "bazi.qiyun": "Fortune begins after",
+      "bazi.forward": "forward",
+      "bazi.backward": "backward",
+      "bazi.yearsOld": "yrs",
+      "qform.date": "Event date",
+      "qform.time": "Event time",
+      "qform.go": "Cast chart",
+      "qimen.grid": "Nine Palaces chart",
+      "qimen.gridNote": "The palace holding the hour stem has a gold border (the person asking). \u201CVoid\u201D marks an empty xun; \u201CHorse\u201D marks the travelling horse. Tap any palace for a plain-language note. Rotating Qi Men (hour-based), determined by the\u62C6\u8865 (split-supplement) method.",
+      "qimen.fuyin": "Fu Yin chart",
+      "qimen.fuyinNote": "Stars and doors return to their home palaces \u2014 hold, do not push.",
+      "qimen.fanyin": "Fan Yin chart",
+      "qimen.fanyinNote": "Stars and doors sit opposite their home palaces \u2014 quick but repetitive.",
+      "drawer.close": "Close",
+      "drawer.tapNote": "Tap for notes",
+      "drawer.starEmpty": "This palace is empty for now",
+      "drawer.borrow": "This palace is empty \u2014 read it together with the opposite",
+      "drawer.noHua": "No Four Transformations land in this chart this year.",
+      "drawer.opp": "Opposite",
+      "drawer.sec1": "What this palace says",
+      "drawer.sec2": "Where the Four Transformations go",
+      "drawer.sec3": "Three Directions & Four Palaces",
+      "drawer.sec4": "What this palace covers",
+      "drawer.noText": "There is no reading written for this palace yet \u2014 look at another one.",
+      "ss.kind": "Star",
+      "ss.sec": "See what it says by dimension",
+      "ss.cite": "Based on this site\u2019s text library, rewritten in plain language \u2014 not a fixed fate verdict.",
+      "daily.tag": "Daily line",
+      "daily.src": "Ten God \xB7 favorable / unfavorable",
+      "qcell.kong": "Void",
+      "qcell.ma": "Horse",
+      "qcell.kongNote": "Void palace: matters hang in the air and plans may change.",
+      "qcell.maNote": "Travelling horse: action, travel, news.",
+      "qgrid.aria": "Qi Men Nine Palaces chart",
+      "qgrid.year": "Y",
+      "qgrid.month": "M",
+      "qgrid.day": "D",
+      "qgrid.hour": "H",
+      "qgrid.zhifu": "Value Officer",
+      "qgrid.zhishi": "Value Envoy",
+      "qgrid.land": "in",
+      "bcard.dayMaster": "Day Master",
+      "bcard.strength": "Strength",
+      "bcard.pattern": "Structure",
+      "bcard.xi": "Favorable",
+      "bcard.ji": "Unfavorable",
+      "bcard.help": "support",
+      "source.label": "Show Chinese source text",
+      "source.body": "Chinese source text"
+    }
+  };
+  var TERMS = {
+    // 三式与总称
+    "\u7D2B\u5FAE\u6597\u6570": "Zi Wei Dou Shu",
+    "\u516B\u5B57": "Ba Zi",
+    "\u5947\u95E8\u9041\u7532": "Qi Men Dun Jia",
+    "\u661F\u57A3": "ArrangeStars",
+    "\u7D2B\u5FAE": "Ziwei",
+    "\u5929\u5E9C": "Tianfu",
+    "\u547D\u76D8": "chart",
+    "\u76D8": "chart",
+    // 十二宫
+    "\u547D\u5BAB": "Life Palace",
+    "\u5144\u5F1F": "Siblings",
+    "\u592B\u59BB": "Spouse",
+    "\u5B50\u5973": "Children",
+    "\u8D22\u5E1B": "Wealth",
+    "\u75BE\u5384": "Health",
+    "\u8FC1\u79FB": "Travel",
+    "\u4EA4\u53CB": "Friends",
+    "\u5B98\u7984": "Career",
+    "\u7530\u5B85": "Property",
+    "\u798F\u5FB7": "Blessings",
+    "\u7236\u6BCD": "Parents",
+    "\u8EAB\u5BAB": "Body Palace",
+    "\u7A7A\u5BAB": "Empty palace",
+    // 层数与四化
+    "\u672C\u547D": "Natal",
+    "\u5927\u9650": "Major Limit",
+    "\u6D41\u5E74": "Annual",
+    "\u6D41\u6708": "Monthly",
+    "\u6D41\u65E5": "Daily",
+    "\u7984": "Prosperity",
+    "\u6743": "Authority",
+    "\u79D1": "Fame",
+    "\u5FCC": "Affliction",
+    "\u56DB\u5316": "Four Transformations",
+    "\u5316\u7984": "Prosperity",
+    "\u5316\u6743": "Authority",
+    "\u5316\u79D1": "Fame",
+    "\u5316\u5FCC": "Affliction",
+    // 十四主星
+    "\u5929\u673A": "Tianji",
+    "\u592A\u9633": "Sun",
+    "\u6B66\u66F2": "Wuqu",
+    "\u5929\u540C": "Tiantong",
+    "\u5EC9\u8D1E": "Lianzhen",
+    "\u592A\u9634": "Moon",
+    "\u8D2A\u72FC": "Tanlang",
+    "\u5DE8\u95E8": "Jumen",
+    "\u5929\u76F8": "Tianxiang",
+    "\u5929\u6881": "Tianliang",
+    "\u7834\u519B": "Pojun",
+    // 辅佐杂曜
+    "\u6587\u660C": "Wenchang",
+    "\u6587\u66F2": "Wenqu",
+    "\u5DE6\u8F85": "Zuofu",
+    "\u53F3\u5F3C": "Youbi",
+    "\u5929\u9B41": "Tiankui",
+    "\u5929\u94BA": "Tianyue",
+    "\u7984\u5B58": "Lucun",
+    "\u706B\u661F": "Mars",
+    "\u94C3\u661F": "Rahu",
+    "\u64CE\u7F8A": "Qingyang",
+    "\u9640\u7F57": "Tuoluo",
+    "\u5929\u9A6C": "Sky Horse",
+    "\u89E3\u795E": "Relief",
+    // 辅星杂曜
+    "\u5730\u52AB": "Earth Robbery",
+    "\u5730\u7A7A": "Earth Void",
+    "\u5929\u5211": "Heavenly Punishment",
+    "\u5929\u54ED": "Heavenly Wail",
+    "\u5929\u865A": "Heavenly Emptiness",
+    "\u5929\u8D35": "Heavenly Nobility",
+    "\u5929\u5BFF": "Heavenly Longevity",
+    "\u54B8\u6C60": "Salt Pool",
+    "\u4E09\u53F0": "Three Terraces",
+    "\u5C01\u8BF0": "Imperial Edict",
+    "\u5929\u559C": "Heavenly Joy",
+    "\u5929\u59DA": "Heavenly Seduction",
+    "\u5BE1\u5BBF": "Solitary Star",
+    "\u51E4\u9601": "Phoenix Pavilion",
+    "\u6069\u5149": "Grace Light",
+    "\u7834\u788E": "Fragmentation",
+    "\u5929\u798F": "Heavenly Fortune",
+    "\u53F0\u8F85": "Minister Assistant",
+    "\u5929\u7A7A": "Sky Void",
+    "\u5B64\u8FB0": "Solitary Hour",
+    "\u9634\u715E": "Yin Sha",
+    "\u7EA2\u9E3E": "Red Phoenix",
+    "\u9F99\u6C60": "Dragon Pond",
+    "\u5929\u624D": "Heavenly Talent",
+    "\u516B\u5EA7": "Eight Seats",
+    "\u5929\u5B98": "Heavenly Official",
+    "\u5929\u5DEB": "Heavenly Shaman",
+    "\u6708\u9A6C": "Monthly Horse",
+    "\u5E74\u9A6C": "Yearly Horse",
+    "\u9F99\u5FB7": "Dragon Virtue",
+    "\u5929\u5FB7": "Heavenly Virtue",
+    "\u5C81\u7834": "Year Breaker",
+    // 亮度
+    "\u5E99": "Exalted",
+    "\u65FA": "Strong",
+    "\u5E73": "Even",
+    "\u9677": "Weak",
+    "\u5F97\u5730": "Favorable",
+    "\u5229\u76CA": "Beneficial",
+    "\u548C\u5E73": "Neutral",
+    "\u4E0D\u5F97\u5730": "Unfavorable",
+    "\u5229": "Favorable",
+    // 长生十二神
+    "\u957F\u751F": "Birth",
+    "\u6C90\u6D74": "Bath",
+    "\u51A0\u5E26": "Cap",
+    "\u4E34\u5B98": "Official",
+    "\u5E1D\u65FA": "Peak",
+    "\u8870": "Decline",
+    "\u75C5": "Sickness",
+    "\u6B7B": "Death",
+    "\u5893": "Grave",
+    "\u7EDD": "Extinction",
+    "\u80CE": "Fetus",
+    "\u517B": "Nurture",
+    // 博士十二神
+    "\u535A\u58EB": "Scholar",
+    "\u529B\u58EB": "Strongman",
+    "\u9752\u9F99": "Azure Dragon",
+    "\u5C0F\u8017": "Small Loss",
+    "\u5C06\u519B": "General",
+    "\u594F\u4E66": "Recorder",
+    "\u871A\u5EC9": "Slanderer",
+    "\u559C\u795E": "Joy",
+    "\u75C5\u7B26": "Sickness Talisman",
+    "\u5927\u8017": "Great Loss",
+    "\u4F0F\u5175": "Ambush",
+    "\u5B98\u5E9C": "Officialdom",
+    // 五行局
+    "\u6C34\u4E8C\u5C40": "Water Two",
+    "\u6728\u4E09\u5C40": "Wood Three",
+    "\u91D1\u56DB\u5C40": "Metal Four",
+    "\u571F\u4E94\u5C40": "Earth Five",
+    "\u706B\u516D\u5C40": "Fire Six",
+    // 天干
+    "\u7532": "Jia",
+    "\u4E59": "Yi",
+    "\u4E19": "Bing",
+    "\u4E01": "Ding",
+    "\u620A": "Wu",
+    "\u5DF1": "Ji",
+    "\u5E9A": "Geng",
+    "\u8F9B": "Xin",
+    "\u58EC": "Ren",
+    "\u7678": "Gui",
+    // 地支
+    "\u5B50": "Zi",
+    "\u4E11": "Chou",
+    "\u5BC5": "Yin",
+    "\u536F": "Mao",
+    "\u8FB0": "Chen",
+    "\u5DF3": "Si",
+    "\u5348": "Wu",
+    "\u672A": "Wei",
+    "\u7533": "Shen",
+    "\u9149": "You",
+    "\u620C": "Xu",
+    "\u4EA5": "Hai",
+    // 五行与阴阳
+    "\u6728": "Wood",
+    "\u706B": "Fire",
+    "\u571F": "Earth",
+    "\u91D1": "Metal",
+    "\u6C34": "Water",
+    "\u9633": "Yang",
+    "\u9634": "Yin",
+    "\u4E94\u884C": "Five Elements",
+    "\u5973": "Female",
+    "\u7537": "Male",
+    // 十神
+    "\u6BD4\u80A9": "Friend",
+    "\u52AB\u8D22": "Rob Wealth",
+    "\u98DF\u795E": "Eating God",
+    "\u4F24\u5B98": "Hurting Officer",
+    "\u504F\u8D22": "Indirect Wealth",
+    "\u6B63\u8D22": "Direct Wealth",
+    "\u4E03\u6740": "Seven Killings",
+    "\u6B63\u5B98": "Direct Officer",
+    "\u504F\u5370": "Indirect Resource",
+    "\u6B63\u5370": "Direct Resource",
+    "\u6BD4\u52AB": "Friend / Rob Wealth",
+    "\u98DF\u4F24": "Output",
+    "\u8D22": "Wealth",
+    "\u5B98\u6740": "Officer / Killings",
+    "\u5370": "Resource",
+    // 八字结构
+    "\u65E5\u4E3B": "Day Master",
+    "\u56DB\u67F1": "Four Pillars",
+    "\u5E74\u67F1": "Year Pillar",
+    "\u6708\u67F1": "Month Pillar",
+    "\u65E5\u67F1": "Day Pillar",
+    "\u65F6\u67F1": "Hour Pillar",
+    "\u5341\u795E": "Ten Gods",
+    "\u85CF\u5E72": "Hidden stems",
+    "\u7EB3\u97F3": "Na Yin",
+    "\u5927\u8FD0": "Major Fortune",
+    "\u8D77\u8FD0": "Fortune begins",
+    "\u65FA\u8870": "Strength",
+    "\u683C\u5C40": "Structure",
+    "\u559C": "Favorable",
+    "\u8EAB\u65FA": "Strong Day Master",
+    "\u8EAB\u5F31": "Weak Day Master",
+    "\u504F\u65FA": "Slightly strong",
+    "\u504F\u5F31": "Slightly weak",
+    "\u4E2D\u548C": "Balanced",
+    "\u592A\u65FA": "Very strong",
+    "\u592A\u5F31": "Very weak",
+    "\u4ECE\u65FA": "Follow-the-strong",
+    "\u4ECE\u5F31": "Follow-the-weak",
+    "\u4ECE\u683C": "Follow pattern",
+    "\u6B63\u683C": "Regular pattern",
+    "\u8C03\u5019": "Climate regulation",
+    "\u901A\u5173": "Mediation",
+    "\u6708\u4EE4": "Month command",
+    "\u672C\u6C14": "Primary qi",
+    "\u4E2D\u6C14": "Secondary qi",
+    "\u4F59\u6C14": "Residual qi",
+    "\u5E2E\u8EAB": "support the Day Master",
+    "\u8017\u8EAB": "drain the Day Master",
+    "\u987A\u884C": "forward",
+    "\u9006\u884C": "backward",
+    "\u5929\u5E72": "Heavenly stem",
+    "\u5730\u652F": "Earthly branch",
+    // 六十甲子纳音
+    "\u6D77\u4E2D\u91D1": "Gold in the Sea",
+    "\u7089\u4E2D\u706B": "Fire in the Furnace",
+    "\u5927\u6797\u6728": "Great Forest Wood",
+    "\u8DEF\u65C1\u571F": "Roadside Earth",
+    "\u5251\u950B\u91D1": "Blade Gold",
+    "\u5C71\u5934\u706B": "Mountaintop Fire",
+    "\u6DA7\u4E0B\u6C34": "Mountain Stream Water",
+    "\u57CE\u5934\u571F": "City Wall Earth",
+    "\u767D\u8721\u91D1": "White Wax Gold",
+    "\u6768\u67F3\u6728": "Willow Wood",
+    "\u6CC9\u4E2D\u6C34": "Spring Water",
+    "\u5C4B\u4E0A\u571F": "Rooftop Earth",
+    "\u9739\u96F3\u706B": "Thunderbolt Fire",
+    "\u677E\u67CF\u6728": "Pine and Cypress Wood",
+    "\u957F\u6D41\u6C34": "Flowing Water",
+    "\u6C99\u4E2D\u91D1": "Gold in Sand",
+    "\u5C71\u4E0B\u706B": "Foot-of-Mountain Fire",
+    "\u5E73\u5730\u6728": "Level Ground Wood",
+    "\u58C1\u4E0A\u571F": "Wall Earth",
+    "\u91D1\u7B94\u91D1": "Gold Leaf",
+    "\u8986\u706F\u706B": "Lamp Fire",
+    "\u5929\u6CB3\u6C34": "Milky Way Water",
+    "\u5927\u9A7F\u571F": "Great Highway Earth",
+    "\u9497\u948F\u91D1": "Jewellery Gold",
+    "\u6851\u67D8\u6728": "Mulberry Wood",
+    "\u5927\u6EAA\u6C34": "Great Stream Water",
+    "\u6C99\u4E2D\u571F": "Sand Earth",
+    "\u5929\u4E0A\u706B": "Heavenly Fire",
+    "\u77F3\u69B4\u6728": "Pomegranate Wood",
+    "\u5927\u6D77\u6C34": "Great Sea Water",
+    // 神煞
+    "\u795E\u715E": "Shen Sha",
+    "\u5929\u4E59\u8D35\u4EBA": "Tian Yi Noble",
+    "\u6587\u660C\u8D35\u4EBA": "Wenchang Noble",
+    "\u9A7F\u9A6C": "Travelling Horse",
+    "\u6843\u82B1": "Peach Blossom",
+    "\u534E\u76D6": "Canopy",
+    "\u5C06\u661F": "General Star",
+    "\u52AB\u715E": "Robbery Star",
+    "\u4EA1\u795E": "Death Spirit",
+    // 奇门九宫
+    "\u574E\u4E00\u5BAB": "Kan 1",
+    "\u5764\u4E8C\u5BAB": "Kun 2",
+    "\u9707\u4E09\u5BAB": "Zhen 3",
+    "\u5DFD\u56DB\u5BAB": "Xun 4",
+    "\u4E2D\u4E94\u5BAB": "Central 5",
+    "\u4E7E\u516D\u5BAB": "Qian 6",
+    "\u5151\u4E03\u5BAB": "Dui 7",
+    "\u826E\u516B\u5BAB": "Gen 8",
+    "\u79BB\u4E5D\u5BAB": "Li 9",
+    "\u6B63\u5317": "North",
+    "\u4E1C\u5317": "Northeast",
+    "\u6B63\u4E1C": "East",
+    "\u4E1C\u5357": "Southeast",
+    "\u6B63\u5357": "South",
+    "\u897F\u5357": "Southwest",
+    "\u6B63\u897F": "West",
+    "\u897F\u5317": "Northwest",
+    "\u4E2D": "Center",
+    "\u574E": "Kan",
+    "\u5764": "Kun",
+    "\u9707": "Zhen",
+    "\u5DFD": "Xun",
+    "\u4E7E": "Qian",
+    "\u5151": "Dui",
+    "\u826E": "Gen",
+    "\u79BB": "Li",
+    // 九星
+    "\u5929\u84EC": "Tianpeng",
+    "\u5929\u82AE": "Tianrui",
+    "\u5929\u51B2": "Tianchong",
+    "\u5929\u8F85": "Tianfu",
+    "\u5929\u79BD": "Tianqin",
+    "\u5929\u5FC3": "Tianxin",
+    "\u5929\u67F1": "Tianzhu",
+    "\u5929\u4EFB": "Tianren",
+    "\u5929\u82F1": "Tianying",
+    "\u5929\u82AE\u79BD": "Tianrui-Qin",
+    // 八门
+    "\u4F11\u95E8": "Rest Door",
+    "\u751F\u95E8": "Life Door",
+    "\u4F24\u95E8": "Injury Door",
+    "\u675C\u95E8": "Blockage Door",
+    "\u666F\u95E8": "Vision Door",
+    "\u6B7B\u95E8": "Death Door",
+    "\u60CA\u95E8": "Shock Door",
+    "\u5F00\u95E8": "Open Door",
+    // 八神
+    "\u503C\u7B26": "Value Officer",
+    "\u817E\u86C7": "Flying Serpent",
+    "\u516D\u5408": "Six Harmonies",
+    "\u767D\u864E": "White Tiger",
+    "\u7384\u6B66": "Black Tortoise",
+    "\u4E5D\u5730": "Nine Earth",
+    "\u4E5D\u5929": "Nine Heaven",
+    // 奇门判断
+    "\u56DB\u5409\u65B9\u4F4D": "Four auspicious directions",
+    "\u5409\u65B9": "Auspicious direction",
+    "\u7F13\u884C": "Proceed slowly",
+    "\u514B\u5E94": "Ke Ying (categorical response)",
+    "\u65F6\u5E72": "hour stem",
+    "\u65E5\u5E72": "day stem",
+    "\u65EC\u9996": "xun head",
+    "\u4F0F\u541F": "Fu Yin",
+    "\u53CD\u541F": "Fan Yin",
+    "\u7A7A\u4EA1": "Void",
+    "\u843D\u7A7A": "Void",
+    "\u5409": "Auspicious",
+    "\u51F6": "Inauspicious",
+    "\u5927\u5409": "Highly auspicious",
+    "\u5927\u51F6": "Highly inauspicious",
+    "\u6BD4\u548C": "Harmonious",
+    "\u95E8\u751F": "Door generates palace",
+    "\u5BAB\u751F\u95E8": "Palace generates door",
+    "\u95E8\u8FEB": "Door constrained",
+    "\u95E8\u5236": "Door controlled",
+    "\u4E94\u4E0D\u9047\u65F6": "Five Non-Meetings hour",
+    "\u516D\u4EEA\u51FB\u5211": "Six Yi punishment",
+    "\u4E5D\u9041": "Nine Dun",
+    "\u4E09\u8BC8": "Three Deceptions",
+    "\u4E94\u5047": "Five Guises",
+    "\u4E0A\u5143": "Upper Yuan",
+    "\u4E2D\u5143": "Middle Yuan",
+    "\u4E0B\u5143": "Lower Yuan",
+    "\u62C6\u8865\u6CD5": "split-supplement method",
+    "\u7F6E\u95F0\u6CD5": "intercalary method",
+    "\u9633\u9041": "Yang Dun",
+    "\u9634\u9041": "Yin Dun",
+    // 二十四节气
+    "\u51AC\u81F3": "Winter Solstice",
+    "\u5C0F\u5BD2": "Lesser Cold",
+    "\u5927\u5BD2": "Greater Cold",
+    "\u7ACB\u6625": "Start of Spring",
+    "\u96E8\u6C34": "Rain Water",
+    "\u60CA\u86F0": "Awakening of Insects",
+    "\u6625\u5206": "Spring Equinox",
+    "\u6E05\u660E": "Pure Brightness",
+    "\u8C37\u96E8": "Grain Rain",
+    "\u7ACB\u590F": "Start of Summer",
+    "\u5C0F\u6EE1": "Grain Budding",
+    "\u8292\u79CD": "Grain in Ear",
+    "\u590F\u81F3": "Summer Solstice",
+    "\u5C0F\u6691": "Lesser Heat",
+    "\u5927\u6691": "Greater Heat",
+    "\u7ACB\u79CB": "Start of Autumn",
+    "\u5904\u6691": "End of Heat",
+    "\u767D\u9732": "White Dew",
+    "\u79CB\u5206": "Autumn Equinox",
+    "\u5BD2\u9732": "Cold Dew",
+    "\u971C\u964D": "Frost Descent",
+    "\u7ACB\u51AC": "Start of Winter",
+    "\u5C0F\u96EA": "Lesser Snow",
+    "\u5927\u96EA": "Greater Snow"
+  };
+
   // js/reading.ts
   var L = window.__LIB__ || {};
   var MAJOR2 = /* @__PURE__ */ new Set(["\u7D2B\u5FAE", "\u5929\u673A", "\u592A\u9633", "\u6B66\u66F2", "\u5929\u540C", "\u5EC9\u8D1E", "\u5929\u5E9C", "\u592A\u9634", "\u8D2A\u72FC", "\u5DE8\u95E8", "\u5929\u76F8", "\u5929\u6881", "\u4E03\u6740", "\u7834\u519B"]);
   var HUA_CLASS = { "\u7984": "lu", "\u6743": "quan", "\u79D1": "ke", "\u5FCC": "ji" };
   var HUA_TAG = ["\u7984", "\u6743", "\u79D1", "\u5FCC"];
+  var isEn = () => getLang() === "en";
+  var qterm = (s) => String(s) === "\u592A\u9634" ? "Great Yin" : term(s);
   function esc(v) {
     return String(v ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
-  function inline(t) {
-    let s = esc(t);
+  function inline(t2) {
+    let s = esc(t2);
     s = s.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
     s = s.replace(/`(.+?)`/g, "<code>$1</code>");
     return s;
@@ -13649,7 +14364,7 @@
     const aux = notes("career_aux") || {};
     const charts = notes("pan144").charts || {};
     const templates = /* @__PURE__ */ new Map();
-    for (const t of tpl) templates.set(t.star + "|" + t.dimension, t);
+    for (const t2 of tpl) templates.set(t2.star + "|" + t2.dimension, t2);
     const pairMap = /* @__PURE__ */ new Map();
     for (const p of pairs) pairMap.set([...p.stars].sort().join("|"), p.text);
     return {
@@ -13678,10 +14393,32 @@
     "\u798F\u5FB7": "\u5FC3\u91CC\u8FC7\u5F97\u8212\u4E0D\u8212\u670D\u3001\u80FD\u4E0D\u80FD\u677E\u4E0B\u6765\uFF0C\u8FD9\u4E00\u683C\u6700\u61C2\u3002",
     "\u7236\u6BCD": "\u957F\u8F88\u3001\u4E0A\u7EA7\uFF0C\u8FD8\u6709\u4E00\u8DEF\u88AB\u7167\u62C2\u7740\u957F\u5927\u7684\u90A3\u4E9B\u4E8B\u3002"
   };
+  var PALACE_GIST_EN = {
+    "\u547D\u5BAB": "The chart starts with you: temperament, your way of doing things, and the overall tone of the chart.",
+    "\u5144\u5F1F": "Siblings, peers, and the people you work side by side with.",
+    "\u592B\u59BB": "Partners and close relationships \u2014 also how you show that you care.",
+    "\u5B50\u5973": "Children, younger people, and the work and ideas you bring into the world.",
+    "\u8D22\u5E1B": "How you relate to money: how it comes, how it goes, and what it means to you \u2014 not a bank balance.",
+    "\u75BE\u5384": "Gentle reminders about the body and daily rhythms: where you tire easily, where to slow down.",
+    "\u8FC1\u79FB": "How you are away from home or in a new setting \u2014 the palace opposite the Life Palace.",
+    "\u4EA4\u53CB": "Friends, partners, and the people who stand with you.",
+    "\u5B98\u7984": "Work, roles, and what you want to build; read it together with Life and Wealth.",
+    "\u7530\u5B85": "Home, where you live, and the foundations that make you feel secure.",
+    "\u798F\u5FB7": "How at ease you feel inside, and whether you can truly switch off.",
+    "\u7236\u6BCD": "Elders, supervisors, and the care you received while growing up."
+  };
+  var DIM_EN = {
+    "\u6027\u683C": "personality",
+    "\u4E8B\u4E1A": "career",
+    "\u8D22\u8FD0": "wealth",
+    "\u5065\u5EB7": "health",
+    "\u611F\u60C5": "relationships"
+  };
   function drawerHtml(r, branch) {
-    const name = PALACES[mod4(r.life - branch, 12)];
+    const zhName = PALACES[mod4(r.life - branch, 12)];
+    const name = term(zhName);
     const opp = mod4(branch + 6, 12);
-    const oppName = PALACES[mod4(r.life - opp, 12)];
+    const oppName = term(PALACES[mod4(r.life - opp, 12)]);
     const stars = r.stars[branch] || [];
     const bright = (r.brightness || {})[branch] || {};
     const hua = {};
@@ -13690,11 +14427,11 @@
     const notesLib = notes("star_notes").notes || {};
     const chips = stars.map((s) => {
       const cls = MAJOR2.has(s) ? "chip-major" : "chip-minor";
-      const lv = bright[s] ? `<i class="lvl">${esc(bright[s])}</i>` : "";
-      const h = hua[s] ? `<sup class="hua ${HUA_CLASS[hua[s]]}">${hua[s]}</sup>` : "";
-      return `<span class="chip ${cls}" data-star="${esc(s)}" title="\u70B9\u4E00\u4E0B\u770B\u6CE8\u89E3">${esc(s)}${h}${lv}</span>`;
-    }).join("") || '<span class="empty">\u8FD9\u4E00\u683C\u6682\u65F6\u7A7A\u7740</span>';
-    const majorLine = major.length ? major.map((s) => s + (bright[s] ? `<i class="lvl">${esc(bright[s])}</i>` : "")).join(" \xB7 ") : `\u8FD9\u4E00\u683C\u7A7A\u7740\uFF0C\u501F\u5BF9\u9762\u7684 ${BRANCHES[opp]} \u4E00\u8D77\u770B`;
+      const lv = bright[s] ? `<i class="lvl">${esc(term(bright[s]))}</i>` : "";
+      const h = hua[s] ? `<sup class="hua ${HUA_CLASS[hua[s]]}">${esc(term(hua[s]))}</sup>` : "";
+      return `<span class="chip ${cls}" data-star="${esc(s)}" title="${t("drawer.tapNote")}">${esc(term(s))}${h}${lv}</span>`;
+    }).join("") || `<span class="empty">${t("drawer.starEmpty")}</span>`;
+    const majorLine = major.length ? major.map((s) => term(s) + (bright[s] ? `<i class="lvl">${esc(term(bright[s]))}</i>` : "")).join(" \xB7 ") : `${t("drawer.borrow")} ${esc(term(BRANCHES[opp]))}`;
     const tag2 = {};
     for (const [st, v] of Object.entries(r.hua || {})) {
       for (let b = 0; b < 12; b++) if ((r.stars[b] || []).includes(st)) {
@@ -13702,37 +14439,49 @@
         break;
       }
     }
-    const huaBody = HUA_TAG.filter((t) => tag2[t]).map((t) => {
-      const [st, b] = tag2[t];
-      const pn = PALACES[mod4(r.life - b, 12)];
-      return `<div class="dw-hua"><a class="dw-goto hua ${HUA_CLASS[t]}" data-goto="${b}">${t}</a><a class="dw-goto" data-goto="${b}">${esc(st)} \u843D\u5728 ${pn}\uFF08${BRANCHES[b]}\uFF09</a></div>`;
-    }).join("") || '<p class="dw-mute">\u4ECA\u5E74\u8FD9\u5F20\u76D8\u91CC\uFF0C\u6682\u65F6\u6CA1\u6709\u56DB\u5316\u843D\u8FDB\u6765\u3002</p>';
-    const tri = [mod4(branch + 4, 12), mod4(branch + 8, 12), opp].map((b) => `<a class="dw-goto" data-goto="${b}">${PALACES[mod4(r.life - b, 12)]}\uFF08${BRANCHES[b]}\uFF09</a>`).join("");
+    const huaBody = HUA_TAG.filter((tg) => tag2[tg]).map((tg) => {
+      const [st, b] = tag2[tg];
+      const pn = term(PALACES[mod4(r.life - b, 12)]);
+      return `<div class="dw-hua"><a class="dw-goto hua ${HUA_CLASS[tg]}" data-goto="${b}">${esc(term(tg))}</a><a class="dw-goto" data-goto="${b}">${esc(term(st))} ${isEn() ? "in" : "\u843D\u5728"} ${esc(pn)}\uFF08${esc(term(BRANCHES[b]))}\uFF09</a></div>`;
+    }).join("") || `<p class="dw-mute">${t("drawer.noHua")}</p>`;
+    const tri = [mod4(branch + 4, 12), mod4(branch + 8, 12), opp].map((b) => `<a class="dw-goto" data-goto="${b}">${term(PALACES[mod4(r.life - b, 12)])}\uFF08${term(BRANCHES[b])}\uFF09</a>`).join("");
     const lib = ziweiLibrary();
-    const dim = { "\u547D\u5BAB": "\u6027\u683C", "\u8EAB\u5BAB": "\u6027\u683C", "\u5B98\u7984": "\u4E8B\u4E1A", "\u8D22\u5E1B": "\u8D22\u8FD0", "\u75BE\u5384": "\u5065\u5EB7", "\u592B\u59BB": "\u611F\u60C5" }[name] || "\u6027\u683C";
+    const dim = { "\u547D\u5BAB": "\u6027\u683C", "\u8EAB\u5BAB": "\u6027\u683C", "\u5B98\u7984": "\u4E8B\u4E1A", "\u8D22\u5E1B": "\u8D22\u8FD0", "\u75BE\u5384": "\u5065\u5EB7", "\u592B\u59BB": "\u611F\u60C5" }[zhName] || "\u6027\u683C";
     const seen = /* @__PURE__ */ new Set();
     const paras = [];
+    const used = [];
     for (const st of major) {
-      const t = lib.templates.get(st + "|" + dim);
-      if (t && !seen.has(t.text)) {
-        seen.add(t.text);
-        paras.push(`**${st}**\uFF1A${t.text}`);
+      const tp = lib.templates.get(st + "|" + dim);
+      if (tp && !seen.has(tp.text)) {
+        seen.add(tp.text);
+        paras.push(`**${st}**\uFF1A${tp.text}`);
+        used.push(st);
       }
       if (notesLib[st] && !seen.has(notesLib[st])) {
         seen.add(notesLib[st]);
         paras.push(`**${st}\uFF1A**${notesLib[st]}`);
+        used.push(st);
       }
     }
-    const body = paras.length ? mdBlock(paras.join("\n\n")) : "<p>\u8FD9\u4E00\u683C\u6682\u65F6\u8FD8\u6CA1\u6709\u53EF\u5199\u4E0B\u7684\u89E3\u8BFB\uFF0C\u5148\u770B\u770B\u522B\u7684\u5427\u3002</p>";
+    let body;
+    if (!paras.length) body = `<p>${t("drawer.noText")}</p>`;
+    else {
+      const zh = mdBlock(paras.join("\n\n"));
+      if (isEn()) {
+        const lead = `Plain-language notes from the site's text library for ${[...new Set(used)].map(termBoth).join(", ")} \xB7 ${DIM_EN[dim] || dim}. The original Chinese wording is kept below.`;
+        body = `<p class="en-lead">${esc(lead)}</p>${sourceBlock(zh)}`;
+      } else body = zh;
+    }
+    const gist = isEn() ? PALACE_GIST_EN[zhName] || "" : PALACE_GIST[zhName] || "";
     return `<section class="dw" data-branch="${branch}">
-    <div class="dw-head"><div class="dw-name">${name}<span class="dw-br">${BRANCHES[branch]}</span></div>
-    <button class="dw-x" data-close="1" title="\u5173\u95ED" aria-label="\u5173\u95ED\u89E3\u8BFB">\xD7</button></div>
+    <div class="dw-head"><div class="dw-name">${name}<span class="dw-br">${term(BRANCHES[branch])}</span></div>
+    <button class="dw-x" data-close="1" title="${t("drawer.close")}" aria-label="${t("drawer.close")}">\xD7</button></div>
     <div class="dw-major">${majorLine}</div><div class="dw-stars">${chips}</div>
-    <a class="dw-opp" data-goto="${opp}">\u5BF9\u9762 \xB7 ${oppName}\uFF08${BRANCHES[opp]}\uFF09\u2192</a>
-    <details class="dw-sec" open><summary>\u8FD9\u4E00\u683C\u5728\u8BF4\u4EC0\u4E48</summary>${body}</details>
-    <details class="dw-sec"><summary>\u56DB\u5316\u53BB\u4E86\u54EA</summary>${huaBody}</details>
-    <details class="dw-sec"><summary>\u4E09\u65B9\u56DB\u6B63</summary><div class="dw-tris">${tri}</div></details>
-    <details class="dw-sec"><summary>\u8FD9\u4E00\u683C\u7BA1\u4EC0\u4E48</summary><p class="dw-gist">${esc(PALACE_GIST[name] || "")}</p></details>
+    <a class="dw-opp" data-goto="${opp}">${t("drawer.opp")} \xB7 ${oppName}\uFF08${term(BRANCHES[opp])}\uFF09\u2192</a>
+    <details class="dw-sec" open><summary>${t("drawer.sec1")}</summary>${body}</details>
+    <details class="dw-sec"><summary>${t("drawer.sec2")}</summary>${huaBody}</details>
+    <details class="dw-sec"><summary>${t("drawer.sec3")}</summary><div class="dw-tris">${tri}</div></details>
+    <details class="dw-sec"><summary>${t("drawer.sec4")}</summary><p class="dw-gist">${esc(gist)}</p></details>
   </section>`;
   }
   function starSheetHtml(star) {
@@ -13741,12 +14490,13 @@
     const kind = meta.type || meta.kind || "\u661F\u66DC";
     const note = (d.notes || {})[star] || "";
     const tpl = notes("templates_v03").templates || [];
-    const bits = tpl.filter((t) => t.star === star).slice(0, 5).map((t) => `<span class="ss-hit" data-dim="${esc(t.dimension)}">${esc(t.dimension)}<span>\u2192</span></span>`).join("");
-    return `<div class="ss" data-star="${esc(star)}"><div class="ss-head"><div class="ss-name">${esc(star)}<span class="ss-kind">${esc(kind)}</span></div>
-    <button class="dw-x" data-close-star="1" aria-label="\u5173\u95ED">\xD7</button></div>
-    <p class="ss-note">${esc(note)}</p>
-    ${bits ? `<div class="ss-sec"><b>\u770B\u770B\u5B83\u5728\u5404\u7EF4\u5EA6\u7684\u8BF4\u6CD5</b>${bits}</div>` : ""}
-    <p class="ss-cite">\u4EE5\u4E0A\u4F9D\u636E\u672C\u7AD9\u6587\u6848\u5E93\uFF0C\u662F\u767D\u8BDD\u6539\u5199\uFF0C\u4E0D\u662F\u5BBF\u547D\u65AD\u8BED\u3002</p></div>`;
+    const bits = tpl.filter((t2) => t2.star === star).slice(0, 5).map((t2) => `<span class="ss-hit" data-dim="${esc(t2.dimension)}">${esc(term(t2.dimension))}<span>\u2192</span></span>`).join("");
+    const body = isEn() ? `<p class="en-lead">${esc(`${termBoth(star)} \u2014 ${term(kind)}. The original Chinese star note is kept below.`)}</p>${sourceBlock(esc(note))}` : esc(note);
+    return `<div class="ss" data-star="${esc(star)}"><div class="ss-head"><div class="ss-name">${esc(term(star))}<span class="ss-kind">${esc(term(kind))}</span></div>
+    <button class="dw-x" data-close-star="1" aria-label="${t("drawer.close")}">\xD7</button></div>
+    <p class="ss-note">${body}</p>
+    ${bits ? `<div class="ss-sec"><b>${t("ss.sec")}</b>${bits}</div>` : ""}
+    <p class="ss-cite">${t("ss.cite")}</p></div>`;
   }
   var GOD_GROUP = {
     "\u6BD4\u80A9": "\u6BD4\u52AB",
@@ -13799,67 +14549,112 @@
   function baziPillarsHtml(r) {
     const p = r.pillars;
     let h = '<table class="bazi"><thead><tr><th class="lab">\u3000</th>';
-    for (const col of p) h += `<th>${esc(col.name)}\u67F1</th>`;
+    for (const col of p) h += `<th>${esc(term(col.name))} ${isEn() ? "Pillar" : "\u67F1"}</th>`;
     h += "</tr></thead><tbody>";
     const row = (lab, cls, fn) => `<tr class="${cls}"><td class="lab">${lab}</td>` + p.map(fn).join("") + "</tr>";
-    h += row("\u5341\u795E", "tg", (x) => `<td class="${x.name === "\u65E5" ? "dm" : ""}">${esc(x.shi_shen)}</td>`);
-    h += row("\u5929\u5E72", "gz", (x) => `<td><span class="big" style="color:${WX_COLOR[x.gan_wx]}">${esc(x.gan)}</span><i class="wx">${esc(x.gan_wx)}</i></td>`);
-    h += row("\u5730\u652F", "gz", (x) => `<td><span class="big" style="color:${WX_COLOR[x.zhi_wx]}">${esc(x.zhi)}</span><i class="wx">${esc(x.zhi_wx)}</i></td>`);
-    h += row("\u85CF\u5E72", "hide", (x) => "<td>" + (x.hide || []).map((y) => `<span style="color:${WX_COLOR[y.wx]}">${esc(y.gan)}</span><i class="god">${esc(y.god)}</i>`).join("<br>") + "</td>");
-    h += row("\u7EB3\u97F3", "ny", (x) => `<td>${esc(x.nayin)}</td>`);
+    h += row(term("\u5341\u795E"), "tg", (x) => `<td class="${x.name === "\u65E5" ? "dm" : ""}">${esc(term(x.shi_shen))}</td>`);
+    h += row(term("\u5929\u5E72"), "gz", (x) => `<td><span class="big" style="color:${WX_COLOR[x.gan_wx]}">${esc(term(x.gan))}</span><i class="wx">${esc(term(x.gan_wx))}</i></td>`);
+    h += row(term("\u5730\u652F"), "gz", (x) => `<td><span class="big" style="color:${WX_COLOR[x.zhi_wx]}">${esc(term(x.zhi))}</span><i class="wx">${esc(term(x.zhi_wx))}</i></td>`);
+    h += row(term("\u85CF\u5E72"), "hide", (x) => "<td>" + (x.hide || []).map((y) => `<span style="color:${WX_COLOR[y.wx]}">${esc(term(y.gan))}</span><i class="god">${esc(term(y.god))}</i>`).join("<br>") + "</td>");
+    h += row(term("\u7EB3\u97F3"), "ny", (x) => `<td>${esc(term(x.nayin))}</td>`);
     return h + "</tbody></table>";
   }
   function baziCardsHtml(r) {
     const { day_master: d, strength: st, geju: gj, xiji: xj } = r;
+    const dm = `${term(d.gan)}\uFF08${term(d.yy)}${term(d.wx)}\uFF09`;
+    const reason = gj.reason ? isEn() ? sourceBlock(esc(gj.reason)) : esc(gj.reason) : "";
     const items = [
-      ["\u65E5\u4E3B", `${d.gan}\uFF08${d.yy}${d.wx}\uFF09`, ""],
-      ["\u65FA\u8870", st.label, `${xj.lean} \xB7 \u5E2E\u8EAB ${Math.round(st.ratio * 100)}%`],
-      ["\u683C\u5C40", gj.name, gj.reason || ""],
-      ["\u559C", (xj.xi || []).join("\u3001"), ""],
-      ["\u5FCC", (xj.ji || []).join("\u3001"), ""]
+      [t("bcard.dayMaster"), dm, ""],
+      [t("bcard.strength"), term(st.label), `${term(xj.lean)} \xB7 ${t("bcard.help")} ${Math.round(st.ratio * 100)}%`],
+      [t("bcard.pattern"), term(gj.name), reason],
+      [t("bcard.xi"), (xj.xi || []).map(term).join("\u3001"), ""],
+      [t("bcard.ji"), (xj.ji || []).map(term).join("\u3001"), ""]
     ];
-    return '<div class="bcardwrap">' + items.map(([n, v, note]) => `<div class="bcard"><span class="bn">${n}</span><span class="bv">${esc(v)}</span>` + (note ? `<span class="bs">${esc(note)}</span>` : "") + "</div>").join("") + "</div>";
+    return '<div class="bcardwrap">' + items.map(([n, v, note]) => `<div class="bcard"><span class="bn">${n}</span><span class="bv">${esc(v)}</span>` + (note ? `<span class="bs">${note}</span>` : "") + "</div>").join("") + "</div>";
   }
   function baziWuxingHtml(r) {
     const [c, total] = wuxingCounts(r.pillars);
     const peak = Math.max(...Object.values(c)) || 1;
     return '<div class="wxchart">' + WX_ORDER.map((w) => {
       const v = c[w] || 0;
-      return `<div class="wxrow"><span class="wxname" style="color:${WX_COLOR[w]}">${w}</span><span class="wxbar"><i style="width:${(v / peak * 100).toFixed(1)}%;background:${WX_COLOR[w]}"></i></span><span class="wxval">${v.toFixed(2)}\uFF08${Math.round(v / total * 100)}%\uFF09</span></div>`;
+      return `<div class="wxrow"><span class="wxname" style="color:${WX_COLOR[w]}">${term(w)}</span><span class="wxbar"><i style="width:${(v / peak * 100).toFixed(1)}%;background:${WX_COLOR[w]}"></i></span><span class="wxval">${v.toFixed(2)}\uFF08${Math.round(v / total * 100)}%\uFF09</span></div>`;
     }).join("") + "</div>";
   }
   function dayunHtml(r, age) {
-    return `<div class="dayuntrack" role="group" aria-label="\u5927\u8FD0\uFF0C\u5171 ${r.dayun.length} \u6B65\uFF0C\u53EF\u5DE6\u53F3\u6EDA\u52A8" tabindex="0">` + r.dayun.map((d) => {
+    const aria = isEn() ? `Major Fortune, ${r.dayun.length} steps, scroll horizontally` : `\u5927\u8FD0\uFF0C\u5171 ${r.dayun.length} \u6B65\uFF0C\u53EF\u5DE6\u53F3\u6EDA\u52A8`;
+    return `<div class="dayuntrack" role="group" aria-label="${aria}" tabindex="0">` + r.dayun.map((d) => {
       const on = age !== null && d.start_age <= age && age <= d.end_age;
-      return `<div class="dchip${on ? " on" : ""}"><b>${esc(d.ganzhi)}</b><span>${d.start_age}\u2013${d.end_age}\u5C81</span><span>${esc(d.gan_god)}</span></div>`;
+      return `<div class="dchip${on ? " on" : ""}"><b>${esc(ganzhi(d.ganzhi))}</b><span>${d.start_age}\u2013${d.end_age}${isEn() ? " yrs" : "\u5C81"}</span><span>${esc(term(d.gan_god))}</span></div>`;
     }).join("") + "</div>";
   }
   function baziSections(r, year, age) {
     const secs = [];
+    const push = (zhTitle, enTitle, zhBody, enBody) => secs.push({ title: isEn() ? enTitle : zhTitle, body: isEn() ? enBody : zhBody });
+    const src = (s, label) => sourceBlock(esc(s), label);
     const st = r.strength, xj = r.xiji, gj = r.geju;
     const month = r.pillars[1].zhi.charAt(0), day = r.pillars[2].gan.charAt(0), dayZhi = r.pillars[2].zhi.charAt(0);
-    secs.push({ title: "\u56DB\u67F1\u6982\u89C8", body: r.pillars.map((p) => `**${p.name}\u67F1 ${p.ganzhi}**\uFF08${p.nayin}\uFF09`).join("\u3000") + `
+    push(
+      "\u56DB\u67F1\u6982\u89C8",
+      "Four Pillars at a glance",
+      r.pillars.map((p) => `**${p.name}\u67F1 ${p.ganzhi}**\uFF08${p.nayin}\uFF09`).join("\u3000") + `
 
-\u65E5\u4E3B **${r.day_master.gan}${r.day_master.yy}${r.day_master.wx}**\uFF0C\u751F\u5728 **${month}\u6708**\u3002\u5341\u795E\uFF1A${r.pillars.map((p) => p.shi_shen).join("\u3001")}\u3002` });
-    secs.push({ title: "\u65E5\u4E3B\u5F3A\u5F31", body: `\u5E2E\u8EAB ${st.help.toFixed(2)} \u5206\uFF0C\u8017\u8EAB ${st.drain.toFixed(2)} \u5206\uFF0C\u5E2E\u8EAB\u5360 **${Math.round(st.ratio * 100)}%**\uFF0C\u5224\u4E3A **${st.label}**\uFF08${xj.lean}\uFF09\u3002
+\u65E5\u4E3B **${r.day_master.gan}${r.day_master.yy}${r.day_master.wx}**\uFF0C\u751F\u5728 **${month}\u6708**\u3002\u5341\u795E\uFF1A${r.pillars.map((p) => p.shi_shen).join("\u3001")}\u3002`,
+      r.pillars.map((p) => `**${term(p.name)} ${ganzhi(p.ganzhi)}** (${term(p.nayin)})`).join("\u3000") + `
 
-\u6708\u4EE4${st.de_ling ? "\u5E2E\u8EAB" : "\u4E0D\u5E2E\u8EAB"}\uFF0C${st.de_di ? "\u5730\u652F\u6709\u6839" : "\u5730\u652F\u6839\u6D45"}\uFF0C${st.de_shi ? "\u5929\u5E72\u6709\u52A9" : "\u5929\u5E72\u5C11\u52A9"}\u3002\u5F3A\u5F31\u53EA\u662F\u65B9\u5411\uFF0C\u8FD8\u8981\u770B\u901A\u5173\u4E0E\u8C03\u5019\u3002` });
+Day Master **${term(r.day_master.gan)} (${term(r.day_master.yy)} ${term(r.day_master.wx)})**, born in the **${term(month)}** month. Ten Gods: ${r.pillars.map((p) => term(p.shi_shen)).join(", ")}.`
+    );
+    push(
+      "\u65E5\u4E3B\u5F3A\u5F31",
+      "Day Master strength",
+      `\u5E2E\u8EAB ${st.help.toFixed(2)} \u5206\uFF0C\u8017\u8EAB ${st.drain.toFixed(2)} \u5206\uFF0C\u5E2E\u8EAB\u5360 **${Math.round(st.ratio * 100)}%**\uFF0C\u5224\u4E3A **${st.label}**\uFF08${xj.lean}\uFF09\u3002
+
+\u6708\u4EE4${st.de_ling ? "\u5E2E\u8EAB" : "\u4E0D\u5E2E\u8EAB"}\uFF0C${st.de_di ? "\u5730\u652F\u6709\u6839" : "\u5730\u652F\u6839\u6D45"}\uFF0C${st.de_shi ? "\u5929\u5E72\u6709\u52A9" : "\u5929\u5E72\u5C11\u52A9"}\u3002\u5F3A\u5F31\u53EA\u662F\u65B9\u5411\uFF0C\u8FD8\u8981\u770B\u901A\u5173\u4E0E\u8C03\u5019\u3002`,
+      `Supporting forces **${st.help.toFixed(2)}**, draining forces ${st.drain.toFixed(2)}; support makes up **${Math.round(st.ratio * 100)}%** of the total, classed as **${term(st.label)}** (${term(xj.lean)}).
+
+The month command ${st.de_ling ? "supports" : "does not support"} the Day Master; the branches ${st.de_di ? "provide roots" : "have shallow roots"}; the stems ${st.de_shi ? "offer help" : "offer little help"}. Strength is a direction, not a verdict \u2014 mediation and climate matter too.`
+    );
     const cheng = (notes("geju").cheng_bai || {})[gj.name];
-    secs.push({ title: "\u683C\u5C40", body: `**${gj.name}** \u2014\u2014 ${gj.reason || ""}
+    push(
+      "\u683C\u5C40",
+      "Structure",
+      `**${gj.name}** \u2014\u2014 ${gj.reason || ""}
 
 \u6708\u4EE4 ${month}\uFF0C\u672C\u6C14 ${gj.ben_qi}\uFF08${gj.ben_qi_god}\uFF09\u3002` + (cheng ? `
 
-**\u6210\u8D25\u8981\u70B9**\uFF1A${cheng}` : "") });
-    const hj = (notes("houjue").months || {})[month];
-    if (hj && hj.length) secs.push({ title: `\u6708\u4EE4\u8BD7\u8BC0 \xB7 ${month}\u6708`, body: hj.slice(0, 3).map((x) => `**${x.ju}**
+**\u6210\u8D25\u8981\u70B9**\uFF1A${cheng}` : ""),
+      `**${term(gj.name)}** \u2014 ${gj.reason ? src(gj.reason) : ""}
 
-${x.hua}`).join("\n\n") });
+Month command: ${term(month)}; primary qi ${term(gj.ben_qi)} (${term(gj.ben_qi_god)}).` + (cheng ? `
+
+${src(cheng, "Classic notes on what makes this structure succeed or fail")}` : "")
+    );
+    const hj = (notes("houjue").months || {})[month];
+    if (hj && hj.length) {
+      const zh = hj.slice(0, 3).map((x) => `**${x.ju}**
+
+${x.hua}`).join("\n\n");
+      push(
+        `\u6708\u4EE4\u8BD7\u8BC0 \xB7 ${month}\u6708`,
+        `Seasonal verses \xB7 ${term(month)} month`,
+        zh,
+        `Traditional verses for the **${term(month)}** month. ${src(zh, "Show the Chinese verses")}`
+      );
+    }
     const th = r.tiaohou;
-    if (th) secs.push({ title: "\u8C03\u5019", body: `\u65E5\u4E3B **${th.gan || day}** \u751F\u5728 **${th.season}**\uFF0C\u8C03\u5019\u53D6 **${(th.items || []).join("\u3001")}**\u3002
+    if (th) push(
+      "\u8C03\u5019",
+      "Climate regulation",
+      `\u65E5\u4E3B **${th.gan || day}** \u751F\u5728 **${th.season}**\uFF0C\u8C03\u5019\u53D6 **${(th.items || []).join("\u3001")}**\u3002
 
 ${th.why || ""}
 
-\u8C03\u5019\u53EA\u7BA1\u5BD2\u6696\u71E5\u6E7F\uFF0C\u4E0E\u683C\u5C40\u7528\u795E\u4E0D\u4E00\u81F4\u65F6\u4EE5\u683C\u5C40\u4E3A\u51C6\u3002` });
+\u8C03\u5019\u53EA\u7BA1\u5BD2\u6696\u71E5\u6E7F\uFF0C\u4E0E\u683C\u5C40\u7528\u795E\u4E0D\u4E00\u81F4\u65F6\u4EE5\u683C\u5C40\u4E3A\u51C6\u3002`,
+      `Day Master **${term(th.gan || day)}** born in **${term(th.season)}**; climate regulation draws on **${(th.items || []).map(term).join("\u3001")}**.
+
+${th.why ? src(th.why) : ""}
+
+Climate regulation only addresses warmth, coolness, dryness and dampness. When it conflicts with the structure's useful element, the structure takes precedence.`
+    );
     const xq = notes("xingqing");
     const gx = (xq.gan || {})[day], zx = (xq.zhi || {})[dayZhi];
     const xqBits = [];
@@ -13869,27 +14664,75 @@ ${th.why || ""}
 
 \u4E0D\u987A\uFF1A${gx.ji}`);
     if (zx) xqBits.push(`**\u6708\u652F ${month} \xB7 ${zx.xiang}**\uFF1A${zx.xing}`);
-    if (xqBits.length) secs.push({ title: "\u6027\u683C", body: xqBits.join("\n\n") });
+    if (xqBits.length) {
+      const zh = xqBits.join("\n\n");
+      push(
+        "\u6027\u683C",
+        "Temperament",
+        zh,
+        `Classic character notes keyed to the **${term(day)}** day stem and the **${term(month)}** month branch. ${src(zh, "Show the Chinese character notes")}`
+      );
+    }
     const jk = notes("jiankang");
-    secs.push({ title: "\u8EAB\u4F53", body: `\u65E5\u4E3B **${day}${r.day_master.wx}**\uFF0C${jk.gan_neifu?.[day] ? `\u5185\u8151\u770B ${jk.gan_neifu[day]}\u3001\u5916\u5728\u770B ${jk.gan_waizhi?.[day] || ""}\u3002` : ""}${dayZhi ? `\u65E5\u652F ${dayZhi} \u4E3B ${jk.zhi_buwei?.[dayZhi] || "\u76F8\u5E94\u90E8\u4F4D"}\u3002` : ""}
+    const jkZh = `\u65E5\u4E3B **${day}${r.day_master.wx}**\uFF0C${jk.gan_neifu?.[day] ? `\u5185\u8151\u770B ${jk.gan_neifu[day]}\u3001\u5916\u5728\u770B ${jk.gan_waizhi?.[day] || ""}\u3002` : ""}${dayZhi ? `\u65E5\u652F ${dayZhi} \u4E3B ${jk.zhi_buwei?.[dayZhi] || "\u76F8\u5E94\u90E8\u4F4D"}\u3002` : ""}
 
-${jk.yao || ""}` });
-    if (r.shensha && r.shensha.length) secs.push({ title: "\u795E\u715E", body: r.shensha.map((s) => `**${s.name}**\uFF08${s.where}\uFF09\uFF1A${s.note || ""}`).join("\n\n") });
+${jk.yao || ""}`;
+    push(
+      "\u8EAB\u4F53",
+      "Body & health",
+      jkZh,
+      `The Chinese source below maps the Day Master and day branch to organ systems and body areas, with a note on where to pay attention. ${src(jkZh, "Show the Chinese source")}`
+    );
+    if (r.shensha && r.shensha.length) {
+      const zh = r.shensha.map((s) => `**${s.name}**\uFF08${s.where}\uFF09\uFF1A${s.note || ""}`).join("\n\n");
+      push(
+        "\u795E\u715E",
+        "Shen Sha (symbolic stars)",
+        zh,
+        r.shensha.map((s) => `**${term(s.name)}** \u2014 ${src(esc(s.where) + (s.note ? "\uFF1A" + s.note : ""))}`).join("\n\n")
+      );
+    }
     if (r.pillars.map((p) => p.nayin).some(Boolean)) {
       const ny = notes("nayin").items || {};
-      secs.push({ title: "\u7EB3\u97F3", body: r.pillars.map((p) => `**${p.name}\u67F1 ${p.ganzhi} \xB7 ${p.nayin}**\uFF1A${ny[p.nayin] || ""}`).join("\n\n") });
+      const zh = r.pillars.map((p) => `**${p.name}\u67F1 ${p.ganzhi} \xB7 ${p.nayin}**\uFF1A${ny[p.nayin] || ""}`).join("\n\n");
+      push(
+        "\u7EB3\u97F3",
+        "Na Yin (elemental imagery)",
+        zh,
+        r.pillars.map((p) => `**${term(p.name)} ${ganzhi(p.ganzhi)} \xB7 ${term(p.nayin)}** \u2014 ${src(String(ny[p.nayin] || ""))}`).join("\n\n")
+      );
     }
     const yun = notes("yun_notes");
     const cur = r.dayun.find((d) => d.start_age <= age && age <= d.end_age);
-    secs.push({ title: "\u884C\u8FD0", body: `\u8D77\u8FD0 ${r.qi_yun.year} \u5E74 ${r.qi_yun.month} \u4E2A\u6708\uFF0C${r.qi_yun.forward ? "\u987A" : "\u9006"}\u884C\uFF0C\u5171 ${r.dayun.length} \u6B65\u3002` + (cur ? `
+    const yunZh = `\u8D77\u8FD0 ${r.qi_yun.year} \u5E74 ${r.qi_yun.month} \u4E2A\u6708\uFF0C${r.qi_yun.forward ? "\u987A" : "\u9006"}\u884C\uFF0C\u5171 ${r.dayun.length} \u6B65\u3002` + (cur ? `
 
 \u773C\u4E0B\u8D70 **${cur.ganzhi}** \u8FD0\uFF08${cur.start_age}\u2013${cur.end_age} \u5C81\uFF09\uFF0C\u8FD0\u5E72\u662F **${cur.gan_god}**\u3002` : "") + `
 
-${yun.dayun?.judge || ""}` });
+${yun.dayun?.judge || ""}`;
+    push(
+      "\u884C\u8FD0",
+      "Major Fortune",
+      yunZh,
+      `Major Fortune begins after ${r.qi_yun.year} years and ${r.qi_yun.month} months, running ${r.qi_yun.forward ? "forward" : "backward"} for ${r.dayun.length} steps.` + (cur ? `
+
+You are currently in the **${ganzhi(cur.ganzhi)}** step (ages ${cur.start_age}\u2013${cur.end_age}), with **${term(cur.gan_god)}** as its stem god.` : "") + `
+
+${yun.dayun?.judge ? src(yun.dayun.judge, "Show the Chinese note on this fortune") : ""}`
+    );
     if (typeof window.__CURRENT_LIUNIAN__ === "string") {
-      secs.push({ title: `\u6D41\u5E74 ${year}`, body: window.__CURRENT_LIUNIAN__ });
+      push(
+        `\u6D41\u5E74 ${year}`,
+        `Annual chart ${year}`,
+        String(window.__CURRENT_LIUNIAN_ZH__ || ""),
+        window.__CURRENT_LIUNIAN__
+      );
     }
-    secs.push({ title: "\u8BF4\u660E", body: "\u56DB\u67F1\u3001\u85CF\u5E72\u3001\u5341\u795E\u3001\u7EB3\u97F3\u4E0E\u5927\u8FD0\u6309\u8282\u6C14\u5386\u6392\u5B9A\uFF1B\u65FA\u8870\u4E0E\u559C\u5FCC\u7531\u89C4\u5219\u63A8\u51FA\uFF0C\u5C5E\u4E8E\u53C2\u8003\uFF0C\u4E0D\u662F\u65AD\u8BED\u3002\u795E\u715E\u53EA\u4F5C\u503E\u5411\uFF0C\u4E0D\u5355\u72EC\u5B9A\u5409\u51F6\u3002" });
+    push(
+      "\u8BF4\u660E",
+      "About this reading",
+      "\u56DB\u67F1\u3001\u85CF\u5E72\u3001\u5341\u795E\u3001\u7EB3\u97F3\u4E0E\u5927\u8FD0\u6309\u8282\u6C14\u5386\u6392\u5B9A\uFF1B\u65FA\u8870\u4E0E\u559C\u5FCC\u7531\u89C4\u5219\u63A8\u51FA\uFF0C\u5C5E\u4E8E\u53C2\u8003\uFF0C\u4E0D\u662F\u65AD\u8BED\u3002\u795E\u715E\u53EA\u4F5C\u503E\u5411\uFF0C\u4E0D\u5355\u72EC\u5B9A\u5409\u51F6\u3002",
+      "The Four Pillars, hidden stems, Ten Gods, Na Yin and Major Fortune are derived from the solar-term calendar. Strength and favorable / unfavorable elements follow explicit rules and are for reference, not prediction. Shen Sha indicate tendencies only and never decide auspiciousness on their own."
+    );
     return secs;
   }
   function dailyBaziBar(r, dayGz, dateStr) {
@@ -13900,9 +14743,14 @@ ${yun.dayun?.judge || ""}` });
     const g = copy[god] || {};
     const sentence = `\u4ECA\u65E5\u9022${god}\uFF0C${g[fav ? "shun" : "ni"] || (fav ? "\u5B9C\u987A\u52BF\u800C\u4E3A" : "\u5B9C\u8C28\u614E\u4ECE\u4E8B")}`;
     const evidence = `${god}\u5C5E${group}\uFF0C\u4ECA\u5929\u7B97${fav ? "\u559C" : "\u5FCC"}\u7684\u65B9\u5411\uFF5C\u559C\uFF1A${(r.xiji.xi || []).join("\u3001") || "\u2014"}\u3000\u5FCC\uFF1A${(r.xiji.ji || []).join("\u3001") || "\u2014"}`;
-    return `<div class="dailybar"><div class="db-top"><span class="db-tag">\u4ECA\u65E5\u4E00\u53E5</span><span>${esc(dateStr)}</span>
-    <span class="db-src">\u5341\u795E \xB7 \u559C\u5FCC</span></div>
-    <p class="db-main">${esc(sentence)}</p><p class="db-evidence">${esc(evidence)}</p></div>`;
+    const sentenceEn = `Today brings ${termBoth(god)} \u2014 ${fav ? "work with the current rather than against it" : "slow down and keep a little in reserve"}.`;
+    const evidenceEn = `${term(god)} belongs to the ${term(group)} group; today falls on the ${fav ? "favorable" : "unfavorable"} side. Favorable: ${(r.xiji.xi || []).map(term).join(", ") || "\u2014"} \xB7 Unfavorable: ${(r.xiji.ji || []).map(term).join(", ") || "\u2014"}`;
+    return `<div class="dailybar"><div class="db-top"><span class="db-tag">${t("daily.tag")}</span><span>${esc(dateStr)}</span>
+    <span class="db-src">${t("daily.src")}</span></div>
+    <p class="db-main">${isEn() ? esc(sentenceEn) : esc(sentence)}</p>
+    <p class="db-evidence">${isEn() ? esc(evidenceEn) : esc(evidence)}</p>
+    ${isEn() ? sourceBlock(esc(`\u4ECA\u65E5\u4E00\u53E5\uFF1A${sentence}
+\u4F9D\u636E\uFF1A${evidence}`), "Show the Chinese source") : ""}</div>`;
   }
   var DOOR_LV = { "\u5F00\u95E8": 1, "\u4F11\u95E8": 1, "\u751F\u95E8": 2, "\u666F\u95E8": 0, "\u4F24\u95E8": -1, "\u675C\u95E8": -1, "\u6B7B\u95E8": -2, "\u60CA\u95E8": -1 };
   var REL = {
@@ -13911,6 +14759,40 @@ ${yun.dayun?.judge || ""}` });
     "\u5BAB\u751F\u95E8": "\u5BAB\u517B\u7740\u95E8\uFF0C\u73AF\u5883\u5E2E\u886C",
     "\u95E8\u8FEB": "\u95E8\u514B\u7740\u5BAB\uFF0C\u786C\u9876\u7740\u8D70\uFF0C\u8D39\u529B",
     "\u95E8\u5236": "\u5BAB\u514B\u7740\u95E8\uFF0C\u624B\u811A\u88AB\u73AF\u5883\u62F4\u7740"
+  };
+  var REL_EN = {
+    "\u6BD4\u548C": "Door and palace agree \u2014 smooth.",
+    "\u95E8\u751F": "The door supports the palace \u2014 help comes from above.",
+    "\u5BAB\u751F\u95E8": "The palace feeds the door \u2014 the setting helps.",
+    "\u95E8\u8FEB": "The door presses against the palace \u2014 forced progress, high effort.",
+    "\u95E8\u5236": "The palace restrains the door \u2014 your hands are tied by circumstances."
+  };
+  var QIMEN_EN = {
+    "\u5F00\u95E8": { gist: "Open: matters handled in the open and through proper channels \u2014 process is on your side.", yong: "Meetings, negotiation, opening a business, taking office, formal applications.", ji: "Avoid back-door deals \u2014 an Open Door brings hidden matters to light." },
+    "\u4F11\u95E8": { gist: "Rest: pause, reconcile, and let patience do the work.", yong: "Mediation, reconciling, stepping back in a negotiation, recuperation.", ji: "Avoid rushing or forcing \u2014 Rest needs time." },
+    "\u751F\u95E8": { gist: "Life: growth, resources and steady gain.", yong: "Seeking wealth, starting a venture, asking for support.", ji: "Avoid greed and shortcuts \u2014 Life favors sustained effort." },
+    "\u4F24\u95E8": { gist: "Injury: friction and loss; useful only for action that needs an edge.", yong: "Competition, pursuit, firm boundaries.", ji: "Avoid delicate negotiation and anything you want to keep intact." },
+    "\u675C\u95E8": { gist: "Blockage: concealment, sealing off, matters held back.", yong: "Keeping things private, focused study, guarding resources.", ji: "Avoid promotion or travel that depends on open access." },
+    "\u666F\u95E8": { gist: "Vision: visibility, documents, reputation and appearances.", yong: "Presentations, applications, exams, spreading news, creative work.", ji: "Do not rely on appearances alone or chase fame without substance." },
+    "\u6B7B\u95E8": { gist: "Death: endings, stillness, concluding matters.", yong: "Closing old affairs, letting go, final and solemn matters.", ji: "Avoid new beginnings or anything that needs momentum." },
+    "\u60CA\u95E8": { gist: "Shock: surprises, alarms and unsettled news.", yong: "Announcements, persuasion, debate, sudden developments.", ji: "Avoid long-term commitments or trusting unverified news." },
+    "\u5929\u84EC": { gist: "Bold and unorthodox: favorable timing breaks new ground; poor timing brings excess, loss and trouble." },
+    "\u5929\u82AE": { gist: "The sick star: where it lands, matters drag on or turn chronic \u2014 a sign to treat the root first." },
+    "\u5929\u51B2": { gist: "Impetuous and direct: quick action and movement, with a tendency to charge ahead." },
+    "\u5929\u8F85": { gist: "Supportive and cultured: teachers, helpers and quiet assistance." },
+    "\u5929\u79BD": { gist: "The central star: stability, mediation and balanced judgment." },
+    "\u5929\u5FC3": { gist: "Clear-headed and strategic: planning, medicine and sound judgment." },
+    "\u5929\u67F1": { gist: "Resistant and brittle: pressure, collapse and the need to bend." },
+    "\u5929\u4EFB": { gist: "Steady and dependable: patient work, land and accumulation." },
+    "\u5929\u82F1": { gist: "Bright and volatile: visible results, media, and flashes that quickly fade." },
+    "\u503C\u7B26": { gist: "Head of the eight deities: authority, patrons and proper channels." },
+    "\u817E\u86C7": { gist: "Unstable and illusory: mixed messages, repetition and anxiety." },
+    "\u592A\u9634": { gist: "Quiet and hidden: behind-the-scenes help, subtlety and careful timing." },
+    "\u516D\u5408": { gist: "Cooperation and agreement: partnerships, mediation, things brought together." },
+    "\u767D\u864E": { gist: "Pressure and force: conflict, hazards, and a need for caution." },
+    "\u7384\u6B66": { gist: "Secrecy and loss: hidden motives, theft and unclear information." },
+    "\u4E5D\u5730": { gist: "Stillness and depth: patience, concealment and long-term holding." },
+    "\u4E5D\u5929": { gist: "Height and expansion: visibility, travel and ambitious plans." }
   };
   var QLIB = () => ({
     doors: L["reading_qimen/doors"] || {},
@@ -13922,37 +14804,52 @@ ${yun.dayun?.judge || ""}` });
     const lv = DOOR_LV[c.door] ?? 0;
     let cls = "qpal" + (lv >= 1 ? " good" : lv <= -1 ? " bad" : "") + (c.shen === "\u503C\u7B26" ? " zf" : "") + (c.kong ? " kong" : "");
     if (r.shi_gan_palace === Number(Object.keys(r.palaces).find((k) => r.palaces[k] === c))) cls += " yongshen";
-    const badges = (c.is_ma ? '<span class="qbadge ma">\u9A6C</span>' : "") + (c.kong ? '<span class="qbadge kong">\u7A7A</span>' : "");
-    const tian = c.tian_yi + (c.qin_yi ? `<i class="qqin">/${esc(c.qin_yi)}</i>` : "");
+    const badges = (c.is_ma ? `<span class="qbadge ma">${t("qcell.ma")}</span>` : "") + (c.kong ? `<span class="qbadge kong">${t("qcell.kong")}</span>` : "");
+    const tian = term(c.tian_yi) + (c.qin_yi ? `<i class="qqin">/${esc(term(c.qin_yi))}</i>` : "");
     const star = c.star === "\u5929\u82AE" ? "\u5929\u82AE\u79BD" : c.star;
-    const parts = [`${c.name}\uFF08${c.dir}\uFF09\u3002`];
-    if (doors[c.door]) parts.push(`${c.door}\uFF1A${doors[c.door].gist}`, `\u5B9C\uFF1A${doors[c.door].yong} \u5FCC\uFF1A${doors[c.door].ji}`);
-    if (stars[c.star]) parts.push(`${c.star}\uFF1A${stars[c.star].gist}`);
-    if (shens[c.shen]) parts.push(`${c.shen}\uFF1A${shens[c.shen].gist}`);
-    if (c.kong) parts.push("\u6B64\u5BAB\u843D\u7A7A\uFF1A\u4E8B\u60AC\u7740\uFF0C\u7EA6\u597D\u7684\u5BB9\u6613\u53D8\u3002");
-    if (c.is_ma) parts.push("\u9A7F\u9A6C\u5230\u5BAB\uFF1A\u4E3B\u52A8\u3001\u51FA\u884C\u3001\u6D88\u606F\u3002");
-    for (const g of gejuMap[c.name] || []) if (c.di_yi) parts.push(`\u514B\u5E94\xB7${g.name}\uFF08${g.level}\uFF09\uFF1A${g.text}`);
+    const parts = [];
+    const dEn = QIMEN_EN[c.door], sEn = QIMEN_EN[c.star], shEn = QIMEN_EN[c.shen];
+    if (isEn()) {
+      parts.push(`${term(c.name)} (${term(c.dir)}).`);
+      if (dEn) parts.push(`${term(c.door)}: ${dEn.gist}`, `Good for: ${dEn.yong}`, `Avoid: ${dEn.ji}`);
+      else if (doors[c.door]) parts.push(`${term(c.door)}: ${doors[c.door].gist}\uFF08\u4E2D\u6587\uFF09`);
+      if (sEn) parts.push(`${term(c.star)}: ${sEn.gist}`);
+      else if (stars[c.star]) parts.push(`${term(c.star)}: ${stars[c.star].gist}\uFF08\u4E2D\u6587\uFF09`);
+      if (shEn) parts.push(`${qterm(c.shen)}: ${shEn.gist}`);
+      else if (shens[c.shen]) parts.push(`${qterm(c.shen)}: ${shens[c.shen].gist}\uFF08\u4E2D\u6587\uFF09`);
+      if (c.kong) parts.push(t("qcell.kongNote"));
+      if (c.is_ma) parts.push(t("qcell.maNote"));
+      for (const g of gejuMap[c.name] || []) if (c.di_yi) parts.push(`Ke Ying \xB7 ${term(g.name)} (${term(g.level)}): ${g.text}\uFF08\u4E2D\u6587\uFF09`);
+    } else {
+      parts.push(`${c.name}\uFF08${c.dir}\uFF09\u3002`);
+      if (doors[c.door]) parts.push(`${c.door}\uFF1A${doors[c.door].gist}`, `\u5B9C\uFF1A${doors[c.door].yong} \u5FCC\uFF1A${doors[c.door].ji}`);
+      if (stars[c.star]) parts.push(`${c.star}\uFF1A${stars[c.star].gist}`);
+      if (shens[c.shen]) parts.push(`${c.shen}\uFF1A${shens[c.shen].gist}`);
+      if (c.kong) parts.push(t("qcell.kongNote"));
+      if (c.is_ma) parts.push(t("qcell.maNote"));
+      for (const g of gejuMap[c.name] || []) if (c.di_yi) parts.push(`\u514B\u5E94\xB7${g.name}\uFF08${g.level}\uFF09\uFF1A${g.text}`);
+    }
     return `<div class="${cls}" data-qnote="${esc(parts.join(" "))}" role="button" tabindex="0"
-    aria-label="${esc(c.name + "\uFF0C" + c.door + " " + c.star + " " + c.shen + "\uFF0C\u70B9\u5F00\u770B\u8FD9\u4E00\u683C\u5728\u8BF4\u4EC0\u4E48")}">
-    <div class="qtop"><span class="qgong">${esc(c.name)}</span>${badges}</div>
-    <div class="qtian"><b>${tian}</b><span class="qstar">${esc(star)}</span></div>
-    <div class="qdoor">${esc(c.door)}</div>
-    <div class="qbottom"><span class="qshen">${esc(c.shen || "\u2014")}</span><span class="qdi">\u5730 ${esc(c.di_yi)}</span></div></div>`;
+    aria-label="${esc(isEn() ? `${term(c.name)}, ${term(c.door)}, ${term(c.star)}, ${qterm(c.shen)}, activate for notes` : `${c.name}\uFF0C${c.door} ${c.star} ${c.shen}\uFF0C\u70B9\u5F00\u770B\u8FD9\u4E00\u683C\u5728\u8BF4\u4EC0\u4E48`)}">
+    <div class="qtop"><span class="qgong">${esc(term(c.name))}</span>${badges}</div>
+    <div class="qtian"><b>${tian}</b><span class="qstar">${esc(term(star))}</span></div>
+    <div class="qdoor">${esc(term(c.door))}</div>
+    <div class="qbottom"><span class="qshen">${esc(c.shen ? qterm(c.shen) : "\u2014")}</span><span class="qdi">${isEn() ? "Earth" : "\u5730"} ${esc(term(c.di_yi))}</span></div></div>`;
   }
   function qimenGridHtml(r) {
     const gejuMap = {};
     for (const g of r.geju || []) (gejuMap[r.palaces[g.palace].name] ||= []).push(g);
     const pos = [[4, 9, 2], [3, 5, 7], [8, 1, 6]];
     const gz = r.ganzhi, ju = r.ju;
-    let h = '<div class="qgrid" role="group" aria-label="\u5947\u95E8\u4E5D\u5BAB\u76D8">';
+    let h = `<div class="qgrid" role="group" aria-label="${t("qgrid.aria")}">`;
     for (const row of pos) {
       h += '<div class="qrow">';
       for (const p of row) {
         if (p === 5) {
-          h += `<div class="qpal qcenter"><div class="qjuname">${esc(ju.name)}</div>
-          <div class="qline">${esc(gz.year)}\u5E74${esc(gz.month)}\u6708${esc(gz.day)}\u65E5 \xB7 ${esc(gz.hour)}\u65F6</div>
-          <div class="qline">${esc(ju.jieqi)} ${esc(ju.yuan)}</div>
-          <div class="qline">\u503C\u7B26${esc(r.zhifu.star)}\u843D${esc(r.palaces[r.zhifu.land].name)} \xB7 \u503C\u4F7F${esc(r.zhishi.door)}\u843D${esc(r.palaces[r.zhishi.land].name)}</div></div>`;
+          h += `<div class="qpal qcenter"><div class="qjuname">${esc(term(ju.name))}</div>
+          <div class="qline">${esc(ganzhi(gz.year))} ${t("qgrid.year")} ${esc(ganzhi(gz.month))} ${t("qgrid.month")} ${esc(ganzhi(gz.day))} ${t("qgrid.day")} \xB7 ${esc(ganzhi(gz.hour))} ${t("qgrid.hour")}</div>
+          <div class="qline">${esc(term(ju.jieqi))} ${esc(term(ju.yuan))}</div>
+          <div class="qline">${t("qgrid.zhifu")} ${esc(term(r.zhifu.star))} ${t("qgrid.land")} ${esc(term(r.palaces[r.zhifu.land].name))} \xB7 ${t("qgrid.zhishi")} ${esc(term(r.zhishi.door))} ${t("qgrid.land")} ${esc(term(r.palaces[r.zhishi.land].name))}</div></div>`;
         } else h += qimenCellHtml(r.palaces[p], r, gejuMap);
       }
       h += "</div>";
@@ -13963,57 +14860,126 @@ ${yun.dayun?.judge || ""}` });
     const { doors, stars, shens } = QLIB();
     const ju = r.ju, gz = r.ganzhi;
     const secs = [];
-    secs.push({ title: "\u4E00\u3001\u8FD9\u5F20\u5C40", body: `**${ju.name}**\uFF08${ju.yuan}\uFF0C${ju.method}\uFF09\u3002${gz.year}\u5E74${gz.month}\u6708${gz.day}\u65E5${gz.hour}\u65F6\u8D77\u5C40\uFF1B\u5F53\u65E5\u5C5E **${ju.jieqi}**\uFF0C\u65E5\u7B26\u5934 **${ju.futou}**\u3002
+    const push = (zhTitle, enTitle, zhBody, enBody) => secs.push({ title: isEn() ? enTitle : zhTitle, body: isEn() ? enBody : zhBody });
+    const src = (s, label) => sourceBlock(esc(s), label);
+    const rel = (k) => isEn() ? REL_EN[k] || "" : REL[k] || "";
+    const fy = r.fu_yin ? isEn() ? "\n\n**Fu Yin**: stars and doors return to their home palaces \u2014 hold, do not push." : "\n\n**\u4F0F\u541F**\uFF1A\u661F\u95E8\u5404\u56DE\u672C\u5BAB\uFF0C\u5B9C\u5B88\u4E0D\u5B9C\u52A8\u3002" : "";
+    const fy2 = r.fan_yin ? isEn() ? "\n\n**Fan Yin**: stars and doors sit opposite their homes \u2014 quick but repetitive." : "\n\n**\u53CD\u541F**\uFF1A\u661F\u95E8\u5750\u5BF9\u5BAB\uFF0C\u4E8B\u5FEB\u800C\u53CD\u590D\u3002" : "";
+    const classicNote = "\u8D77\u5C40\u7528\u62C6\u8865\u6CD5\uFF1A\u8282\u6C14\u7BA1\u5C40\u3001\u7B26\u5934\u7BA1\u5143\u3002\u53E6\u6709\u7F6E\u95F0\u6CD5\uFF08\u300A\u91D1\u51FD\u7389\u955C\u300B\u5377\u4E94\u300C\u8D85\u795E\u63A5\u6C14\u6CD5\u300D\uFF09\uFF0C\u53EA\u5728\u8282\u6C14\u4EA4\u754C\u51E0\u5929\u53EF\u80FD\u5DEE\u4E00\u5143\uFF0C\u8FD9\u662F\u6D41\u6D3E\u5206\u91CE\uFF0C\u4E0D\u662F\u6392\u9519\u3002";
+    push(
+      "\u4E00\u3001\u8FD9\u5F20\u5C40",
+      "1 \xB7 This chart",
+      `**${ju.name}**\uFF08${ju.yuan}\uFF0C${ju.method}\uFF09\u3002${gz.year}\u5E74${gz.month}\u6708${gz.day}\u65E5${gz.hour}\u65F6\u8D77\u5C40\uFF1B\u5F53\u65E5\u5C5E **${ju.jieqi}**\uFF0C\u65E5\u7B26\u5934 **${ju.futou}**\u3002
 
-\u8D77\u5C40\u7528\u62C6\u8865\u6CD5\uFF1A\u8282\u6C14\u7BA1\u5C40\u3001\u7B26\u5934\u7BA1\u5143\u3002\u53E6\u6709\u7F6E\u95F0\u6CD5\uFF08\u300A\u91D1\u51FD\u7389\u955C\u300B\u5377\u4E94\u300C\u8D85\u795E\u63A5\u6C14\u6CD5\u300D\uFF09\uFF0C\u53EA\u5728\u8282\u6C14\u4EA4\u754C\u51E0\u5929\u53EF\u80FD\u5DEE\u4E00\u5143\uFF0C\u8FD9\u662F\u6D41\u6D3E\u5206\u91CE\uFF0C\u4E0D\u662F\u6392\u9519\u3002` + (r.fu_yin ? "\n\n**\u4F0F\u541F**\uFF1A\u661F\u95E8\u5404\u56DE\u672C\u5BAB\uFF0C\u5B9C\u5B88\u4E0D\u5B9C\u52A8\u3002" : "") + (r.fan_yin ? "\n\n**\u53CD\u541F**\uFF1A\u661F\u95E8\u5750\u5BF9\u5BAB\uFF0C\u4E8B\u5FEB\u800C\u53CD\u590D\u3002" : "") });
+${classicNote}` + fy + fy2,
+      `**${term(ju.name)}** (${term(ju.yuan)}, ${ju.method}). Cast for ${ganzhi(gz.year)} / ${ganzhi(gz.month)} / ${ganzhi(gz.day)}, ${ganzhi(gz.hour)} hour; solar term **${term(ju.jieqi)}**, day fu head **${term(ju.futou)}**.
+
+The split-supplement method sets the chart by solar term and the yuan by the fu head. An intercalary method also exists (the \u201Cmethod of matching spirit and qi\u201D, Jin Han Yu Jing vol. 5); around solar-term boundaries it can differ by one yuan \u2014 a school difference, not a calculation error.` + fy + fy2
+    );
     const zf = r.zhifu, zs = r.zhishi;
     const zc = r.palaces[zf.land], sc = r.palaces[zs.land];
     const st = stars[zf.star] || {}, dr = doors[zs.door] || {};
-    secs.push({ title: "\u4E8C\u3001\u503C\u7B26\u4E0E\u503C\u4F7F", body: `\u503C\u7B26\u662F\u672C\u65EC\u9886\u73ED\u7684\u661F\u2014\u2014**${zf.star}**\u643A${zf.yi}\u843D\u5728${zc.name}\uFF1B\u503C\u4F7F\u662F\u5F53\u503C\u7684\u95E8\u2014\u2014**${zs.door}**\u843D\u5728${sc.name}\u3002
+    const zfStarEn = QIMEN_EN[zf.star]?.gist || st.gist || "";
+    const zsDoorEn = QIMEN_EN[zs.door]?.gist || dr.gist || "";
+    push(
+      "\u4E8C\u3001\u503C\u7B26\u4E0E\u503C\u4F7F",
+      "2 \xB7 Value Officer & Value Envoy",
+      `\u503C\u7B26\u662F\u672C\u65EC\u9886\u73ED\u7684\u661F\u2014\u2014**${zf.star}**\u643A${zf.yi}\u843D\u5728${zc.name}\uFF1B\u503C\u4F7F\u662F\u5F53\u503C\u7684\u95E8\u2014\u2014**${zs.door}**\u843D\u5728${sc.name}\u3002
 
 **${zf.star}**\uFF1A${st.gist || ""}${r.star_state?.[zf.star] ? "\u5B83\u6B64\u523B" + r.star_state[zf.star] + "\u3002" : ""}
 
-**${zs.door}**\uFF1A${dr.gist || ""}\u773C\u4E0B\u843D\u5728${sc.name}\uFF0C${REL[sc.door_rel] || ""}\u3002` });
-    const g = [];
-    if (r.dunfa?.length) g.push(`\u8FD9\u4E00\u5C40\u6210\u4E86 **${r.dunfa.map((x) => x.name).join("\u3001")}**\u3002` + r.dunfa.map((x) => `- **${x.name}**\uFF1A${x.text}`).join("\n"));
-    if (r.wubuyu) g.push(`**\u4E94\u4E0D\u9047\u65F6**\uFF1A\u65F6\u5E72${r.wubuyu.hour}\u514B\u65E5\u5E72${r.wubuyu.day}\uFF0C\u65E7\u4E66\u89C6\u4E3A\u62E9\u5409\u5927\u5FCC\u3002`);
-    if (r.liuyi_jixing) g.push(`**\u516D\u4EEA\u51FB\u5211**\uFF1A\u65EC\u9996${r.liuyi_jixing.yi}\u843D\u5728${r.liuyi_jixing.name}\uFF0C\u6B64\u5BAB\u4E4B\u4E8B\u5B9C\u7F13\u529E\u3002`);
+**${zs.door}**\uFF1A${dr.gist || ""}\u773C\u4E0B\u843D\u5728${sc.name}\uFF0C${REL[sc.door_rel] || ""}\u3002`,
+      `The Value Officer is the leading star of this xun \u2014 **${term(zf.star)}** carries ${term(zf.yi)} into ${term(zc.name)}. The Value Envoy is the door on duty \u2014 **${term(zs.door)}** lands in ${term(sc.name)}.
+
+**${term(zf.star)}**: ${zfStarEn}${r.star_state?.[zf.star] ? ` Currently ${r.star_state[zf.star]}\uFF08\u4E2D\u6587\uFF09.` : ""}
+
+**${term(zs.door)}**: ${zsDoorEn} It now sits in ${term(sc.name)} \u2014 ${rel(sc.door_rel)}`
+    );
+    const gZh = [], gEn = [];
+    if (r.dunfa?.length) {
+      gZh.push(`\u8FD9\u4E00\u5C40\u6210\u4E86 **${r.dunfa.map((x) => x.name).join("\u3001")}**\u3002` + r.dunfa.map((x) => `- **${x.name}**\uFF1A${x.text}`).join("\n"));
+      gEn.push(`This chart forms **${r.dunfa.map((x) => term(x.name)).join(", ")}**.` + r.dunfa.map((x) => `- **${term(x.name)}**: ${src(x.text)}`).join("\n"));
+    }
+    if (r.wubuyu) {
+      gZh.push(`**\u4E94\u4E0D\u9047\u65F6**\uFF1A\u65F6\u5E72${r.wubuyu.hour}\u514B\u65E5\u5E72${r.wubuyu.day}\uFF0C\u65E7\u4E66\u89C6\u4E3A\u62E9\u5409\u5927\u5FCC\u3002`);
+      gEn.push(`**Five Non-Meetings hour**: the hour stem ${term(r.wubuyu.hour)} overcomes the day stem ${term(r.wubuyu.day)} \u2014 old texts treat it as a poor time to initiate.`);
+    }
+    if (r.liuyi_jixing) {
+      gZh.push(`**\u516D\u4EEA\u51FB\u5211**\uFF1A\u65EC\u9996${r.liuyi_jixing.yi}\u843D\u5728${r.liuyi_jixing.name}\uFF0C\u6B64\u5BAB\u4E4B\u4E8B\u5B9C\u7F13\u529E\u3002`);
+      gEn.push(`**Six Yi punishment**: the xun head ${term(r.liuyi_jixing.yi)} lands in ${term(r.liuyi_jixing.name)} \u2014 matters tied to this palace should be slowed down.`);
+    }
     const shown = /* @__PURE__ */ new Set();
     for (const pal of [r.shi_gan_palace, zf.land]) {
       if (!pal) continue;
       for (const x of (r.geju || []).filter((x2) => x2.palace === pal)) {
         if (shown.has(x.name + pal)) continue;
         shown.add(x.name + pal);
-        g.push(`**${x.name}**\uFF08${r.palaces[pal].name}\uFF09\uFF1A${x.text}`);
+        gZh.push(`**${x.name}**\uFF08${r.palaces[pal].name}\uFF09\uFF1A${x.text}`);
+        gEn.push(`**${term(x.name)}** (${term(r.palaces[pal].name)}): ${src(x.text)}`);
       }
     }
-    if (!shown.size) g.push("\u8FD9\u4E00\u5C40\u65E0\u6210\u540D\u5409\u51F6\u683C\uFF0C\u5C5E\u5E73\u5E38\u4E4B\u5C40\u2014\u2014\u5E73\u5E38\u5C40\u6700\u5B9C\u5E73\u5E38\u4E8B\u3002");
-    secs.push({ title: "\u4E09\u3001\u683C\u5C40", body: g.join("\n\n") + "\n\n\u514B\u5E94\u6309\u5929\u76D8\u5E72\u52A0\u5730\u76D8\u5E72\u53D6\u81EA\u300A\u91D1\u51FD\u7389\u955C\u300B\u5377\u4E8C\u300C\u5341\u5E72\u514B\u5E94\u8BC0\u300D\uFF0C\u662F\u65E7\u4E66\u7684\u8BDD\uFF0C\u8BF4\u5F97\u91CD\uFF0C\u964D\u4E00\u6863\u542C\u5C31\u597D\u3002" });
+    if (!shown.size) {
+      gZh.push("\u8FD9\u4E00\u5C40\u65E0\u6210\u540D\u5409\u51F6\u683C\uFF0C\u5C5E\u5E73\u5E38\u4E4B\u5C40\u2014\u2014\u5E73\u5E38\u5C40\u6700\u5B9C\u5E73\u5E38\u4E8B\u3002");
+      gEn.push("No named auspicious or inauspicious pattern forms \u2014 an ordinary chart, best used for ordinary matters.");
+    }
+    push(
+      "\u4E09\u3001\u683C\u5C40",
+      "3 \xB7 Patterns",
+      gZh.join("\n\n") + "\n\n\u514B\u5E94\u6309\u5929\u76D8\u5E72\u52A0\u5730\u76D8\u5E72\u53D6\u81EA\u300A\u91D1\u51FD\u7389\u955C\u300B\u5377\u4E8C\u300C\u5341\u5E72\u514B\u5E94\u8BC0\u300D\uFF0C\u662F\u65E7\u4E66\u7684\u8BDD\uFF0C\u8BF4\u5F97\u91CD\uFF0C\u964D\u4E00\u6863\u542C\u5C31\u597D\u3002",
+      gEn.join("\n\n") + "\n\nKe Ying readings come from the \u201CTen Stems and Their Responses\u201D in Jin Han Yu Jing vol. 2. The old wording is severe; take it down a notch."
+    );
     if (r.shi_gan_palace) {
       const c = r.palaces[r.shi_gan_palace];
       const s = stars[c.star] || {}, d = doors[c.door] || {};
-      secs.push({ title: "\u56DB\u3001\u95EE\u4E8B\u7684\u4EBA\uFF08\u65F6\u5E72\u843D\u5BAB\uFF09", body: `\u65F6\u5E72${gz.hour.charAt(0)}\u843D\u5728${c.name}\uFF08${c.dir}\u65B9\uFF09\uFF0C\u8FD9\u4E00\u683C\u4E0A\u5750\u7740 **${c.star}** \u548C **${c.door}**${c.shen ? "\uFF0C\u8FD8\u6709" + c.shen : ""}\u3002
+      const zh = `\u65F6\u5E72${gz.hour.charAt(0)}\u843D\u5728${c.name}\uFF08${c.dir}\u65B9\uFF09\uFF0C\u8FD9\u4E00\u683C\u4E0A\u5750\u7740 **${c.star}** \u548C **${c.door}**${c.shen ? "\uFF0C\u8FD8\u6709" + c.shen : ""}\u3002
 
 - ${c.star}\uFF1A${s.gist || ""}
 - \u5B9C\uFF1A${d.yong || ""}
 - \u5FCC\uFF1A${d.ji || ""}` + (c.door_rel === "\u95E8\u8FEB" || c.door_rel === "\u95E8\u5236" ? `
 
-\u8FD9\u4E00\u683C **${c.door_rel}**\u2014\u2014${REL[c.door_rel]}\u3002\u65F6\u95F4\u3001\u9884\u7B97\u3001\u8010\u5FC3\u5404\u7559\u4E24\u6210\u3002` : "") + (c.kong ? "\n\n**\u843D\u7A7A**\uFF1A\u4E8B\u60C5\u60AC\u7740\u3001\u7EA6\u5B9A\u6613\u53D8\uFF0C\u6539\u671F\u6216\u7B49\u51FA\u65EC\u586B\u5B9E\uFF0C\u522B\u6025\u7740\u4E0B\u6CE8\u3002" : "") });
+\u8FD9\u4E00\u683C **${c.door_rel}**\u2014\u2014${REL[c.door_rel]}\u3002\u65F6\u95F4\u3001\u9884\u7B97\u3001\u8010\u5FC3\u5404\u7559\u4E24\u6210\u3002` : "") + (c.kong ? "\n\n**\u843D\u7A7A**\uFF1A\u4E8B\u60C5\u60AC\u7740\u3001\u7EA6\u5B9A\u6613\u53D8\uFF0C\u6539\u671F\u6216\u7B49\u51FA\u65EC\u586B\u5B9E\uFF0C\u522B\u6025\u7740\u4E0B\u6CE8\u3002" : "");
+      const en = `The hour stem ${term(gz.hour.charAt(0))} lands in ${term(c.name)} (${term(c.dir)}), with **${term(c.star)}** and **${term(c.door)}**${c.shen ? `, plus ${qterm(c.shen)}` : ""}.
+
+- ${term(c.star)}: ${QIMEN_EN[c.star]?.gist || s.gist || ""}
+- Good for: ${QIMEN_EN[c.door]?.yong || d.yong || ""}
+- Avoid: ${QIMEN_EN[c.door]?.ji || d.ji || ""}` + (c.door_rel === "\u95E8\u8FEB" || c.door_rel === "\u95E8\u5236" ? `
+
+This palace is **${term(c.door_rel)}** \u2014 ${rel(c.door_rel)} Leave room in time, budget and patience.` : "") + (c.kong ? "\n\n**Void**: matters hang in the air and plans may change. Reschedule or wait for the xun to fill; do not commit yet." : "");
+      push("\u56DB\u3001\u95EE\u4E8B\u7684\u4EBA\uFF08\u65F6\u5E72\u843D\u5BAB\uFF09", "4 \xB7 The person asking (hour-stem palace)", zh, en);
     }
-    const rows = [9, 2, 7, 6, 1, 8, 3, 4].map((p) => {
+    const rowsZh = [9, 2, 7, 6, 1, 8, 3, 4].map((p) => {
       const c = r.palaces[p], lv = DOOR_LV[c.door] ?? 0;
       const tag = [lv >= 1 ? "\u5409\u65B9" : lv <= -1 ? "\u7F13\u884C" : "", c.kong ? "\u843D\u7A7A" : "", c.is_ma ? "\u9A7F\u9A6C" : "", c.shen === "\u503C\u7B26" ? "\u503C\u7B26" : ""].filter(Boolean);
       return `- **${c.dir}\uFF08${c.name}\uFF09**\uFF1A${c.door} / ${c.star}${tag.length ? "\uFF08" + tag.join("\u3001") + "\uFF09" : ""}`;
     });
-    const four = ["\u4E5D\u5929", "\u4E5D\u5730", "\u592A\u9634", "\u516D\u5408"].map((s) => {
+    const rowsEn = [9, 2, 7, 6, 1, 8, 3, 4].map((p) => {
+      const c = r.palaces[p], lv = DOOR_LV[c.door] ?? 0;
+      const tag = [lv >= 1 ? "Auspicious" : lv <= -1 ? "Go slowly" : "", c.kong ? "Void" : "", c.is_ma ? "Horse" : "", c.shen === "\u503C\u7B26" ? "Value Officer" : ""].filter(Boolean);
+      return `- **${term(c.dir)} (${term(c.name)})**: ${term(c.door)} / ${term(c.star)}${tag.length ? ` (${tag.join(", ")})` : ""}`;
+    });
+    const fourZh = ["\u4E5D\u5929", "\u4E5D\u5730", "\u592A\u9634", "\u516D\u5408"].map((s) => {
       const p = Number(Object.keys(r.palaces).find((k) => r.palaces[k].shen === s));
       if (!p) return "";
       const c = r.palaces[p];
       return `**${s}**\u5728${c.name}\uFF08${c.dir}\u65B9\uFF09`;
     }).filter(Boolean);
-    if (four.length) rows.push("", "\u56DB\u5409\u65B9\u4F4D\uFF1A" + four.join("\u3001") + "\u3002");
-    secs.push({ title: "\u4E94\u3001\u65B9\u4F4D\u901F\u67E5", body: rows.join("\n") });
-    secs.push({ title: "\u516D\u3001\u4E11\u8BDD\u8BF4\u5728\u524D\u9762", body: "\u5947\u95E8\u65E7\u7C4D\u51E0\u4E4E\u5168\u662F\u4E3A\u884C\u519B\u6253\u4ED7\u5199\u7684\u3002\u4ECA\u5929\u7528\u5B83\u6311\u65B9\u4F4D\u3001\u8F85\u52A9\u51B3\u7B56\uFF0C\u53D6\u7684\u662F\u300C\u5929\u65F6\u5730\u5229\u300D\u7684\u6846\u67B6\uFF0C\u4E0D\u662F\u5360\u65AD\u7978\u798F\u7684\u94C1\u53E3\u3002\u5409\u683C\u5F53\u6210\u987A\u98CE\u7684\u7A97\u53E3\uFF0C\u51F6\u683C\u5F53\u6210\u591A\u7559\u4F59\u91CF\u7684\u63D0\u9192\u2014\u2014\u51B3\u5B9A\u8FD8\u662F\u4F60\u7684\u3002" });
+    const fourEn = ["\u4E5D\u5929", "\u4E5D\u5730", "\u592A\u9634", "\u516D\u5408"].map((s) => {
+      const p = Number(Object.keys(r.palaces).find((k) => r.palaces[k].shen === s));
+      if (!p) return "";
+      const c = r.palaces[p];
+      return `**${qterm(s)}** in ${term(c.name)} (${term(c.dir)})`;
+    }).filter(Boolean);
+    if (fourZh.length) {
+      rowsZh.push("", "\u56DB\u5409\u65B9\u4F4D\uFF1A" + fourZh.join("\u3001") + "\u3002");
+      rowsEn.push("", "Four auspicious directions: " + fourEn.join(", ") + ".");
+    }
+    push("\u4E94\u3001\u65B9\u4F4D\u901F\u67E5", "5 \xB7 Direction quick reference", rowsZh.join("\n"), rowsEn.join("\n"));
+    push(
+      "\u516D\u3001\u4E11\u8BDD\u8BF4\u5728\u524D\u9762",
+      "6 \xB7 A word of caution",
+      "\u5947\u95E8\u65E7\u7C4D\u51E0\u4E4E\u5168\u662F\u4E3A\u884C\u519B\u6253\u4ED7\u5199\u7684\u3002\u4ECA\u5929\u7528\u5B83\u6311\u65B9\u4F4D\u3001\u8F85\u52A9\u51B3\u7B56\uFF0C\u53D6\u7684\u662F\u300C\u5929\u65F6\u5730\u5229\u300D\u7684\u6846\u67B6\uFF0C\u4E0D\u662F\u5360\u65AD\u7978\u798F\u7684\u94C1\u53E3\u3002\u5409\u683C\u5F53\u6210\u987A\u98CE\u7684\u7A97\u53E3\uFF0C\u51F6\u683C\u5F53\u6210\u591A\u7559\u4F59\u91CF\u7684\u63D0\u9192\u2014\u2014\u51B3\u5B9A\u8FD8\u662F\u4F60\u7684\u3002",
+      "Most old Qi Men texts were written for military campaigning. Used today for timing and direction, the useful part is the framework of \u201Cheavenly timing and earthly advantage\u201D \u2014 not fixed predictions. Treat auspicious patterns as a favorable window and difficult ones as a prompt to leave margin. The decision is still yours."
+    );
     return secs;
   }
 
@@ -14039,7 +15005,7 @@ ${yun.dayun?.judge || ""}` });
     qmi: 20
   };
   var JU_NAME2 = { 2: "\u6C34\u4E8C\u5C40", 3: "\u6728\u4E09\u5C40", 4: "\u91D1\u56DB\u5C40", 5: "\u571F\u4E94\u5C40", 6: "\u706B\u516D\u5C40" };
-  var LAYERS = [["benming", "\u672C\u547D"], ["limit", "\u5927\u9650"], ["annual", "\u6D41\u5E74"], ["month", "\u6D41\u6708"], ["day", "\u6D41\u65E5"]];
+  var LAYERS = [["benming", "layer.benming"], ["limit", "layer.limit"], ["annual", "layer.annual"], ["month", "layer.month"], ["day", "layer.day"]];
   var ARCHIVE_KEY = "xingyuan.archive.v1";
   var STATE_KEY = "xingyuan.state.v1";
   var mod5 = (a, n) => (a % n + n) % n;
@@ -14084,10 +15050,10 @@ ${yun.dayun?.judge || ""}` });
     const box = $("archiveBody");
     if (!box) return;
     const list = archive();
-    box.innerHTML = list.length ? list.map((x) => `<div class="arow"><span>${esc2(x.name)}</span><button data-archive-load="${x.id}">\u6253\u5F00</button><button data-archive-del="${x.id}">\u5220\u9664</button></div>`).join("") : '<p class="dw-mute">\u8FD8\u6CA1\u6709\u5B58\u6863\u3002\u6392\u597D\u76D8\u540E\u70B9\u300C\u4FDD\u5B58\u6863\u6848\u300D\uFF0C\u5C31\u7559\u5728\u8FD9\u53F0\u8BBE\u5907\u4E0A\u3002</p>';
+    box.innerHTML = list.length ? list.map((x) => `<div class="arow"><span>${esc2(tx(x.name))}</span><button data-archive-load="${x.id}">${t("archive.open")}</button><button data-archive-del="${x.id}">${t("archive.delete")}</button></div>`).join("") : `<p class="dw-mute">${t("archive.empty")}</p>`;
   }
   function palaceCard(r, branch, ranges) {
-    const name = PALACES[mod5(r.life - branch, 12)];
+    const name = term(PALACES[mod5(r.life - branch, 12)]);
     const stars = r.stars[branch] || [];
     const majors = stars.filter((s) => MAJOR2.has(s));
     const minors = stars.filter((s) => !MAJOR2.has(s));
@@ -14096,29 +15062,28 @@ ${yun.dayun?.judge || ""}` });
     const starNotes = window.__LIB__?.["reading/star_notes"]?.notes || {};
     let starHtml = "";
     const one = (s, major) => {
-      const t = hua[s] ? hua[s].tag : "";
-      const br = Object.keys(hua).find((k) => hua[k] === hua[s]);
-      const place = t && br ? Number(Object.keys(r.stars).find((k) => (r.stars[k] || []).includes(br)) ?? -1) : -1;
-      const h = t ? `<sup class="hua ${HUA_CLASS[t]}"${place >= 0 ? ` data-goto="${place}" data-hua="${t}" title="${t}\u843D\u5BAB"` : ""}>${t}</sup>` : "";
-      const lv = major && bright[s] ? `<i class="lvl">${esc2(bright[s])}</i>` : "";
-      const note = starNotes[s] ? ` title="${esc2(starNotes[s])}"` : "";
-      return `<span class="star ${major ? "major" : "minor"}" data-star="${esc2(s)}"${note}>${esc2(s)}${h}${lv}</span>`;
+      const tag2 = hua[s] ? hua[s].tag : "";
+      const place = tag2 ? Number(Object.keys(r.stars).find((k) => (r.stars[k] || []).includes(Object.keys(hua).find((k2) => hua[k2] === hua[s]) || "")) ?? -1) : -1;
+      const h = tag2 ? `<sup class="hua ${HUA_CLASS[tag2]}"${place >= 0 ? ` data-goto="${place}" data-hua="${tag2}" title="${esc2(term(tag2) + " " + t("hua.title"))}"` : ""}>${esc2(term(tag2))}</sup>` : "";
+      const lv = major && bright[s] ? `<i class="lvl">${esc2(term(bright[s]))}</i>` : "";
+      const note = starNotes[s] ? ` title="${esc2(tx(starNotes[s]).slice(0, 120))}"` : "";
+      return `<span class="star ${major ? "major" : "minor"}" data-star="${esc2(s)}"${note}>${esc2(term(s))}${h}${lv}</span>`;
     };
     for (const s of majors) starHtml += one(s, true);
     for (const s of minors) starHtml += one(s, false);
-    if (!stars.length) starHtml = '<span class="empty">\u7A7A\u5BAB</span>';
+    if (!stars.length) starHtml = `<span class="empty">${t("palace.empty")}</span>`;
     let tag = "";
-    if (branch === r.life) tag = '<span class="badge life">\u547D</span>';
-    else if (branch === r.body) tag = '<span class="badge body">\u8EAB</span>';
+    if (branch === r.life) tag = `<span class="badge life">${t("badge.life")}</span>`;
+    else if (branch === r.body) tag = `<span class="badge body">${t("badge.body")}</span>`;
     const cs = (r.changsheng || {})[branch] || "";
     const bs = (r.boshi || {})[branch] || "";
-    const gods = cs || bs ? `<div class="gods">${esc2(cs)} \xB7 ${esc2(bs)}</div>` : "";
+    const gods = cs || bs ? `<div class="gods">${esc2(cs ? term(cs) : "")}${cs && bs ? " \xB7 " : ""}${esc2(bs ? term(bs) : "")}</div>` : "";
     const on = overlays[branch] ? `<span class="oname">${esc2(overlays[branch])}</span>` : "";
     const hl = branch === hlBranch ? " hl" : "";
     return `<div class="palace${hl}" data-branch="${branch}" data-pname="${esc2(name)}" role="button" tabindex="0"
-    aria-label="${esc2(name)}\uFF0C\u70B9\u5F00\u770B\u8FD9\u4E00\u683C\u5728\u8BF4\u4EC0\u4E48">
+    aria-label="${esc2(name + (getLang() === "en" ? ", activate for a reading of this palace" : "\uFF0C\u70B9\u5F00\u770B\u8FD9\u4E00\u683C\u5728\u8BF4\u4EC0\u4E48"))}">
     <div class="stars">${starHtml}</div>${gods}
-    <div class="foot"><span class="pname">${esc2(name)}${tag}</span>${on}<span class="rng">${esc2(ranges[branch] || "")}</span><span class="pbr">${BRANCHES[branch]}</span></div></div>`;
+    <div class="foot"><span class="pname">${esc2(name)}${tag}</span>${on}<span class="rng">${esc2(ranges[branch] || "")}</span><span class="pbr">${esc2(term(BRANCHES[branch]))}</span></div></div>`;
   }
   function chartView(r, age, year, ref) {
     overlays = {};
@@ -14164,38 +15129,42 @@ ${yun.dayun?.judge || ""}` });
     for (const [b, [row, col]] of Object.entries(pos)) {
       cells += `<div style="grid-area:${row}/${col}" class="gcell">${palaceCard(r, +b, ranges)}</div>`;
     }
-    const layerName = LAYERS.find((x) => x[0] === S.layer)?.[1] || "\u672C\u547D";
+    const layerName = t(LAYERS.find((x) => x[0] === S.layer)?.[1] || "layer.benming");
     const center = `<div class="center"><div class="cinner">
-    <div class="cname">\u661F \u57A3</div>
-    <div class="cline">${JU_NAME2[r.ju] || ""} \xB7 ${esc2(S.g)}\u547D \xB7 ${layerName}</div>
-    <div class="cline">\u771F\u592A\u9633\u65F6 ${String(r.tst[0]).padStart(2, "0")}:${String(r.tst[1]).padStart(2, "0")}\uFF08${BRANCHES[r.hour_branch_i]}\u65F6\uFF09</div>
-    <div class="cline">\u519C\u5386 ${r.lunar[0]}\u5E74${r.lunar[3] ? "\u95F0" : ""}${r.lunar[1]}\u6708${r.lunar[2]}\u65E5</div>
-    <div class="cline">\u547D\u5BAB ${STEMS[r.life_stem]}${BRANCHES[r.life]} \xB7 \u8EAB\u5BAB ${BRANCHES[r.body]}</div>
-    <div class="cline">\u7D2B\u5FAE ${BRANCHES[r.ziwei]} \xB7 \u5929\u5E9C ${BRANCHES[r.tianfu]}</div>
-    <div class="legend"><span class="hua lu">\u7984</span><span class="hua quan">\u6743</span><span class="hua ke">\u79D1</span><span class="hua ji">\u5FCC</span><span class="lvl">\u5E99\u65FA\u5E73\u9677</span></div>
+    <div class="cname">${t("center.name")}</div>
+    <div class="cline">${JU_NAME2[r.ju] ? term(JU_NAME2[r.ju]) : ""} \xB7 ${esc2(term(S.g))}${getLang() === "en" ? " " : ""}${t("center.gender")} \xB7 ${layerName}</div>
+    <div class="cline">${t("center.solarTime")} ${String(r.tst[0]).padStart(2, "0")}:${String(r.tst[1]).padStart(2, "0")}\uFF08${esc2(term(BRANCHES[r.hour_branch_i]))}\uFF09</div>
+    <div class="cline">${t("center.lunar")} ${r.lunar[0]}${r.lunar[3] ? t("center.leap") : ""}${r.lunar[1]}/${r.lunar[2]}</div>
+    <div class="cline">${t("center.lifePalace")} ${esc2(ganzhi(STEMS[r.life_stem] + BRANCHES[r.life]))} \xB7 ${t("center.bodyPalace")} ${esc2(term(BRANCHES[r.body]))}</div>
+    <div class="cline">${term("\u7D2B\u5FAE")} ${esc2(term(BRANCHES[r.ziwei]))} \xB7 ${term("\u5929\u5E9C")} ${esc2(term(BRANCHES[r.tianfu]))}</div>
+    <div class="legend"><span class="hua lu">${term("\u7984")}</span><span class="hua quan">${term("\u6743")}</span><span class="hua ke">${term("\u79D1")}</span><span class="hua ji">${term("\u5FCC")}</span><span class="lvl">${bi("\u5E99\u65FA\u5E73\u9677", "Brightness")}</span></div>
   </div></div>`;
     let out = `<div class="grid${S.lines ? "" : ""}">${cells}${center}<svg class="tri-lines" aria-hidden="true"></svg></div>`;
     try {
       const lib = ziweiLibrary();
       const md = compose(r, lib, age, year, ref).replace(/（[^（）]{0,10}第[^（）]{0,8}章[^（）]{0,10}p\d+[^（）]{0,8}）/g, "").replace(/（p\d+）/g, "");
-      out += `<details class="dsec readmore" style="margin-top:14px"><summary>\u547D\u76D8\u89E3\u8BFB \xB7 \u4E94\u7EF4\u767D\u8BDD</summary>${mdBlock(md)}</details>`;
+      out += `<details class="dsec readmore" style="margin-top:14px"><summary>${t("readmore.ziwei")}</summary>${mdBlock(md)}</details>`;
     } catch (e) {
-      out += `<p class="err">\u89E3\u8BFB\u6682\u65F6\u6CA1\u80FD\u751F\u6210\uFF1A${esc2(e.message || e)}</p>`;
+      out += `<p class="err">${t("err.reading")}${esc2(e.message || e)}</p>`;
     }
     return out;
   }
   function overlayNames(life) {
     const out = {};
-    for (let b = 0; b < 12; b++) out[b] = "\u5927" + PALACES[mod5(life - b, 12)];
+    for (let b = 0; b < 12; b++) out[b] = t("layer.limit") + term(PALACES[mod5(life - b, 12)]);
     return out;
   }
   function baziView(r, year, age) {
     const ln = liunian(r, year);
-    window.__CURRENT_LIUNIAN__ = `${year} \u5E74\u662F **${ln.ganzhi}** \u5E74\uFF0C\u6D41\u5E74\u5929\u5E72\u5BF9\u4F60\u6210 **${ln.gan_god}**\uFF0C\u5730\u652F\u5C5E **${ln.zhi_wx}**\u3002` + (current_dayun(r, age) ? `\u773C\u4E0B\u8D70 **${current_dayun(r, age).ganzhi}** \u8FD0\uFF0C\u8FD0\u5E72 **${current_dayun(r, age).gan_god}**\u3002` : "");
-    let h = '<div class="dsec"><h2>\u56DB\u67F1</h2>' + baziPillarsHtml(r) + "</div>";
-    h += '<div class="dsec"><h2>\u4E94\u884C\u529B\u91CF</h2>' + baziWuxingHtml(r) + '<p class="ratio">\u5929\u5E72\u5404 1 \u5206\uFF1B\u85CF\u5E72\u6309\u6708\u4EE4 \xD73\u3001\u65E5\u652F \xD71.5\u3001\u5176\u4F59 \xD71\uFF0C\u5E76\u4E58\u672C\u6C14 1 / \u4E2D\u6C14 0.5 / \u4F59\u6C14 0.3\u3002</p></div>';
-    h += '<div class="dsec"><h2>\u547D\u5C40</h2>' + baziCardsHtml(r) + "</div>";
-    if (r.dayun?.length) h += `<div class="dsec"><h2>\u5927\u8FD0</h2><p class="ratio">\u8D77\u8FD0 ${r.qi_yun.year} \u5E74 ${r.qi_yun.month} \u4E2A\u6708\uFF0C${r.qi_yun.forward ? "\u987A" : "\u9006"}\u884C</p>` + dayunHtml(r, age) + "</div>";
+    const dy = current_dayun(r, age);
+    window.__CURRENT_LIUNIAN_ZH__ = `${year} \u5E74\u662F **${ln.ganzhi}** \u5E74\uFF0C\u6D41\u5E74\u5929\u5E72\u5BF9\u4F60\u6210 **${ln.gan_god}**\uFF0C\u5730\u652F\u5C5E **${ln.zhi_wx}**\u3002` + (dy ? `\u773C\u4E0B\u8D70 **${dy.ganzhi}** \u8FD0\uFF0C\u8FD0\u5E72 **${dy.gan_god}**\u3002` : "");
+    window.__CURRENT_LIUNIAN__ = getLang() === "en" ? `**${year}** is a **${ganzhi(ln.ganzhi)}** year. Its stem forms **${term(ln.gan_god)}** for you; its branch element is **${term(ln.zhi_wx)}**.` + (dy ? `
+
+You are currently in the **${ganzhi(dy.ganzhi)}** major fortune, with **${term(dy.gan_god)}** as its stem god.` : "") : `${year} \u5E74\u662F **${ln.ganzhi}** \u5E74\uFF0C\u6D41\u5E74\u5929\u5E72\u5BF9\u4F60\u6210 **${ln.gan_god}**\uFF0C\u5730\u652F\u5C5E **${ln.zhi_wx}**\u3002` + (dy ? `\u773C\u4E0B\u8D70 **${dy.ganzhi}** \u8FD0\uFF0C\u8FD0\u5E72 **${dy.gan_god}**\u3002` : "");
+    let h = `<div class="dsec"><h2>${t("section.pillars")}</h2>` + baziPillarsHtml(r) + "</div>";
+    h += `<div class="dsec"><h2>${t("section.wuxing")}</h2>` + baziWuxingHtml(r) + `<p class="ratio">${t("bazi.wuxingNote")}</p></div>`;
+    h += `<div class="dsec"><h2>${t("section.pattern")}</h2>` + baziCardsHtml(r) + "</div>";
+    if (r.dayun?.length) h += `<div class="dsec"><h2>${t("section.dayun")}</h2><p class="ratio">${t("bazi.qiyun")} ${r.qi_yun.year} ${t("birth.year")} ${r.qi_yun.month} ${t("birth.month")}\uFF0C${r.qi_yun.forward ? t("bazi.forward") : t("bazi.backward")}</p>` + dayunHtml(r, age) + "</div>";
     for (const sec of baziSections(r, year, age)) {
       h += `<div class="dsec"><h2>${esc2(sec.title)}</h2>${mdBlock(sec.body)}</div>`;
     }
@@ -14203,14 +15172,14 @@ ${yun.dayun?.judge || ""}` });
   }
   function qimenForm() {
     return `<form class="bar" id="qmform" style="margin:0 0 12px">
-    <label>\u7528\u4E8B\u65E5\u671F <input type="date" id="qdate" value="${S.qy}-${String(S.qmo).padStart(2, "0")}-${String(S.qd).padStart(2, "0")}"></label>
-    <label>\u7528\u4E8B\u65F6\u523B <input type="time" id="qclock" value="${String(S.qhh).padStart(2, "0")}:${String(S.qmi).padStart(2, "0")}"></label>
-    <button type="button" id="qmgo">\u8D77\u5C40</button></form>`;
+    <label><span data-i18n="qform.date">${t("qform.date")}</span> <input type="date" id="qdate" value="${S.qy}-${String(S.qmo).padStart(2, "0")}-${String(S.qd).padStart(2, "0")}"></label>
+    <label><span data-i18n="qform.time">${t("qform.time")}</span> <input type="time" id="qclock" value="${String(S.qhh).padStart(2, "0")}:${String(S.qmi).padStart(2, "0")}"></label>
+    <button type="button" id="qmgo">${t("qform.go")}</button></form>`;
   }
   function qimenView(r) {
-    let h = qimenForm() + '<div class="dsec"><h2>\u4E5D\u5BAB\u76D8</h2>' + qimenGridHtml(r) + '<p class="ratio">\u7528\u4E8B\u65F6\u5E72\u6240\u5728\u5BAB\u5E26\u91D1\u8FB9\uFF08\u95EE\u4E8B\u7684\u4EBA\uFF09\uFF1B\u300C\u7A7A\u300D\u4E3A\u65F6\u65EC\u7A7A\u4EA1\uFF0C\u300C\u9A6C\u300D\u4E3A\u9A7F\u9A6C\u3002\u70B9\u4EFB\u4F55\u4E00\u5BAB\u53EF\u770B\u8FD9\u4E00\u683C\u7684\u767D\u8BDD\u3002\u8F6C\u76D8\u5947\u95E8\uFF08\u65F6\u5BB6\uFF09\uFF0C\u62C6\u8865\u6CD5\u5B9A\u5C40\u3002</p></div>';
-    if (r.fu_yin) h = h.replace('<div class="dsec">', '<p class="ratio"><b>\u4F0F\u541F\u5C40</b>\uFF1A\u661F\u95E8\u5404\u56DE\u672C\u5BAB\uFF0C\u5B9C\u5B88\u4E0D\u5B9C\u52A8\u3002</p><div class="dsec">');
-    if (r.fan_yin) h = h.replace('<div class="dsec">', '<p class="ratio"><b>\u53CD\u541F\u5C40</b>\uFF1A\u661F\u95E8\u5750\u5BF9\u5BAB\uFF0C\u4E8B\u5FEB\u800C\u53CD\u590D\u3002</p><div class="dsec">');
+    let h = qimenForm() + `<div class="dsec"><h2>${t("qimen.grid")}</h2>` + qimenGridHtml(r) + `<p class="ratio">${t("qimen.gridNote")}</p></div>`;
+    if (r.fu_yin) h = h.replace('<div class="dsec">', `<p class="ratio"><b>${t("qimen.fuyin")}</b>\uFF1A${t("qimen.fuyinNote")}</p><div class="dsec">`);
+    if (r.fan_yin) h = h.replace('<div class="dsec">', `<p class="ratio"><b>${t("qimen.fanyin")}</b>\uFF1A${t("qimen.fanyinNote")}</p><div class="dsec">`);
     for (const sec of qimenSections(r)) h += `<div class="dsec"><h2>${esc2(sec.title)}</h2>${mdBlock(sec.body)}</div>`;
     return h;
   }
@@ -14236,8 +15205,8 @@ ${yun.dayun?.judge || ""}` });
       S.g = $("g").value;
       S.lon = parseFloat($("lon").value) || 120;
       S.ref = $("ref").value || TODAY;
-      if (!(1900 <= S.y && S.y <= 2100)) throw new Error("\u5E74\u4EFD\u9700\u5728 1900\u20132100 \u4E4B\u95F4");
-      if (!(60 <= S.lon && S.lon <= 150)) throw new Error("\u7ECF\u5EA6\u9700\u5728 60\u2013150 \u4E4B\u95F4");
+      if (!(1900 <= S.y && S.y <= 2100)) throw new Error(t("err.year"));
+      if (!(60 <= S.lon && S.lon <= 150)) throw new Error(t("err.lon"));
     } catch (e) {
       out.innerHTML = `<div class="err">${esc2(e.message || e)}</div>`;
       return;
@@ -14259,7 +15228,7 @@ ${yun.dayun?.judge || ""}` });
       out.innerHTML = `<div id="dailybar">${dailyBarHtml()}</div>` + content;
       document.querySelectorAll(".tab").forEach((x) => x.classList.toggle("on", x.dataset.view === S.view));
       document.querySelectorAll(".vt").forEach((x) => x.classList.toggle("on", x.dataset.layer === S.layer));
-      $("linesBtn").textContent = S.lines ? "\u9690\u85CF\u8FDE\u7EBF" : "\u663E\u793A\u8FDE\u7EBF";
+      $("linesBtn").textContent = S.lines ? t("btn.hideLines") : t("btn.showLines");
       document.body.classList.toggle("lines-off", !S.lines);
       if (S.view === "chart" && S.palaceName) {
       }
@@ -14374,6 +15343,14 @@ ${yun.dayun?.judge || ""}` });
   }
   window.addEventListener("DOMContentLoaded", () => {
     loadState();
+    applyStatic();
+    onLangChange(() => {
+      closeStar();
+      closeDrawer();
+      showNote("");
+      renderArchive();
+      go();
+    });
     for (const [id, v] of [["y", S.y], ["mo", S.mo], ["d", S.d], ["hh", S.hh], ["mi", S.mi], ["lon", S.lon]]) {
       $(id).value = String(v);
     }
@@ -14381,50 +15358,54 @@ ${yun.dayun?.judge || ""}` });
     $("ref").value = S.ref;
     $("daily").value = S.daily || "";
     document.addEventListener("click", (e) => {
-      const t = e.target;
-      const tab = t.closest(".tab");
+      const t2 = e.target;
+      const tab = t2.closest(".tab");
       if (tab && tab.dataset.view) {
         S.view = tab.dataset.view;
         saveState();
         go();
         return;
       }
-      const vt = t.closest(".vt");
+      const vt = t2.closest(".vt");
       if (vt && vt.dataset.layer) {
         setLayer(vt.dataset.layer);
         return;
       }
-      if (t.closest("#go")) {
+      if (t2.closest("#go")) {
         go();
         return;
       }
-      if (t.closest("#qmgo")) {
+      if (t2.closest("#qmgo")) {
         readQimenForm();
         return;
       }
-      if (t.closest("#todayBtn")) {
+      if (t2.closest("#todayBtn")) {
         togglePanel("settingsPanel");
         return;
       }
-      if (t.closest("#archiveBtn")) {
+      if (t2.closest("#archiveBtn")) {
         togglePanel("archivePanel");
         return;
       }
-      if (t.closest("#settingsBtn")) {
+      if (t2.closest("#settingsBtn")) {
         togglePanel("settingsPanel");
         return;
       }
-      if (t.closest("#linesBtn")) {
+      if (t2.closest("#langBtn")) {
+        toggleLang();
+        return;
+      }
+      if (t2.closest("#linesBtn")) {
         S.lines = !S.lines;
         saveState();
         go();
         return;
       }
-      if (t.closest("#saveBtn")) {
+      if (t2.closest("#saveBtn")) {
         saveArchive();
         return;
       }
-      const al = t.closest("[data-archive-load]");
+      const al = t2.closest("[data-archive-load]");
       if (al) {
         const item = archive().find((x) => String(x.id) === al.dataset.archiveLoad);
         if (item) {
@@ -14434,7 +15415,7 @@ ${yun.dayun?.judge || ""}` });
         }
         return;
       }
-      const ad = t.closest("[data-archive-del]");
+      const ad = t2.closest("[data-archive-del]");
       if (ad) {
         try {
           localStorage.setItem(ARCHIVE_KEY, JSON.stringify(archive().filter((x) => String(x.id) !== ad.dataset.archiveDel)));
@@ -14443,42 +15424,42 @@ ${yun.dayun?.judge || ""}` });
         renderArchive();
         return;
       }
-      if (t.closest("#clearArchive")) {
-        if (confirm("\u6E05\u7A7A\u8FD9\u53F0\u8BBE\u5907\u4E0A\u7684\u5168\u90E8\u6863\u6848\uFF1F")) {
+      if (t2.closest("#clearArchive")) {
+        if (confirm(t2("confirm.clearArchive"))) {
           localStorage.removeItem(ARCHIVE_KEY);
           renderArchive();
         }
         return;
       }
-      const goto = t.closest("[data-goto]");
+      const goto = t2.closest("[data-goto]");
       if (goto) {
         showDrawer(Number(goto.dataset.goto));
         return;
       }
-      if (t.closest("[data-close]")) {
+      if (t2.closest("[data-close]")) {
         closeDrawer();
         return;
       }
-      if (t.closest("[data-close-star]")) {
+      if (t2.closest("[data-close-star]")) {
         closeStar();
         return;
       }
-      const star = t.closest("[data-star]");
+      const star = t2.closest("[data-star]");
       if (star && star.dataset.star) {
         showStar(star.dataset.star);
         return;
       }
-      const qpal = t.closest(".qpal[data-qnote]");
+      const qpal = t2.closest(".qpal[data-qnote]");
       if (qpal) {
         showNote(qpal.dataset.qnote || "");
         return;
       }
-      const palace = t.closest(".palace");
+      const palace = t2.closest(".palace");
       if (palace) {
         showDrawer(Number(palace.dataset.branch));
         return;
       }
-      if (!t.closest(".notepanel")) showNote("");
+      if (!t2.closest(".notepanel")) showNote("");
     });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
@@ -14487,10 +15468,10 @@ ${yun.dayun?.judge || ""}` });
         showNote("");
       }
       if (e.key === "Enter" || e.key === " ") {
-        const t = e.target;
-        if (t.classList?.contains("qpal") || t.classList?.contains("palace")) {
+        const t2 = e.target;
+        if (t2.classList?.contains("qpal") || t2.classList?.contains("palace")) {
           e.preventDefault();
-          t.click();
+          t2.click();
         }
       }
     });

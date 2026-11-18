@@ -5,6 +5,7 @@ import { bazi, liunian, current_dayun } from './engine/bazi.ts';
 import { qimen, daily_qimen } from './engine/qimen.ts';
 import { limit_chart, annual_chart, flow_months, flow_day, compose } from './engine/composer.ts';
 import * as RD from './reading.ts';
+import { getLang, toggleLang, onLangChange, applyStatic, t, bi, term, tx, ganzhi } from './i18n.ts';
 
 type View = 'chart' | 'bazi' | 'qimen';
 type Layer = 'benming' | 'limit' | 'annual' | 'month' | 'day';
@@ -20,7 +21,7 @@ const DEFAULT: State = {
   qy: 1990, qmo: 5, qd: 15, qhh: 3, qmi: 20,
 };
 const JU_NAME: Record<number, string> = { 2: '水二局', 3: '木三局', 4: '金四局', 5: '土五局', 6: '火六局' };
-const LAYERS: [Layer, string][] = [['benming', '本命'], ['limit', '大限'], ['annual', '流年'], ['month', '流月'], ['day', '流日']];
+const LAYERS: [Layer, string][] = [['benming', 'layer.benming'], ['limit', 'layer.limit'], ['annual', 'layer.annual'], ['month', 'layer.month'], ['day', 'layer.day']];
 const ARCHIVE_KEY = 'xingyuan.archive.v1';
 const STATE_KEY = 'xingyuan.state.v1';
 const mod = (a: number, n: number) => ((a % n) + n) % n;
@@ -54,12 +55,12 @@ function renderArchive(): void {
   if (!box) return;
   const list = archive();
   box.innerHTML = list.length ? list.map(x =>
-    `<div class="arow"><span>${esc(x.name)}</span><button data-archive-load="${x.id}">打开</button><button data-archive-del="${x.id}">删除</button></div>`).join('')
-    : '<p class="dw-mute">还没有存档。排好盘后点「保存档案」，就留在这台设备上。</p>';
+    `<div class="arow"><span>${esc(tx(x.name))}</span><button data-archive-load="${x.id}">${t('archive.open')}</button><button data-archive-del="${x.id}">${t('archive.delete')}</button></div>`).join('')
+    : `<p class="dw-mute">${t('archive.empty')}</p>`;
 }
 
 function palaceCard(r: any, branch: number, ranges: Record<number, string>): string {
-  const name = PALACES[mod(r.life - branch, 12)];
+  const name = term(PALACES[mod(r.life - branch, 12)]);
   const stars: string[] = r.stars[branch] || [];
   const majors = stars.filter(s => RD.MAJOR.has(s));
   const minors = stars.filter(s => !RD.MAJOR.has(s));
@@ -68,29 +69,28 @@ function palaceCard(r: any, branch: number, ranges: Record<number, string>): str
   const starNotes = ((window as any).__LIB__?.['reading/star_notes']?.notes) || {};
   let starHtml = '';
   const one = (s: string, major: boolean) => {
-    const t = hua[s] ? hua[s].tag : '';
-    const br = Object.keys(hua).find(k => hua[k] === hua[s]);
-    const place = t && br ? Number(Object.keys(r.stars).find(k => (r.stars[k] || []).includes(br)) ?? -1) : -1;
-    const h = t ? `<sup class="hua ${RD.HUA_CLASS[t]}"${place >= 0 ? ` data-goto="${place}" data-hua="${t}" title="${t}落宫"` : ''}>${t}</sup>` : '';
-    const lv = major && bright[s] ? `<i class="lvl">${esc(bright[s])}</i>` : '';
-    const note = starNotes[s] ? ` title="${esc(starNotes[s])}"` : '';
-    return `<span class="star ${major ? 'major' : 'minor'}" data-star="${esc(s)}"${note}>${esc(s)}${h}${lv}</span>`;
+    const tag = hua[s] ? hua[s].tag : '';
+    const place = tag ? Number(Object.keys(r.stars).find(k => (r.stars[k] || []).includes(Object.keys(hua).find(k => hua[k] === hua[s]) || '')) ?? -1) : -1;
+    const h = tag ? `<sup class="hua ${RD.HUA_CLASS[tag]}"${place >= 0 ? ` data-goto="${place}" data-hua="${tag}" title="${esc(term(tag) + ' ' + t('hua.title'))}"` : ''}>${esc(term(tag))}</sup>` : '';
+    const lv = major && bright[s] ? `<i class="lvl">${esc(term(bright[s]))}</i>` : '';
+    const note = starNotes[s] ? ` title="${esc(tx(starNotes[s]).slice(0, 120))}"` : '';
+    return `<span class="star ${major ? 'major' : 'minor'}" data-star="${esc(s)}"${note}>${esc(term(s))}${h}${lv}</span>`;
   };
   for (const s of majors) starHtml += one(s, true);
   for (const s of minors) starHtml += one(s, false);
-  if (!stars.length) starHtml = '<span class="empty">空宫</span>';
+  if (!stars.length) starHtml = `<span class="empty">${t('palace.empty')}</span>`;
   let tag = '';
-  if (branch === r.life) tag = '<span class="badge life">命</span>';
-  else if (branch === r.body) tag = '<span class="badge body">身</span>';
+  if (branch === r.life) tag = `<span class="badge life">${t('badge.life')}</span>`;
+  else if (branch === r.body) tag = `<span class="badge body">${t('badge.body')}</span>`;
   const cs = (r.changsheng || {})[branch] || '';
   const bs = (r.boshi || {})[branch] || '';
-  const gods = (cs || bs) ? `<div class="gods">${esc(cs)} · ${esc(bs)}</div>` : '';
+  const gods = (cs || bs) ? `<div class="gods">${esc(cs ? term(cs) : '')}${cs && bs ? ' · ' : ''}${esc(bs ? term(bs) : '')}</div>` : '';
   const on = overlays[branch] ? `<span class="oname">${esc(overlays[branch])}</span>` : '';
   const hl = branch === hlBranch ? ' hl' : '';
   return `<div class="palace${hl}" data-branch="${branch}" data-pname="${esc(name)}" role="button" tabindex="0"
-    aria-label="${esc(name)}，点开看这一格在说什么">
+    aria-label="${esc(name + (getLang() === 'en' ? ', activate for a reading of this palace' : '，点开看这一格在说什么'))}">
     <div class="stars">${starHtml}</div>${gods}
-    <div class="foot"><span class="pname">${esc(name)}${tag}</span>${on}<span class="rng">${esc(ranges[branch] || '')}</span><span class="pbr">${BRANCHES[branch]}</span></div></div>`;
+    <div class="foot"><span class="pname">${esc(name)}${tag}</span>${on}<span class="rng">${esc(ranges[branch] || '')}</span><span class="pbr">${esc(term(BRANCHES[branch]))}</span></div></div>`;
 }
 
 function chartView(r: any, age: number, year: number, ref: string): string {
@@ -119,15 +119,15 @@ function chartView(r: any, age: number, year: number, ref: string): string {
   for (const [b, [row, col]] of Object.entries(pos)) {
     cells += `<div style="grid-area:${row}/${col}" class="gcell">${palaceCard(r, +b, ranges)}</div>`;
   }
-  const layerName = LAYERS.find(x => x[0] === S.layer)?.[1] || '本命';
+  const layerName = t(LAYERS.find(x => x[0] === S.layer)?.[1] || 'layer.benming');
   const center = `<div class="center"><div class="cinner">
-    <div class="cname">星 垣</div>
-    <div class="cline">${JU_NAME[r.ju] || ''} · ${esc(S.g)}命 · ${layerName}</div>
-    <div class="cline">真太阳时 ${String(r.tst[0]).padStart(2, '0')}:${String(r.tst[1]).padStart(2, '0')}（${BRANCHES[r.hour_branch_i]}时）</div>
-    <div class="cline">农历 ${r.lunar[0]}年${r.lunar[3] ? '闰' : ''}${r.lunar[1]}月${r.lunar[2]}日</div>
-    <div class="cline">命宫 ${STEMS[r.life_stem]}${BRANCHES[r.life]} · 身宫 ${BRANCHES[r.body]}</div>
-    <div class="cline">紫微 ${BRANCHES[r.ziwei]} · 天府 ${BRANCHES[r.tianfu]}</div>
-    <div class="legend"><span class="hua lu">禄</span><span class="hua quan">权</span><span class="hua ke">科</span><span class="hua ji">忌</span><span class="lvl">庙旺平陷</span></div>
+    <div class="cname">${t('center.name')}</div>
+    <div class="cline">${JU_NAME[r.ju] ? term(JU_NAME[r.ju]) : ''} · ${esc(term(S.g))}${getLang() === 'en' ? ' ' : ''}${t('center.gender')} · ${layerName}</div>
+    <div class="cline">${t('center.solarTime')} ${String(r.tst[0]).padStart(2, '0')}:${String(r.tst[1]).padStart(2, '0')}（${esc(term(BRANCHES[r.hour_branch_i]))}）</div>
+    <div class="cline">${t('center.lunar')} ${r.lunar[0]}${r.lunar[3] ? t('center.leap') : ''}${r.lunar[1]}/${r.lunar[2]}</div>
+    <div class="cline">${t('center.lifePalace')} ${esc(ganzhi(STEMS[r.life_stem] + BRANCHES[r.life]))} · ${t('center.bodyPalace')} ${esc(term(BRANCHES[r.body]))}</div>
+    <div class="cline">${term('紫微')} ${esc(term(BRANCHES[r.ziwei]))} · ${term('天府')} ${esc(term(BRANCHES[r.tianfu]))}</div>
+    <div class="legend"><span class="hua lu">${term('禄')}</span><span class="hua quan">${term('权')}</span><span class="hua ke">${term('科')}</span><span class="hua ji">${term('忌')}</span><span class="lvl">${bi('庙旺平陷', 'Brightness')}</span></div>
   </div></div>`;
   let out = `<div class="grid${S.lines ? '' : ''}">${cells}${center}<svg class="tri-lines" aria-hidden="true"></svg></div>`;
   try {
@@ -135,27 +135,33 @@ function chartView(r: any, age: number, year: number, ref: string): string {
     const md = compose(r, lib, age, year, ref)
       .replace(/（[^（）]{0,10}第[^（）]{0,8}章[^（）]{0,10}p\d+[^（）]{0,8}）/g, '')
       .replace(/（p\d+）/g, '');
-    out += `<details class="dsec readmore" style="margin-top:14px"><summary>命盘解读 · 五维白话</summary>${RD.mdBlock(md)}</details>`;
-  } catch (e: any) { out += `<p class="err">解读暂时没能生成：${esc(e.message || e)}</p>`; }
+    out += `<details class="dsec readmore" style="margin-top:14px"><summary>${t('readmore.ziwei')}</summary>${RD.mdBlock(md)}</details>`;
+  } catch (e: any) { out += `<p class="err">${t('err.reading')}${esc(e.message || e)}</p>`; }
   return out;
 }
 
 function overlayNames(life: number): Record<number, string> {
   const out: Record<number, string> = {};
-  for (let b = 0; b < 12; b++) out[b] = '大' + PALACES[mod(life - b, 12)];
+  for (let b = 0; b < 12; b++) out[b] = t('layer.limit') + term(PALACES[mod(life - b, 12)]);
   return out;
 }
 
 function baziView(r: any, year: number, age: number): string {
   const ln = liunian(r, year);
-  (window as any).__CURRENT_LIUNIAN__ = `${year} 年是 **${ln.ganzhi}** 年，流年天干对你成 **${ln.gan_god}**，地支属 **${ln.zhi_wx}**。` +
-    (current_dayun(r, age) ? `眼下走 **${current_dayun(r, age).ganzhi}** 运，运干 **${current_dayun(r, age).gan_god}**。` : '');
-  let h = '<div class="dsec"><h2>四柱</h2>' + RD.baziPillarsHtml(r) + '</div>';
-  h += '<div class="dsec"><h2>五行力量</h2>' + RD.baziWuxingHtml(r) +
-    '<p class="ratio">天干各 1 分；藏干按月令 ×3、日支 ×1.5、其余 ×1，并乘本气 1 / 中气 0.5 / 余气 0.3。</p></div>';
-  h += '<div class="dsec"><h2>命局</h2>' + RD.baziCardsHtml(r) + '</div>';
-  if (r.dayun?.length) h += '<div class="dsec"><h2>大运</h2><p class="ratio">起运 ' +
-    `${r.qi_yun.year} 年 ${r.qi_yun.month} 个月，${r.qi_yun.forward ? '顺' : '逆'}行</p>` + RD.dayunHtml(r, age) + '</div>';
+  const dy = current_dayun(r, age);
+  (window as any).__CURRENT_LIUNIAN_ZH__ = `${year} 年是 **${ln.ganzhi}** 年，流年天干对你成 **${ln.gan_god}**，地支属 **${ln.zhi_wx}**。` +
+    (dy ? `眼下走 **${dy.ganzhi}** 运，运干 **${dy.gan_god}**。` : '');
+  (window as any).__CURRENT_LIUNIAN__ = getLang() === 'en'
+    ? `**${year}** is a **${ganzhi(ln.ganzhi)}** year. Its stem forms **${term(ln.gan_god)}** for you; its branch element is **${term(ln.zhi_wx)}**.` +
+      (dy ? `\n\nYou are currently in the **${ganzhi(dy.ganzhi)}** major fortune, with **${term(dy.gan_god)}** as its stem god.` : '')
+    : `${year} 年是 **${ln.ganzhi}** 年，流年天干对你成 **${ln.gan_god}**，地支属 **${ln.zhi_wx}**。` +
+      (dy ? `眼下走 **${dy.ganzhi}** 运，运干 **${dy.gan_god}**。` : '');
+  let h = `<div class="dsec"><h2>${t('section.pillars')}</h2>` + RD.baziPillarsHtml(r) + '</div>';
+  h += `<div class="dsec"><h2>${t('section.wuxing')}</h2>` + RD.baziWuxingHtml(r) +
+    `<p class="ratio">${t('bazi.wuxingNote')}</p></div>`;
+  h += `<div class="dsec"><h2>${t('section.pattern')}</h2>` + RD.baziCardsHtml(r) + '</div>';
+  if (r.dayun?.length) h += `<div class="dsec"><h2>${t('section.dayun')}</h2><p class="ratio">${t('bazi.qiyun')} ` +
+    `${r.qi_yun.year} ${t('birth.year')} ${r.qi_yun.month} ${t('birth.month')}，${r.qi_yun.forward ? t('bazi.forward') : t('bazi.backward')}</p>` + RD.dayunHtml(r, age) + '</div>';
   for (const sec of RD.baziSections(r, year, age)) {
     h += `<div class="dsec"><h2>${esc(sec.title)}</h2>${RD.mdBlock(sec.body)}</div>`;
   }
@@ -164,16 +170,16 @@ function baziView(r: any, year: number, age: number): string {
 
 function qimenForm(): string {
   return `<form class="bar" id="qmform" style="margin:0 0 12px">
-    <label>用事日期 <input type="date" id="qdate" value="${S.qy}-${String(S.qmo).padStart(2, '0')}-${String(S.qd).padStart(2, '0')}"></label>
-    <label>用事时刻 <input type="time" id="qclock" value="${String(S.qhh).padStart(2, '0')}:${String(S.qmi).padStart(2, '0')}"></label>
-    <button type="button" id="qmgo">起局</button></form>`;
+    <label><span data-i18n="qform.date">${t('qform.date')}</span> <input type="date" id="qdate" value="${S.qy}-${String(S.qmo).padStart(2, '0')}-${String(S.qd).padStart(2, '0')}"></label>
+    <label><span data-i18n="qform.time">${t('qform.time')}</span> <input type="time" id="qclock" value="${String(S.qhh).padStart(2, '0')}:${String(S.qmi).padStart(2, '0')}"></label>
+    <button type="button" id="qmgo">${t('qform.go')}</button></form>`;
 }
 
 function qimenView(r: any): string {
-  let h = qimenForm() + '<div class="dsec"><h2>九宫盘</h2>' + RD.qimenGridHtml(r) +
-    '<p class="ratio">用事时干所在宫带金边（问事的人）；「空」为时旬空亡，「马」为驿马。点任何一宫可看这一格的白话。转盘奇门（时家），拆补法定局。</p></div>';
-  if (r.fu_yin) h = h.replace('<div class="dsec">', '<p class="ratio"><b>伏吟局</b>：星门各回本宫，宜守不宜动。</p><div class="dsec">');
-  if (r.fan_yin) h = h.replace('<div class="dsec">', '<p class="ratio"><b>反吟局</b>：星门坐对宫，事快而反复。</p><div class="dsec">');
+  let h = qimenForm() + `<div class="dsec"><h2>${t('qimen.grid')}</h2>` + RD.qimenGridHtml(r) +
+    `<p class="ratio">${t('qimen.gridNote')}</p></div>`;
+  if (r.fu_yin) h = h.replace('<div class="dsec">', `<p class="ratio"><b>${t('qimen.fuyin')}</b>：${t('qimen.fuyinNote')}</p><div class="dsec">`);
+  if (r.fan_yin) h = h.replace('<div class="dsec">', `<p class="ratio"><b>${t('qimen.fanyin')}</b>：${t('qimen.fanyinNote')}</p><div class="dsec">`);
   for (const sec of RD.qimenSections(r)) h += `<div class="dsec"><h2>${esc(sec.title)}</h2>${RD.mdBlock(sec.body)}</div>`;
   return h;
 }
@@ -199,8 +205,8 @@ function go(): void {
     S.g = ($('g') as HTMLSelectElement).value;
     S.lon = parseFloat(($('lon') as HTMLInputElement).value) || 120;
     S.ref = ($('ref') as HTMLInputElement).value || TODAY;
-    if (!(1900 <= S.y && S.y <= 2100)) throw new Error('年份需在 1900–2100 之间');
-    if (!(60 <= S.lon && S.lon <= 150)) throw new Error('经度需在 60–150 之间');
+    if (!(1900 <= S.y && S.y <= 2100)) throw new Error(t('err.year'));
+    if (!(60 <= S.lon && S.lon <= 150)) throw new Error(t('err.lon'));
   } catch (e: any) {
     out.innerHTML = `<div class="err">${esc(e.message || e)}</div>`; return;
   }
@@ -221,7 +227,7 @@ function go(): void {
     out.innerHTML = `<div id="dailybar">${dailyBarHtml()}</div>` + content;
     document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', (x as HTMLElement).dataset.view === S.view));
     document.querySelectorAll('.vt').forEach(x => x.classList.toggle('on', (x as HTMLElement).dataset.layer === S.layer));
-    $('linesBtn').textContent = S.lines ? '隐藏连线' : '显示连线';
+    $('linesBtn').textContent = S.lines ? t('btn.hideLines') : t('btn.showLines');
     document.body.classList.toggle('lines-off', !S.lines);
     if (S.view === 'chart' && S.palaceName) { /* 保留选中宫 */ }
   } catch (e: any) {
@@ -323,6 +329,8 @@ function readQimenForm(): void {
 
 window.addEventListener('DOMContentLoaded', () => {
   loadState();
+  applyStatic();
+  onLangChange(() => { closeStar(); closeDrawer(); showNote(''); renderArchive(); go(); });
   for (const [id, v] of [['y', S.y], ['mo', S.mo], ['d', S.d], ['hh', S.hh], ['mi', S.mi], ['lon', S.lon]] as [string, number][]) {
     ($(id) as HTMLInputElement).value = String(v);
   }
@@ -341,6 +349,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (t.closest('#todayBtn')) { togglePanel('settingsPanel'); return; }
     if (t.closest('#archiveBtn')) { togglePanel('archivePanel'); return; }
     if (t.closest('#settingsBtn')) { togglePanel('settingsPanel'); return; }
+    if (t.closest('#langBtn')) { toggleLang(); return; }
     if (t.closest('#linesBtn')) { S.lines = !S.lines; saveState(); go(); return; }
     if (t.closest('#saveBtn')) { saveArchive(); return; }
     const al = t.closest('[data-archive-load]') as HTMLElement | null;
@@ -355,7 +364,7 @@ window.addEventListener('DOMContentLoaded', () => {
       renderArchive(); return;
     }
     if (t.closest('#clearArchive')) {
-      if (confirm('清空这台设备上的全部档案？')) { localStorage.removeItem(ARCHIVE_KEY); renderArchive(); }
+      if (confirm(t('confirm.clearArchive'))) { localStorage.removeItem(ARCHIVE_KEY); renderArchive(); }
       return;
     }
     const goto = t.closest('[data-goto]') as HTMLElement | null;
