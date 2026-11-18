@@ -23,9 +23,9 @@ export type ComposeLang = 'zh' | 'en';
 /** 按语言取结构文案；正文取自对应语言的文案库。 */
 const L = (lang: ComposeLang, zh: string, en: string): string => lang === 'en' ? en : zh;
 
-/** 规则包 ID 转成可读英文名 + 版本号，如 zywx.classic.cn@2026.1 → ZYWX Classic v2026.1 */
+/** 规则包 ID 转成可读英文名 + 版本号，如 zywx.classic.cn@2026.1 → ArrangeStars V1.0 */
 export function rulesetLabel(id: string): string {
-  if (id === 'zywx.classic.cn@2026.1') return 'ZYWX Classic v2026.1';
+  if (id === 'zywx.classic.cn@2026.1') return 'ArrangeStars V1.0';
   const m = String(id || '').match(/^(.+?)@(.+)$/);
   if (!m) return id;
   const name = m[1].replace(/\.cn$/, '').split('.').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
@@ -248,7 +248,7 @@ export function compose(r: any, lib: Library, age?: number, year = 2026, date_st
   out.push(`# ${L(lang, '命盘解读', 'Chart reading')} (${lang === 'en' ? (r.gender === '男' ? 'Male' : 'Female') : r.gender}, ${solarStamp})\n`);
   out.push(L(lang,
     `真太阳时 ${String(r.tst[0]).padStart(2, '0')}:${String(r.tst[1]).padStart(2, '0')}，${BRANCHES[r.hour_branch_i]}时｜农历 ${lunar[0]}年${lunar[3] ? '闰' : ''}${lunar[1]}月${lunar[2]}日｜规则包 ${rulesetLabel(r.ruleSetId)}\n`,
-    `True solar time ${String(r.tst[0]).padStart(2, '0')}:${String(r.tst[1]).padStart(2, '0')} (${branchName(BRANCHES[r.hour_branch_i])} hour) | Lunar ${lunar[0]}/${lunar[1]}/${lunar[2]}${lunar[3] ? ' (leap)' : ''} | Ruleset ${rulesetLabel(r.ruleSetId)}\n`));
+    `True solar time ${String(r.tst[0]).padStart(2, '0')}:${String(r.tst[1]).padStart(2, '0')} (${branchName(BRANCHES[r.hour_branch_i])} hour) | Lunar ${lunar[0]}/${lunar[1]}/${lunar[2]}${lunar[3] ? ' (leap)' : ''} | ${rulesetLabel(r.ruleSetId)}\n`));
   out.push(L(lang,
     `命宫 **${STEMS[r.life_stem]}${BRANCHES[r.life]}**｜身宫 **${BRANCHES[r.body]}**｜五行局 **${JU_NAME[r.ju]}**｜紫微在 ${BRANCHES[r.ziwei]}\n`,
     `Life Palace **${gzEn(STEMS[r.life_stem] + BRANCHES[r.life])}** | Body Palace **${branchName(BRANCHES[r.body])}** | Five Elements chart **${JU_NAME_EN[r.ju] || ''}** | Ziwei in ${branchName(BRANCHES[r.ziwei])}\n`));

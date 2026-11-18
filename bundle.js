@@ -13214,7 +13214,7 @@
   var MONTH_GAN_BASE = 2;
   var L = (lang2, zh, en) => lang2 === "en" ? en : zh;
   function rulesetLabel(id) {
-    if (id === "zywx.classic.cn@2026.1") return "ZYWX Classic v2026.1";
+    if (id === "zywx.classic.cn@2026.1") return "ArrangeStars V1.0";
     const m = String(id || "").match(/^(.+?)@(.+)$/);
     if (!m) return id;
     const name = m[1].replace(/\.cn$/, "").split(".").map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(" ");
@@ -13424,7 +13424,7 @@
       lang2,
       `\u771F\u592A\u9633\u65F6 ${String(r.tst[0]).padStart(2, "0")}:${String(r.tst[1]).padStart(2, "0")}\uFF0C${BRANCHES[r.hour_branch_i]}\u65F6\uFF5C\u519C\u5386 ${lunar[0]}\u5E74${lunar[3] ? "\u95F0" : ""}${lunar[1]}\u6708${lunar[2]}\u65E5\uFF5C\u89C4\u5219\u5305 ${rulesetLabel(r.ruleSetId)}
 `,
-      `True solar time ${String(r.tst[0]).padStart(2, "0")}:${String(r.tst[1]).padStart(2, "0")} (${branchName(BRANCHES[r.hour_branch_i])} hour) | Lunar ${lunar[0]}/${lunar[1]}/${lunar[2]}${lunar[3] ? " (leap)" : ""} | Ruleset ${rulesetLabel(r.ruleSetId)}
+      `True solar time ${String(r.tst[0]).padStart(2, "0")}:${String(r.tst[1]).padStart(2, "0")} (${branchName(BRANCHES[r.hour_branch_i])} hour) | Lunar ${lunar[0]}/${lunar[1]}/${lunar[2]}${lunar[3] ? " (leap)" : ""} | ${rulesetLabel(r.ruleSetId)}
 `
     ));
     out.push(L(
