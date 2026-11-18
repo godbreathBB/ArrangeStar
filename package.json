@@ -1,0 +1,19 @@
+{
+  "name": "arrangestars",
+  "version": "1.0.0",
+  "private": true,
+  "description": "星垣 ArrangeStars — 紫微斗数 / 八字 / 奇门遁甲 纯前端排盘应用",
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:data && npm run build:js",
+    "build:data": "python3 tools/build_data.py",
+    "build:js": "esbuild js/app.ts --bundle --format=iife --platform=browser --outfile=bundle.js",
+    "serve": "python3 -m http.server 8080"
+  },
+  "dependencies": {
+    "lunar-typescript": "^1.8.7"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

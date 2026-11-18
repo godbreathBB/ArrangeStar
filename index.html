@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#141a2e">
+  <title>星垣 · 紫微斗数 / 八字 / 奇门遁甲</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon-180.png">
+</head>
+<body>
+<header>
+  <div class="brand"><h1>星 垣</h1></div>
+  <div class="hright">
+    <nav class="tabs">
+      <button class="tab on" data-view="chart">紫微</button>
+      <button class="tab" data-view="bazi">八字</button>
+      <button class="tab" data-view="qimen">奇门</button>
+    </nav>
+    <button class="vt" id="todayBtn" title="今日一句与参考日期">今日</button>
+    <button class="vt" id="archiveBtn" title="本机档案">档案</button>
+    <button class="vt" id="settingsBtn" title="设置">设置</button>
+  </div>
+</header>
+
+<section class="params" id="settingsPanel">
+  <p class="db-top">本机设置 · 档案只存在这台设备上</p>
+  <div class="row">
+    <label>参考日期 <input type="date" id="ref"></label>
+    <label>今日一句日期 <input type="date" id="daily"></label>
+    <button class="cbtn" id="clearArchive">清空档案</button>
+  </div>
+  <p class="ratio">紫微的「大限 / 流年 / 流月 / 流日」按参考日期切换；「今日一句」按当前命盘八字的日干十神与喜忌生成。</p>
+</section>
+
+<section class="params" id="archivePanel">
+  <p class="db-top">我的档案 <button class="cbtn" id="saveBtn">保存当前盘</button></p>
+  <div id="archiveBody"></div>
+</section>
+
+<div class="wrap">
+  <div class="layerbar">
+    <div class="vts">
+      <button class="vt on" data-layer="benming">本命</button>
+      <button class="vt" data-layer="limit">大限</button>
+      <button class="vt" data-layer="annual">流年</button>
+      <button class="vt" data-layer="month">流月</button>
+      <button class="vt" data-layer="day">流日</button>
+    </div>
+    <button class="vt" id="linesBtn">隐藏连线</button>
+  </div>
+
+  <form class="bar birth" id="birthform" onsubmit="return false;">
+    <label>年 <input id="y" type="number" min="1900" max="2100" inputmode="numeric"></label>
+    <label>月 <input id="mo" type="number" min="1" max="12" inputmode="numeric"></label>
+    <label>日 <input id="d" type="number" min="1" max="31" inputmode="numeric"></label>
+    <label>时 <input id="hh" type="number" min="0" max="23" inputmode="numeric"></label>
+    <label>分 <input id="mi" type="number" min="0" max="59" inputmode="numeric"></label>
+    <label>性别 <select id="g"><option value="女">女</option><option value="男">男</option></select></label>
+    <label>经度 <input id="lon" type="number" step="0.1" inputmode="decimal"></label>
+    <button type="button" id="go" class="go">排盘</button>
+  </form>
+
+  <main id="out" class="out"></main>
+</div>
+
+<div id="notepanel" class="notepanel" hidden></div>
+<aside id="drawer" role="region" aria-label="宫位解读" tabindex="-1"></aside>
+<div id="starmask"></div>
+<aside id="starsheet" role="dialog" aria-modal="true" aria-label="星曜说明" tabindex="-1" aria-hidden="true" inert></aside>
+
+<script src="js/data.js"></script>
+<script src="bundle.js"></script>
+<script>if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(function () {}); }</script>
+</body>
+</html>

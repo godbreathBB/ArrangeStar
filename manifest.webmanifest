@@ -1,0 +1,16 @@
+{
+  "name": "星垣 ArrangeStars · 紫微斗数 / 八字 / 奇门遁甲",
+  "short_name": "星垣",
+  "description": "纯前端命理排盘与解读应用：紫微斗数、八字、奇门遁甲，含讲堂式读盘教学。",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#141a2e",
+  "theme_color": "#141a2e",
+  "icons": [
+    {"src": "icon-180.png", "sizes": "180x180", "type": "image/png", "purpose": "any"},
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
