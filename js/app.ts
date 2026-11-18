@@ -251,6 +251,7 @@ function showDrawer(branch: number): void {
   if (!zw) return;
   const drawer = $('drawer');
   drawer.innerHTML = zw ? RD.drawerHtml(zw, branch) : '';
+  drawer.querySelector('.dw')?.classList.add('on');
   drawer.classList.add('open');
   document.body.classList.add('dw-open');
   const palace = document.querySelector(`.palace[data-branch="${branch}"]`) as HTMLElement | null;

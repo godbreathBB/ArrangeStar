@@ -34,7 +34,7 @@ ArrangeStar/
 ├── index.html              应用入口（相对路径引用资源）
 ├── bundle.js               [构建产物] esbuild 打包的前端脚本
 ├── manifest.webmanifest    PWA 配置（含 180/192/512 图标）
-├── sw.js                   Service Worker（缓存版本 xingyuan-v7，含离线回退）
+├── sw.js                   Service Worker（缓存版本 xingyuan-v8，含离线回退）
 ├── icon-180/192/512.png    PWA 图标
 ├── css/style.css           样式
 ├── js/

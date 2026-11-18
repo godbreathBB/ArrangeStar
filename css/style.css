@@ -390,3 +390,20 @@ body.intro-open{overflow:hidden}
   .onboarding.on,.intro-page,.intro-dot,.intro-next{animation:none;transition:none}
   .intro-art svg *{animation:none!important}
 }
+
+/* ── 出生资料输入格：按位数收紧到适当大小（年4/月日时分2/经度7） ── */
+form.birth{gap:10px}
+form.birth label{flex:0 0 auto}
+form.birth input[type=number]{height:30px;padding:3px 6px;line-height:1.2;-moz-appearance:textfield}
+form.birth input[type=number]::-webkit-outer-spin-button,
+form.birth input[type=number]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+form.birth #y{width:5.5ch}
+form.birth #mo,form.birth #d,form.birth #hh,form.birth #mi{width:3.6ch}
+form.birth #lon{width:9ch}
+form.birth select#g{width:auto;min-width:3.5em;height:30px;padding:3px 6px}
+form.birth .go{height:30px;padding:0 16px}
+@media (max-width:900px){
+  form.birth{gap:8px}
+  form.birth label{flex:0 0 auto}
+  form.birth input[type=number],form.birth select#g,form.birth .go{height:30px}
+}

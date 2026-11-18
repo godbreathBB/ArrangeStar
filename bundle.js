@@ -15625,6 +15625,7 @@ You are currently in the **${ganzhi(dy.ganzhi)}** major fortune, with **${term(d
     if (!zw) return;
     const drawer = $("drawer");
     drawer.innerHTML = zw ? drawerHtml(zw, branch) : "";
+    drawer.querySelector(".dw")?.classList.add("on");
     drawer.classList.add("open");
     document.body.classList.add("dw-open");
     const palace = document.querySelector(`.palace[data-branch="${branch}"]`);
