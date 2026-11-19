@@ -1,8 +1,9 @@
-const CACHE = 'xingyuan-v10';
+const CACHE = 'xingyuan-v11';
 const SHELL = [
   './', './index.html', './bundle.js', './css/style.css', './css/onboarding.css',
   './js/data.js', './js/onboarding.js',
-  './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png'
+  './manifest.webmanifest', './icon-180.png', './icon-192.png', './icon-512.png',
+  './icon-maskable-192.png', './icon-maskable-512.png'
 ];
 
 self.addEventListener('install', e => e.waitUntil(

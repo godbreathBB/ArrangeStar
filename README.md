@@ -11,6 +11,7 @@
 - **首次引导**：首次打开显示 5 页引导动画（品牌 / 紫微 / 八字 / 奇门 / 本机隐私），可跳过；设置里可随时"重看引导"。看过一次后不再自动弹出。
 - **本机档案**：排盘结果可保存到浏览器 localStorage，随时调取。
 - **离线可用**：Service Worker 缓存应用外壳，断网后仍可打开已访问页面。
+- **专属图标**：PWA 图标为「星垣 · 众星拱极」定制设计——泥金「星」字居中，双层罗盘环 + 七方位星点 + 北极帝星，深空石青底；提供 `any` 与 `maskable`（中心 80% 安全区）两套，设计规范与 SVG 源见 `design-specs/icons/`。
 
 ## 本地运行
 
@@ -33,9 +34,13 @@ npm run serve      # 启动本地服务
 ArrangeStar/
 ├── index.html              应用入口（相对路径引用资源）
 ├── bundle.js               [构建产物] esbuild 打包的前端脚本
-├── manifest.webmanifest    PWA 配置（含 180/192/512 图标）
-├── sw.js                   Service Worker（缓存版本 xingyuan-v10，含离线回退）
-├── icon-180/192/512.png    PWA 图标
+├── manifest.webmanifest    PWA 配置（any 180/192/512 + maskable 192/512 图标）
+├── sw.js                   Service Worker（缓存版本 xingyuan-v11，含离线回退）
+├── icon-180/192/512.png    PWA 图标（any，满幅构图，iOS / 常规场景）
+├── icon-maskable-192/512.png  PWA 图标（maskable，主体收进中心 80% 安全区）
+├── design-specs/
+│   ├── book-driven-refine.md  视觉修饰依据（两本设计经典）
+│   └── icons/                 图标 SVG 设计源（any / maskable）
 ├── css/style.css           样式
 ├── css/onboarding.css      首次启动引导样式（4 页 · 奇门主题 · 原生 CSS 动画）
 ├── js/
@@ -55,6 +60,8 @@ ArrangeStar/
 │   ├── reading_bazi/       八字解读
 │   └── reading_qimen/      奇门解读
 ├── tools/build_data.py     把 data/ 的 JSON 合并为 js/data.js
+├── tools/gen_icons.py      图标 SVG 生成器（改配色/构图后重跑）
+├── tools/svg2png.swift     SVG → PNG 渲染器（macOS 原生，无第三方依赖）
 ├── package.json            依赖与构建脚本
 ├── .env.example            环境变量模板（本应用无需密钥）
 ├── LICENSE                 CC BY-NC 4.0 非商业许可

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<defs>
+  <radialGradient id="sky" cx="50%" cy="34%" r="78%">
+    <stop offset="0" stop-color="#24305a"/>
+    <stop offset=".55" stop-color="#161d38"/>
+    <stop offset="1" stop-color="#0c1024"/>
+  </radialGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#f2d98a"/>
+    <stop offset=".48" stop-color="#c9a227"/>
+    <stop offset="1" stop-color="#9c7a1e"/>
+  </linearGradient>
+  <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#f2d98a" stop-opacity=".55"/>
+    <stop offset="1" stop-color="#f2d98a" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<rect width="512" height="512" fill="url(#sky)"/>
+<circle cx="66.6" cy="81.9" r="2.6" fill="#f4ecd6" opacity="0.55"/>
+<circle cx="122.9" cy="368.6" r="1.8" fill="#f4ecd6" opacity="0.38"/>
+<circle cx="194.6" cy="56.3" r="2.2" fill="#f2d98a" opacity="0.5"/>
+<circle cx="317.4" cy="41.0" r="1.6" fill="#f4ecd6" opacity="0.34"/>
+<circle cx="399.4" cy="133.1" r="2.9" fill="#f4ecd6" opacity="0.5"/>
+<circle cx="450.6" cy="291.8" r="1.9" fill="#f2d98a" opacity="0.44"/>
+<circle cx="358.4" cy="430.1" r="2.4" fill="#f4ecd6" opacity="0.44"/>
+<circle cx="235.5" cy="460.8" r="1.7" fill="#f4ecd6" opacity="0.34"/>
+<circle cx="81.9" cy="256.0" r="2.1" fill="#f4ecd6" opacity="0.4"/>
+<circle cx="440.3" cy="71.7" r="1.5" fill="#f4ecd6" opacity="0.3"/>
+<g>
+<circle cx="256.0" cy="256.0" r="214.0" fill="none" stroke="#c9a227" stroke-width="2.2" opacity=".38"/>
+<circle cx="256.0" cy="256.0" r="204.0" fill="none" stroke="#f2d98a" stroke-width="1.0" opacity=".22"/>
+<circle cx="256.0" cy="256.0" r="168.0" fill="none" stroke="url(#gold)" stroke-width="5.0" opacity=".92"/>
+<circle cx="407.3" cy="104.7" r="3.6" fill="#f2d98a" opacity="0.92"/>
+<circle cx="470.0" cy="256.0" r="3.6" fill="#f2d98a" opacity="0.92"/>
+<circle cx="407.3" cy="407.3" r="3.6" fill="#f2d98a" opacity="0.92"/>
+<circle cx="256.0" cy="470.0" r="3.6" fill="#f2d98a" opacity="0.92"/>
+<circle cx="104.7" cy="407.3" r="3.6" fill="#f2d98a" opacity="0.92"/>
+<circle cx="42.0" cy="256.0" r="3.6" fill="#f2d98a" opacity="0.92"/>
+<circle cx="104.7" cy="104.7" r="3.6" fill="#f2d98a" opacity="0.92"/>
+<circle cx="256.0" cy="42.0" r="38.0" fill="url(#halo)"/>
+<polygon points="256.0,22.0 259.1,38.9 276.0,42.0 259.1,45.1 256.0,62.0 252.9,45.1 236.0,42.0 252.9,38.9" fill="#f2d98a"/>
+<circle cx="256.0" cy="42.0" r="3.6" fill="#f4ecd6"/>
+<text x="256.0" y="264.0" fill="url(#gold)" font-family="Songti SC, STSong, Noto Serif SC, serif" font-size="190.0" font-weight="700" text-anchor="middle" dominant-baseline="central">星</text>
+</g></svg>
