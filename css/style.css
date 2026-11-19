@@ -49,8 +49,10 @@ body{margin:0;color:var(--ink);text-wrap:pretty;-webkit-text-size-adjust:100%;fo
     /* 底层：石青受光晕 → 黛蓝 → 玄青（光源上移居中） */
     radial-gradient(1200px 760px at 50% 26%,var(--bg-lift) 0%,var(--bg-deep) 60%,var(--bg-void) 100%);
   background-attachment:fixed}
-/* 四象水印层：图1白描技法的青龙/白虎/朱雀/玄武，分四方拱卫。
-   SVG 内已含 8.5% 泥金透明度；contain 保证四兽完整不裁切；
+/* 四象水印层：传统四神兽法相白描（拓片密线实块 + 卷云纹），各携所属七宿星官，
+   中央北斗七星 + 北极帝星成「众星拱极」。SVG 画布取竖屏比例 720×1560，
+   contain 铺满版面不裁切；内嵌 0.30 泥金透明度（真实页面三档实测校准：
+   半透明卡片会压低水印，0.18/0.24 几乎不可见，0.30 才让四兽背景成立且不压字）；
    z-index:-1 使其位于渐变星空之上、内容之下，pointer-events:none 不参与交互。 */
 body::before{
   content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;

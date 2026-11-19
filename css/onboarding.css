@@ -28,6 +28,9 @@
   justify-content:center;
   flex-direction:column;
   padding:20px;
+  /* 星图层 150vmin、光束层宽度超出视口，须裁掉溢出，
+     否则会撑出横向滚动区，导致页脚按钮在部分视口下偏移贴边。 */
+  overflow:hidden;
   /* 水体纵深（参考《海中遨游》明暗）：顶部冷青紫透光 → 中段石青 → 底部深靛蓝沉入。
      光从上方来，文字/符号落在受光区；星图与光束层见 .ob-sky 内元素。 */
   background:

@@ -35,12 +35,17 @@ ArrangeStar/
 ├── index.html              应用入口（相对路径引用资源）
 ├── bundle.js               [构建产物] esbuild 打包的前端脚本
 ├── manifest.webmanifest    PWA 配置（any 180/192/512 + maskable 192/512 图标）
-├── sw.js                   Service Worker（缓存版本 xingyuan-v11，含离线回退）
+├── sw.js                   Service Worker（缓存版本 xingyuan-v13，含离线回退）
 ├── icon-180/192/512.png    PWA 图标（any，满幅构图，iOS / 常规场景）
 ├── icon-maskable-192/512.png  PWA 图标（maskable，主体收进中心 80% 安全区）
+├── assets/symbols/         四象视觉 SVG：四兽白描单稿 / 合成水印 / 二十八宿星图
 ├── design-specs/
-│   ├── book-driven-refine.md  视觉修饰依据（两本设计经典）
-│   └── icons/                 图标 SVG 设计源（any / maskable）
+│   ├── book-driven-refine.md      视觉修饰依据（两本设计经典）
+│   ├── visual-system.md           全盘视觉令牌单一事实来源
+│   ├── four-symbols-sky.md        四象星图设计依据（四张参考图转译规则）
+│   ├── REVIEW-BEFORE-MERGE.md     全盘视觉合并核实清单
+│   ├── REVIEW-FOUR-SYMBOLS.md     四象星图 v3 合并核实清单
+│   └── icons/                     图标 SVG 设计源（any / maskable）
 ├── css/style.css           样式
 ├── css/onboarding.css      首次启动引导样式（4 页 · 奇门主题 · 原生 CSS 动画）
 ├── js/
@@ -61,6 +66,7 @@ ArrangeStar/
 │   └── reading_qimen/      奇门解读
 ├── tools/build_data.py     把 data/ 的 JSON 合并为 js/data.js
 ├── tools/gen_icons.py      图标 SVG 生成器（改配色/构图后重跑）
+├── tools/gen_symbols.py    四象 SVG 生成器（四兽法相 / 二十八宿 / 北斗拱极，改参数后重跑）
 ├── tools/svg2png.swift     SVG → PNG 渲染器（macOS 原生，无第三方依赖）
 ├── package.json            依赖与构建脚本
 ├── .env.example            环境变量模板（本应用无需密钥）
