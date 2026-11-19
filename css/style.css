@@ -49,6 +49,19 @@ body{margin:0;color:var(--ink);text-wrap:pretty;-webkit-text-size-adjust:100%;fo
     /* 底层：石青受光晕 → 黛蓝 → 玄青（光源上移居中） */
     radial-gradient(1200px 760px at 50% 26%,var(--bg-lift) 0%,var(--bg-deep) 60%,var(--bg-void) 100%);
   background-attachment:fixed}
+/* 四象水印层：传统四神兽法相白描（拓片密线实块 + 卷云纹），各携所属七宿星官，
+   中央北斗七星 + 北极帝星成「众星拱极」。SVG 画布取竖屏比例 720×1560，
+   contain 铺满版面不裁切；内嵌 0.30 泥金透明度（真实页面三档实测校准：
+   半透明卡片会压低水印，0.18/0.24 几乎不可见，0.30 才让四兽背景成立且不压字）；
+   z-index:-1 使其位于渐变星空之上、内容之下，pointer-events:none 不参与交互。 */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:url(assets/symbols/four-creatures.svg) center center/contain no-repeat fixed;
+}
+@media (prefers-reduced-motion:no-preference){
+  body::before{animation:watermarkBreath 24s ease-in-out infinite}
+}
+@keyframes watermarkBreath{0%,100%{opacity:.85}50%{opacity:1}}
 ::selection{background:rgba(201,162,39,.35);color:#fff}
 header{background:rgba(16,20,42,.88);color:#e9e2c8;padding:14px 20px;border-bottom:1px solid rgba(201,162,39,.28);
 display:flex;align-items:center;justify-content:space-between;gap:12px}

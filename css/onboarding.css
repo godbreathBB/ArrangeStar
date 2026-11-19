@@ -28,11 +28,21 @@
   justify-content:center;
   flex-direction:column;
   padding:20px;
-  /* 深空渐变：与主界面同源，去除纯黑割裂感；星点层见 .ob-sky */
+  /* 星图层 150vmin、光束层宽度超出视口，须裁掉溢出，
+     否则会撑出横向滚动区，导致页脚按钮在部分视口下偏移贴边。 */
+  overflow:hidden;
+  /* 水体纵深（参考《海中遨游》明暗）：顶部冷青紫透光 → 中段石青 → 底部深靛蓝沉入。
+     光从上方来，文字/符号落在受光区；星图与光束层见 .ob-sky 内元素。 */
   background:
-    radial-gradient(circle 5px at 26% 20%,rgba(242,217,138,.28) 0%,transparent 100%),
-    radial-gradient(circle 5px at 78% 72%,rgba(233,226,200,.20) 0%,transparent 100%),
-    radial-gradient(1000px 720px at 50% 28%,var(--ob-lift) 0%,var(--ob-deep) 58%,var(--ob-void) 100%);
+    /* 顶部水面透光：冷青紫高光 */
+    radial-gradient(120% 62% at 50% -6%,rgba(168,180,220,.34) 0%,rgba(120,140,196,.16) 38%,transparent 72%),
+    /* 右侧斜射余光 */
+    radial-gradient(70% 50% at 88% 16%,rgba(180,196,228,.14) 0%,transparent 70%),
+    /* 受光微点（暖） */
+    radial-gradient(circle 6px at 26% 18%,rgba(242,217,138,.22) 0%,transparent 100%),
+    radial-gradient(circle 5px at 78% 30%,rgba(233,226,200,.16) 0%,transparent 100%),
+    /* 纵向水体：石青 → 黛蓝 → 玄青（上亮下暗） */
+    linear-gradient(180deg,var(--ob-lift) 0%,#18213f 34%,var(--ob-deep) 68%,var(--ob-void) 100%);
   color:var(--ob-ink);
   touch-action:pan-y;               /* 纵向滚动交还页面，横向留给引导滑动 */
   overflow:hidden;
@@ -42,8 +52,25 @@
 }
 .ob-root.ob-fade-out{opacity:0}      /* 结束引导的淡出 */
 
-/* 背景星空：静态密度层（伪元素）+ 闪烁亮点层 */
-.ob-sky{position:absolute;inset:0;pointer-events:none}
+/* 背景星空：静态密度层（伪元素）+ 闪烁亮点层 + 二十八宿星图 + 斜射光束 */
+.ob-sky{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+/* 二十八宿星图：四象七宿连线 + 天球轨道 + 四时，缓慢旋转，置于最底 */
+.ob-mansions{
+  position:absolute;left:50%;top:44%;width:150vmin;height:150vmin;
+  transform:translate(-50%,-50%);
+  background:url(../assets/symbols/mansions.svg) center center/contain no-repeat;
+  opacity:.26;
+  animation:obSkyTurn 90s linear infinite;
+}
+/* 斜射光束：冷白光柱，从右上斜射入水体，15°倾斜 */
+.ob-lightbeam{
+  position:absolute;top:-30%;right:-10%;width:46%;height:170%;
+  background:linear-gradient(180deg,rgba(200,212,238,.16) 0%,rgba(180,198,232,.07) 45%,transparent 100%);
+  transform:rotate(18deg);
+  filter:blur(6px);
+  mix-blend-mode:screen;
+  animation:obBeamSway 12s ease-in-out infinite alternate;
+}
 .ob-sky::before{
   content:"";position:absolute;inset:0;
   background:
@@ -248,6 +275,14 @@
   0%,100%{opacity:.2;transform:scale(.8)}
   50%{opacity:1;transform:scale(1.3)}
 }
+@keyframes obSkyTurn{
+  from{transform:translate(-50%,-50%) rotate(0deg)}
+  to{transform:translate(-50%,-50%) rotate(360deg)}
+}
+@keyframes obBeamSway{
+  from{transform:rotate(18deg) translateX(-2%);opacity:.75}
+  to{transform:rotate(15deg) translateX(4%);opacity:1}
+}
 
 /* ═══════════ 移动端适配 ═══════════ */
 @media (max-width:520px){
@@ -278,7 +313,9 @@
   .ob-slide.active .ob-scroll-paper,
   .ob-slide.active .ob-bookmark,
   .ob-slide.active .ob-scroll-lines i,
-  .ob-sky-star{animation:none !important;opacity:1}
+  .ob-sky-star,
+  .ob-mansions,
+  .ob-lightbeam{animation:none !important;opacity:1}
   .ob-gong{opacity:1}
   .ob-strip span{opacity:1}
   .ob-scroll-paper{width:170px;opacity:1}
