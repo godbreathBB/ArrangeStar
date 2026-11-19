@@ -3,11 +3,16 @@
    纯 CSS，无外部依赖。动画触发由 .ob-slide.active 控制。
    ═══════════════════════════════════════════════════════════ */
 :root{
-  --ob-gold:#d4af37;
-  --ob-gold-soft:#e6c766;
-  --ob-dark:#0a0a0a;
+  /* 引导配色全盘对齐主视觉系统（单一事实来源：design-specs/visual-system.md）*/
+  --ob-gold:#c9a227;      /* 泥金·主（与原 #d4af37 统一） */
+  --ob-gold-soft:#f2d98a; /* 泥金·亮（标题高光） */
+  --ob-dark:#0b0f20;      /* 玄青（按钮字，替代纯黑） */
   --ob-ink:#e9e2c8;
   --ob-mute:#a9a3bd;
+  --ob-void:#0b0f20;
+  --ob-deep:#141a2e;
+  --ob-lift:#1c2545;
+  --ob-cinnabar:#c8503c;
 }
 
 /* ── 状态类 ── */
@@ -23,7 +28,11 @@
   justify-content:center;
   flex-direction:column;
   padding:20px;
-  background:rgba(0,0,0,.85);
+  /* 深空渐变：与主界面同源，去除纯黑割裂感；星点层见 .ob-sky */
+  background:
+    radial-gradient(circle 5px at 26% 20%,rgba(242,217,138,.28) 0%,transparent 100%),
+    radial-gradient(circle 5px at 78% 72%,rgba(233,226,200,.20) 0%,transparent 100%),
+    radial-gradient(1000px 720px at 50% 28%,var(--ob-lift) 0%,var(--ob-deep) 58%,var(--ob-void) 100%);
   color:var(--ob-ink);
   touch-action:pan-y;               /* 纵向滚动交还页面，横向留给引导滑动 */
   overflow:hidden;
@@ -33,12 +42,23 @@
 }
 .ob-root.ob-fade-out{opacity:0}      /* 结束引导的淡出 */
 
-/* 背景星空 */
+/* 背景星空：静态密度层（伪元素）+ 闪烁亮点层 */
 .ob-sky{position:absolute;inset:0;pointer-events:none}
+.ob-sky::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(circle 1px at 6% 30%,rgba(233,226,200,.35) 99%,transparent 100%),
+    radial-gradient(circle 1px at 33% 78%,rgba(233,226,200,.28) 99%,transparent 100%),
+    radial-gradient(circle 1px at 58% 12%,rgba(242,217,138,.4) 99%,transparent 100%),
+    radial-gradient(circle 1px at 82% 44%,rgba(233,226,200,.3) 99%,transparent 100%),
+    radial-gradient(circle 1px at 95% 84%,rgba(233,226,200,.26) 99%,transparent 100%),
+    radial-gradient(circle 1px at 44% 56%,rgba(233,226,200,.22) 99%,transparent 100%),
+    radial-gradient(circle 1px at 14% 66%,rgba(201,162,39,.3) 99%,transparent 100%);
+}
 .ob-sky-star{
   position:absolute;left:var(--x);top:var(--y);
-  width:3px;height:3px;border-radius:50%;background:var(--ob-gold);
-  box-shadow:0 0 8px var(--ob-gold);
+  width:3px;height:3px;border-radius:50%;background:var(--ob-gold-soft);
+  box-shadow:0 0 4px var(--ob-gold),0 0 10px rgba(242,217,138,.5);
   animation:obTwinkle 2.6s ease-in-out var(--d) infinite;
 }
 
@@ -83,7 +103,7 @@
   font-size:1.65rem;letter-spacing:.14em;
   font-family:"Songti SC","STSong","Noto Serif SC",serif;
   color:var(--ob-gold-soft);
-  text-shadow:0 0 18px rgba(212,175,55,.3);
+  text-shadow:0 0 18px rgba(201,162,39,.3);
 }
 .ob-desc{
   margin:0;max-width:320px;
@@ -119,7 +139,7 @@
 .ob-next{
   border:0;background:var(--ob-gold);color:var(--ob-dark);
   font-size:.9rem;font-weight:700;padding:12px 30px;
-  box-shadow:0 6px 22px rgba(212,175,55,.32);
+  box-shadow:0 6px 22px rgba(201,162,39,.32);
 }
 .ob-next:hover{transform:translateY(-2px);background:var(--ob-gold-soft)}
 .ob-skip:focus-visible,.ob-next:focus-visible,.ob-dot:focus-visible{
@@ -127,9 +147,9 @@
 }
 
 /* ═══════════ 页 1 · 八卦旋转 ═══════════ */
-.bagua-svg{width:100%;height:100%;overflow:visible}
-.bg-ring-outer{fill:none;stroke:rgba(212,175,55,.35);stroke-width:1.5}
-.bg-ring-inner{fill:none;stroke:rgba(212,175,55,.18);stroke-width:1}
+.bagua-svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 0 18px rgba(201,162,39,.22))}
+.bg-ring-outer{fill:none;stroke:rgba(201,162,39,.42);stroke-width:1.5}
+.bg-ring-inner{fill:none;stroke:rgba(201,162,39,.2);stroke-width:1}
 .bg-spin{transform-origin:110px 110px}
 .ob-slide.active .bg-spin{animation:obSpin 26s linear infinite}
 .bg-glyph{
@@ -137,9 +157,9 @@
   font-family:"Songti SC","STSong",serif;
 }
 .bg-taiji-bg{fill:var(--ob-ink)}
-.bg-taiji-yang{fill:var(--ob-dark)}
+.bg-taiji-yang{fill:var(--ob-void)}
 .bg-eye-light{fill:var(--ob-ink)}
-.bg-eye-dark{fill:var(--ob-dark)}
+.bg-eye-dark{fill:var(--ob-void)}
 
 /* ═══════════ 页 2 · 九宫逐格亮起 ═══════════ */
 .ob-jiugong{
@@ -148,12 +168,15 @@
 }
 .ob-gong{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  border:1px solid rgba(212,175,55,.35);border-radius:6px;
-  background:rgba(212,175,55,.04);
+  border:1px solid rgba(201,162,39,.34);border-radius:6px;
+  background:rgba(28,37,69,.34);
   opacity:.3;
 }
-.ob-gong b{font-size:1.35rem;color:var(--ob-gold-soft);font-family:"Songti SC",serif;line-height:1.2}
+.ob-gong b{font-size:1.35rem;color:#e9e2c8;font-family:"Songti SC",serif;line-height:1.2}
 .ob-gong small{font-size:.7rem;color:var(--ob-mute)}
+/* 中宫「五」：泥金焦点，众星拱极 */
+.ob-gong:nth-child(5){border-color:rgba(201,162,39,.7);background:rgba(201,162,39,.12)}
+.ob-gong:nth-child(5) b{color:var(--ob-gold-soft);text-shadow:0 0 14px rgba(242,217,138,.4)}
 /* 进入当前页后按宫序依次高亮（--i:0→8，即坎一→离九） */
 .ob-slide.active .ob-gong{
   animation:obGlow .7s ease forwards;
@@ -165,8 +188,8 @@
 .ob-strip{
   width:52px;padding:16px 0;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;
-  border:1px solid rgba(212,175,55,.22);border-radius:8px;
-  background:linear-gradient(180deg,rgba(212,175,55,.1),rgba(212,175,55,.02));
+  border:1px solid rgba(201,162,39,.22);border-radius:8px;
+  background:linear-gradient(180deg,rgba(201,162,39,.1),rgba(201,162,39,.02));
 }
 .ob-strip span{
   font-family:"Songti SC","STSong",serif;font-size:1.35rem;color:var(--ob-gold-soft);
@@ -188,14 +211,14 @@
 .ob-scroll-wrap{display:flex;align-items:center;justify-content:center;width:100%}
 .ob-scroll-rod{
   width:12px;height:170px;flex:0 0 12px;border-radius:6px;
-  background:linear-gradient(90deg,#6b5318,#d4af37,#6b5318);
-  box-shadow:0 0 12px rgba(212,175,55,.3);
+  background:linear-gradient(90deg,#6b5318,#c9a227,#6b5318);
+  box-shadow:0 0 12px rgba(201,162,39,.32);
 }
 .ob-scroll-paper{
   width:0;opacity:0;height:170px;overflow:hidden;
   display:flex;align-items:center;justify-content:center;gap:18px;
   background:linear-gradient(180deg,rgba(233,226,200,.14),rgba(233,226,200,.04));
-  border-top:1px solid rgba(212,175,55,.3);border-bottom:1px solid rgba(212,175,55,.3);
+  border-top:1px solid rgba(201,162,39,.3);border-bottom:1px solid rgba(201,162,39,.3);
 }
 .ob-slide.active .ob-scroll-paper{animation:obUnroll .85s ease .2s forwards}
 .ob-bookmark{width:34px;height:46px;flex:0 0 34px;opacity:0}
