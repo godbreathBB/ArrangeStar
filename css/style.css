@@ -49,6 +49,17 @@ body{margin:0;color:var(--ink);text-wrap:pretty;-webkit-text-size-adjust:100%;fo
     /* 底层：石青受光晕 → 黛蓝 → 玄青（光源上移居中） */
     radial-gradient(1200px 760px at 50% 26%,var(--bg-lift) 0%,var(--bg-deep) 60%,var(--bg-void) 100%);
   background-attachment:fixed}
+/* 四象水印层：图1白描技法的青龙/白虎/朱雀/玄武，分四方拱卫。
+   SVG 内已含 8.5% 泥金透明度；contain 保证四兽完整不裁切；
+   z-index:-1 使其位于渐变星空之上、内容之下，pointer-events:none 不参与交互。 */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:url(assets/symbols/four-creatures.svg) center center/contain no-repeat fixed;
+}
+@media (prefers-reduced-motion:no-preference){
+  body::before{animation:watermarkBreath 24s ease-in-out infinite}
+}
+@keyframes watermarkBreath{0%,100%{opacity:.85}50%{opacity:1}}
 ::selection{background:rgba(201,162,39,.35);color:#fff}
 header{background:rgba(16,20,42,.88);color:#e9e2c8;padding:14px 20px;border-bottom:1px solid rgba(201,162,39,.28);
 display:flex;align-items:center;justify-content:space-between;gap:12px}
