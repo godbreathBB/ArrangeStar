@@ -2,14 +2,20 @@
 // 对应 Python 端 chart.py（公历→农历→真太阳时）+ chart_core.py（安星纯算法）。
 // 依赖：lunar-typescript（公历/农历/干支，与 lunar_python 同源同 API）。
 import { Solar } from 'lunar-typescript';
+import { assertDateTime, assertLon, finiteInt } from './validate.ts';
 
 export const STEMS = '甲乙丙丁戊己庚辛壬癸';
 export const BRANCHES = '子丑寅卯辰巳午未申酉戌亥';
 export const PALACES = ['命宫', '兄弟', '夫妻', '子女', '财帛', '疾厄',
   '迁移', '交友', '官禄', '田宅', '福德', '父母'];
 
-// Python % 语义（结果恒非负）
-const mod = (n: number, m: number): number => ((n % m) + m) % m;
+// Python % 语义（结果恒非负）；非有限数直接报错，避免 NaN 被当作数组索引
+const mod = (n: number, m: number): number => {
+  if (!Number.isFinite(n) || !Number.isFinite(m) || m <= 0) {
+    throw new Error(`模运算参数非法（n=${String(n)}, m=${String(m)}）`);
+  }
+  return ((n % m) + m) % m;
+};
 
 // ── 常量表 ──────────────────────────────────────────────
 // 六十甲子纳音 → 五行局（水二/木三/金四/土五/火六）
@@ -104,12 +110,17 @@ function ganzhiIndex(stemI: number, branchI: number): number {
 
 export function sihuaOf(stemI: number, gengVariant = 'taiyin'): [string, string, string, string] {
   const stem = STEMS[stemI];
-  if (stem === '庚') return SIHUA_GENG[gengVariant];
+  if (!stem) throw new Error(`四化参数非法：天干序号 ${String(stemI)} 不在 0–9`);
+  if (stem === '庚') {
+    const v = SIHUA_GENG[gengVariant];
+    if (!v) throw new Error(`四化参数非法：未知庚干变体 ${gengVariant}`);
+    return v;
+  }
   return SIHUA[stem];
 }
 
 export function yearGanzhi(year: number): [number, number] {
-  const n = mod(year - 4, 60);
+  const n = mod(finiteInt(year, '流年') - 4, 60);
   return [n % 10, n % 12];
 }
 
@@ -305,8 +316,9 @@ function isDst(y: number, m: number, d: number): boolean {
 }
 
 function eot(month: number, day: number): number {
-  const date = new Date(2000, month - 1, day);   // 2000 闰年
-  const n = Math.floor((date.getTime() - new Date(2000, 0, 1).getTime()) / 86400000) + 1;
+  // 用 UTC 构造：避免宿主本地时区 / 夏令时让同一输入产出不同日序（原实现依赖 TZ）
+  const date = Date.UTC(2000, month - 1, day);   // 2000 闰年
+  const n = Math.floor((date - Date.UTC(2000, 0, 1)) / 86400000) + 1;
   const b = 2 * Math.PI * (n - 81) / 364;
   return 9.87 * Math.sin(2 * b) - 7.53 * Math.cos(b) - 1.5 * Math.sin(b);
 }
@@ -315,8 +327,9 @@ function trueSolar(hh: number, mm: number, year: number, month: number, day: num
   const dst = isDst(year, month, day);
   let t = hh * 60 + mm - (dst ? 60 : 0);
   t += (lon - 120) * 4 + eot(month, day);
-  t = mod(t, 1440);
-  return [Math.floor(t / 60), Math.round(t % 60), dst];
+  // 先取整到分钟再拆分，避免 t%60 ∈ [59.5,60) 时 Math.round 产出非法分钟 60
+  const total = mod(Math.round(t), 1440);
+  return [Math.floor(total / 60), total % 60, dst];
 }
 
 function branchOf(hh: number): number {
@@ -329,9 +342,10 @@ export interface FullChart extends ChartResult {
   gender: string; lon: number; hour_branch_i: number;
 }
 
-export function chart(y: number, m: number, d: number, hh: number, mm: number,
+export function chart(y0: number, m0: number, d0: number, hh0: number, mm0: number,
   opts: { lon?: number, gender?: string, rulesetId?: string, gengVariant?: string } = {}): FullChart {
-  const lon = opts.lon ?? 120.0;
+  const [y, m, d, hh, mm] = assertDateTime(y0, m0, d0, hh0, mm0);
+  const lon = assertLon(opts.lon ?? 120.0);
   const gender = opts.gender ?? '女';
   const lunar = Solar.fromYmd(y, m, d).getLunar();
   const tzYear = lunar.getYear();

@@ -11492,15 +11492,15 @@
       }
       if (days > 0) {
         d += days;
-        let daysInMonth = SolarUtil.getDaysOfMonth(y, m);
-        while (d > daysInMonth) {
-          d -= daysInMonth;
+        let daysInMonth2 = SolarUtil.getDaysOfMonth(y, m);
+        while (d > daysInMonth2) {
+          d -= daysInMonth2;
           m++;
           if (m > 12) {
             m = 1;
             y++;
           }
-          daysInMonth = SolarUtil.getDaysOfMonth(y, m);
+          daysInMonth2 = SolarUtil.getDaysOfMonth(y, m);
         }
       } else if (days < 0) {
         while (d + days <= 0) {
@@ -11667,6 +11667,55 @@
   };
   I18n.init();
 
+  // js/engine/validate.ts
+  function finiteInt(v, field) {
+    if (typeof v !== "number" || !Number.isFinite(v) || !Number.isInteger(v)) {
+      throw new Error(`\u8F93\u5165\u65E0\u6548\uFF1A${field} \u5FC5\u987B\u662F\u6709\u9650\u6574\u6570\uFF08\u6536\u5230 ${String(v)}\uFF09`);
+    }
+    return v;
+  }
+  function finiteNum(v, field) {
+    if (typeof v !== "number" || !Number.isFinite(v)) {
+      throw new Error(`\u8F93\u5165\u65E0\u6548\uFF1A${field} \u5FC5\u987B\u662F\u6709\u9650\u6570\uFF08\u6536\u5230 ${String(v)}\uFF09`);
+    }
+    return v;
+  }
+  function daysInMonth(y, m) {
+    return new Date(Date.UTC(y, m, 0)).getUTCDate();
+  }
+  function assertYear(y, min = 1900, max = 2100) {
+    const n = finiteInt(y, "\u5E74");
+    if (n < min || n > max) throw new Error(`\u8F93\u5165\u65E0\u6548\uFF1A\u5E74\u5FC5\u987B\u5728 ${min}\u2013${max} \u4E4B\u95F4\uFF08\u6536\u5230 ${n}\uFF09`);
+    return n;
+  }
+  function assertDateOnly(y, m, d) {
+    const Y = assertYear(y), M = finiteInt(m, "\u6708"), D = finiteInt(d, "\u65E5");
+    if (M < 1 || M > 12) throw new Error(`\u8F93\u5165\u65E0\u6548\uFF1A\u6708\u5FC5\u987B\u5728 1\u201312 \u4E4B\u95F4\uFF08\u6536\u5230 ${M}\uFF09`);
+    const maxD = daysInMonth(Y, M);
+    if (D < 1 || D > maxD) throw new Error(`\u8F93\u5165\u65E0\u6548\uFF1A${Y}-${M} \u7684\u65E5\u5FC5\u987B\u5728 1\u2013${maxD} \u4E4B\u95F4\uFF08\u6536\u5230 ${D}\uFF09`);
+    return [Y, M, D];
+  }
+  function assertDateTime(y, m, d, hh, mm) {
+    const [Y, M, D] = assertDateOnly(y, m, d);
+    const H = finiteInt(hh, "\u65F6"), Mi = finiteInt(mm, "\u5206");
+    if (H < 0 || H > 23) throw new Error(`\u8F93\u5165\u65E0\u6548\uFF1A\u65F6\u5FC5\u987B\u5728 0\u201323 \u4E4B\u95F4\uFF08\u6536\u5230 ${H}\uFF09`);
+    if (Mi < 0 || Mi > 59) throw new Error(`\u8F93\u5165\u65E0\u6548\uFF1A\u5206\u5FC5\u987B\u5728 0\u201359 \u4E4B\u95F4\uFF08\u6536\u5230 ${Mi}\uFF09`);
+    return [Y, M, D, H, Mi];
+  }
+  function assertLon(lon) {
+    const v = finiteNum(lon, "\u7ECF\u5EA6");
+    if (v < 60 || v > 150) throw new Error(`\u8F93\u5165\u65E0\u6548\uFF1A\u7ECF\u5EA6\u5FC5\u987B\u5728 60\u2013150 \u4E4B\u95F4\uFF08\u6536\u5230 ${v}\uFF09`);
+    return v;
+  }
+  function assertDateStr(s, field = "\u53C2\u8003\u65E5\u671F") {
+    if (typeof s !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+      throw new Error(`\u8F93\u5165\u65E0\u6548\uFF1A${field} \u5FC5\u987B\u662F YYYY-MM-DD\uFF08\u6536\u5230 ${String(s)}\uFF09`);
+    }
+    const [y, m, d] = s.split("-").map(Number);
+    assertDateOnly(y, m, d);
+    return s;
+  }
+
   // js/engine/ziwei.ts
   var STEMS = "\u7532\u4E59\u4E19\u4E01\u620A\u5DF1\u5E9A\u8F9B\u58EC\u7678";
   var BRANCHES = "\u5B50\u4E11\u5BC5\u536F\u8FB0\u5DF3\u5348\u672A\u7533\u9149\u620C\u4EA5";
@@ -11684,7 +11733,12 @@
     "\u798F\u5FB7",
     "\u7236\u6BCD"
   ];
-  var mod = (n, m) => (n % m + m) % m;
+  var mod = (n, m) => {
+    if (!Number.isFinite(n) || !Number.isFinite(m) || m <= 0) {
+      throw new Error(`\u6A21\u8FD0\u7B97\u53C2\u6570\u975E\u6CD5\uFF08n=${String(n)}, m=${String(m)}\uFF09`);
+    }
+    return (n % m + m) % m;
+  };
   var _JU = [
     4,
     4,
@@ -11842,11 +11896,16 @@
   }
   function sihuaOf(stemI, gengVariant = "taiyin") {
     const stem = STEMS[stemI];
-    if (stem === "\u5E9A") return SIHUA_GENG[gengVariant];
+    if (!stem) throw new Error(`\u56DB\u5316\u53C2\u6570\u975E\u6CD5\uFF1A\u5929\u5E72\u5E8F\u53F7 ${String(stemI)} \u4E0D\u5728 0\u20139`);
+    if (stem === "\u5E9A") {
+      const v = SIHUA_GENG[gengVariant];
+      if (!v) throw new Error(`\u56DB\u5316\u53C2\u6570\u975E\u6CD5\uFF1A\u672A\u77E5\u5E9A\u5E72\u53D8\u4F53 ${gengVariant}`);
+      return v;
+    }
     return SIHUA[stem];
   }
   function yearGanzhi(year) {
-    const n = mod(year - 4, 60);
+    const n = mod(finiteInt(year, "\u6D41\u5E74") - 4, 60);
     return [n % 10, n % 12];
   }
   function changshengOf(ju, gender) {
@@ -12024,8 +12083,8 @@
     return (m > m1 || m === m1 && d >= d1) && (m < m2 || m === m2 && d <= d2);
   }
   function eot(month, day) {
-    const date = new Date(2e3, month - 1, day);
-    const n = Math.floor((date.getTime() - new Date(2e3, 0, 1).getTime()) / 864e5) + 1;
+    const date = Date.UTC(2e3, month - 1, day);
+    const n = Math.floor((date - Date.UTC(2e3, 0, 1)) / 864e5) + 1;
     const b = 2 * Math.PI * (n - 81) / 364;
     return 9.87 * Math.sin(2 * b) - 7.53 * Math.cos(b) - 1.5 * Math.sin(b);
   }
@@ -12033,14 +12092,15 @@
     const dst = isDst(year, month, day);
     let t2 = hh * 60 + mm - (dst ? 60 : 0);
     t2 += (lon - 120) * 4 + eot(month, day);
-    t2 = mod(t2, 1440);
-    return [Math.floor(t2 / 60), Math.round(t2 % 60), dst];
+    const total = mod(Math.round(t2), 1440);
+    return [Math.floor(total / 60), total % 60, dst];
   }
   function branchOf(hh) {
     return Math.floor((hh + 1) / 2) % 12;
   }
-  function chart(y, m, d, hh, mm, opts = {}) {
-    const lon = opts.lon ?? 120;
+  function chart(y0, m0, d0, hh0, mm0, opts = {}) {
+    const [y, m, d, hh, mm] = assertDateTime(y0, m0, d0, hh0, mm0);
+    const lon = assertLon(opts.lon ?? 120);
     const gender = opts.gender ?? "\u5973";
     const lunar = Solar.fromYmd(y, m, d).getLunar();
     const tzYear = lunar.getYear();
@@ -12727,7 +12787,8 @@
     for (const [k, v] of Object.entries(counts).sort((a, b) => b[1] - a[1])) out[k] = Math.round(v * 100) / 100;
     return out;
   }
-  function bazi(y, mo, d, hh, mi, gender = "\u5973") {
+  function bazi(y0, mo0, d0, hh0, mi0, gender = "\u5973") {
+    const [y, mo, d, hh, mi] = assertDateTime(y0, mo0, d0, hh0, mi0);
     const solar = Solar.fromYmdHms(y, mo, d, hh, mi, 0);
     const lunar = solar.getLunar();
     const ec = lunar.getEightChar();
@@ -12799,6 +12860,7 @@
     };
   }
   function liunian(r, year) {
+    finiteInt(year, "\u6D41\u5E74");
     const gz = Solar.fromYmd(year, 7, 1).getLunar().getYearInGanZhi();
     return { year, ganzhi: gz, gan_god: ten_god(r.day_master.gan, gz[0]), zhi_wx: ZHI_WX[gz[1]] };
   }
@@ -12810,7 +12872,12 @@
   // js/engine/qimen.ts
   var GAN2 = "\u7532\u4E59\u4E19\u4E01\u620A\u5DF1\u5E9A\u8F9B\u58EC\u7678";
   var ZHI2 = "\u5B50\u4E11\u5BC5\u536F\u8FB0\u5DF3\u5348\u672A\u7533\u9149\u620C\u4EA5";
-  var mod2 = (n, m) => (n % m + m) % m;
+  var mod2 = (n, m) => {
+    if (!Number.isFinite(n) || !Number.isFinite(m) || m <= 0) {
+      throw new Error(`\u6A21\u8FD0\u7B97\u53C2\u6570\u975E\u6CD5\uFF08n=${String(n)}, m=${String(m)}\uFF09`);
+    }
+    return (n % m + m) % m;
+  };
   var CIRCLE = [1, 8, 3, 4, 9, 2, 7, 6];
   var GONG_NAME = { 1: "\u574E\u4E00\u5BAB", 2: "\u5764\u4E8C\u5BAB", 3: "\u9707\u4E09\u5BAB", 4: "\u5DFD\u56DB\u5BAB", 5: "\u4E2D\u4E94\u5BAB", 6: "\u4E7E\u516D\u5BAB", 7: "\u5151\u4E03\u5BAB", 8: "\u826E\u516B\u5BAB", 9: "\u79BB\u4E5D\u5BAB" };
   var GONG_TRIGRAM = { 1: "\u574E", 2: "\u5764", 3: "\u9707", 4: "\u5DFD", 5: "\u4E2D", 6: "\u4E7E", 7: "\u5151", 8: "\u826E", 9: "\u79BB" };
@@ -12982,12 +13049,13 @@
     let jq = l.getPrevJieQi();
     let jd = jq.getSolar();
     if (jd.getYear() === solar.getYear() && jd.getMonth() === solar.getMonth() && jd.getDay() === solar.getDay()) {
-      let s_yest = Solar.fromYmd(solar.getYear(), solar.getMonth(), solar.getDay() - 1);
-      s_yest = Solar.fromYmdHms(s_yest.getYear(), s_yest.getMonth(), s_yest.getDay(), 12, 0, 0);
+      const p1 = solar.next(-1);
+      const s_yest = Solar.fromYmdHms(p1.getYear(), p1.getMonth(), p1.getDay(), 12, 0, 0);
       let jq2 = s_yest.getLunar().getPrevJieQi();
       const jd2 = jq2.getSolar();
       if (jd2.getYear() === s_yest.getYear() && jd2.getMonth() === s_yest.getMonth() && jd2.getDay() === s_yest.getDay()) {
-        const s2 = Solar.fromYmdHms(solar.getYear(), solar.getMonth(), solar.getDay() - 2, 12, 0, 0);
+        const p2 = solar.next(-2);
+        const s2 = Solar.fromYmdHms(p2.getYear(), p2.getMonth(), p2.getDay(), 12, 0, 0);
         jq2 = s2.getLunar().getPrevJieQi();
       }
       jq = jq2;
@@ -13008,7 +13076,8 @@
   function _pos(p) {
     return CIRCLE.indexOf(p);
   }
-  function qimen(y, mo, d, hh, mi) {
+  function qimen(y0, mo0, d0, hh0, mi0) {
+    const [y, mo, d, hh, mi] = assertDateTime(y0, mo0, d0, hh0, mi0);
     const solar = Solar.fromYmdHms(y, mo, d, hh, mi, 0);
     const lunar = solar.getLunar();
     const ec = lunar.getEightChar();
@@ -13254,6 +13323,7 @@
     return out;
   }
   function flow_day(solar_y, solar_m, solar_d, month_palace) {
+    assertDateOnly(solar_y, solar_m, solar_d);
     const lunar = Solar.fromYmd(solar_y, solar_m, solar_d).getLunar();
     const gz = lunar.getDayInGanZhi();
     if (!STEMS.includes(gz[0])) throw new Error("\u65E5\u5E72\u5F02\u5E38: " + gz);
@@ -13263,8 +13333,9 @@
   }
   function detect_patterns(r, age, year) {
     const life = r.life;
+    const starsAt = (b) => r.stars?.[b] || [];
     const tri = [life, mod3(life + 4, 12), mod3(life + 8, 12), mod3(life + 6, 12)];
-    const at = (b) => new Set((r.stars[b] || []).filter((s) => MAJOR.has(s)));
+    const at = (b) => new Set(starsAt(b).filter((s) => MAJOR.has(s)));
     const mine = /* @__PURE__ */ new Set([...at(life), ...at(mod3(life + 6, 12))]);
     const tri_stars = /* @__PURE__ */ new Set();
     for (const b of tri) at(b).forEach((s) => tri_stars.add(s));
@@ -13282,9 +13353,9 @@
     if ([1, 7].includes(life) && has(mine, /* @__PURE__ */ new Set(["\u6B66\u66F2", "\u8D2A\u72FC"]))) out.push("\u8D2A\u6B66\u540C\u884C");
     if ([1, 7].includes(life) && has(mine, /* @__PURE__ */ new Set(["\u592A\u9633", "\u592A\u9634"]))) out.push("\u65E5\u6708\u5E76\u660E");
     if (mine.has("\u7D2B\u5FAE") && [...tri_stars].some((s) => ["\u5DE6\u8F85", "\u53F3\u5F3C", "\u6587\u660C", "\u6587\u66F2", "\u5929\u9B41", "\u5929\u94BA"].includes(s))) out.push("\u541B\u81E3\u5E86\u4F1A");
-    const all_mine = new Set(r.stars[life] || []);
+    const all_mine = new Set(starsAt(life));
     const all_tri = /* @__PURE__ */ new Set();
-    for (const b of tri) (r.stars[b] || []).forEach((s) => all_tri.add(s));
+    for (const b of tri) starsAt(b).forEach((s) => all_tri.add(s));
     if ([2, 8].includes(life) && has(mine, /* @__PURE__ */ new Set(["\u592A\u9633", "\u5DE8\u95E8"]))) out.push("\u5DE8\u65E5\u540C\u5BAB");
     if (has(tri_stars, /* @__PURE__ */ new Set(["\u5929\u673A", "\u5929\u6881"]))) out.push("\u673A\u6881\u52A0\u4F1A");
     if (has(all_tri, /* @__PURE__ */ new Set(["\u6587\u660C", "\u5929\u6881"]))) out.push("\u6587\u6881\u632F\u7EAA");
@@ -13300,9 +13371,9 @@
     if ([0, 6].includes(life) && mine.has("\u7834\u519B")) out.push("\u82F1\u661F\u5165\u5E99");
     if (life === 6 && all_mine.has("\u64CE\u7F8A")) out.push("\u9A6C\u5934\u5E26\u7BAD");
     const left = mod3(life - 1, 12), right = mod3(life + 1, 12);
-    const nb = /* @__PURE__ */ new Set([...r.stars[left] || [], ...r.stars[right] || []]);
+    const nb = /* @__PURE__ */ new Set([...starsAt(left), ...starsAt(right)]);
     const star_at = {};
-    for (let b = 0; b < 12; b++) for (const st of r.stars[b] || []) star_at[st] ??= b;
+    for (let b = 0; b < 12; b++) for (const st of starsAt(b)) star_at[st] ??= b;
     const lu = new Set(Object.entries(r.hua).filter(([, v]) => v.tag === "\u7984").map(([s]) => s));
     const quan = new Set(Object.entries(r.hua).filter(([, v]) => v.tag === "\u6743").map(([s]) => s));
     const ke = new Set(Object.entries(r.hua).filter(([, v]) => v.tag === "\u79D1").map(([s]) => s));
@@ -13310,16 +13381,16 @@
     if (mine.has("\u7D2B\u5FAE") && ["\u5E99", "\u65FA"].includes(bri["\u7D2B\u5FAE"]) || mine.has("\u5929\u5E9C") && ["\u5E99", "\u65FA"].includes(bri["\u5929\u5E9C"])) out.push("\u7D2B\u5E9C\u671D\u57A3");
     if (mine.has("\u5929\u5E9C") && [4, 10].includes(life)) out.push("\u5929\u5E9C\u671D\u57A3");
     if (mine.has("\u592A\u9633") && life === 6) out.push("\u91D1\u707F\u5149\u8F89");
-    if (life === 7 && mine.size === 0 && has(new Set(r.stars[3] || []), /* @__PURE__ */ new Set(["\u592A\u9633", "\u5929\u6881"])) && new Set(r.stars[11] || []).has("\u592A\u9634")) out.push("\u660E\u73E0\u51FA\u6D77");
+    if (life === 7 && mine.size === 0 && has(new Set(starsAt(3)), /* @__PURE__ */ new Set(["\u592A\u9633", "\u5929\u6881"])) && starsAt(11).includes("\u592A\u9634")) out.push("\u660E\u73E0\u51FA\u6D77");
     if (nb.has("\u5929\u9B41") && nb.has("\u5929\u94BA")) out.push("\u5929\u4E59\u62F1\u547D");
     if ([...all_mine].some((s) => lu.has(s)) && [...all_mine].some((s) => quan.has(s))) out.push("\u6743\u7984\u5DE1\u9022");
     if ([...nb].filter((st) => lu.has(st) || quan.has(st) || ke.has(st)).length >= 2) out.push("\u79D1\u6743\u7984\u5939");
     if (nb.has("\u7984\u5B58") && [...nb].some((s) => lu.has(s))) out.push("\u53CC\u7984\u5939\u547D");
-    for (const b of tri) if (has(new Set(r.stars[b] || []), /* @__PURE__ */ new Set(["\u706B\u661F", "\u8D2A\u72FC"]))) {
+    for (const b of tri) if (has(new Set(starsAt(b)), /* @__PURE__ */ new Set(["\u706B\u661F", "\u8D2A\u72FC"]))) {
       out.push("\u4E09\u5408\u706B\u8D2A");
       break;
     }
-    for (const b of tri) if (has(new Set(r.stars[b] || []), /* @__PURE__ */ new Set(["\u94C3\u661F", "\u8D2A\u72FC"]))) {
+    for (const b of tri) if (has(new Set(starsAt(b)), /* @__PURE__ */ new Set(["\u94C3\u661F", "\u8D2A\u72FC"]))) {
       out.push("\u8D2A\u94C3\u671D\u57A3");
       break;
     }
@@ -13330,12 +13401,12 @@
     if (all_mine.has("\u7984\u5B58") && [...all_mine].some((s) => lu.has(s))) out.push("\u7984\u5408\u9E33\u9E2F");
     if (all_tri.has("\u7984\u5B58") && [...all_tri].some((s) => lu.has(s))) out.push("\u53CC\u7984\u671D\u57A3");
     if ((all_tri.has("\u7984\u5B58") || [...all_tri].some((s) => lu.has(s))) && all_tri.has("\u5929\u9A6C")) out.push("\u7984\u9A6C\u4EA4\u9A70");
-    if (life === 1 && has(new Set(r.stars[7] || []), /* @__PURE__ */ new Set(["\u592A\u9633", "\u592A\u9634"])) || life === 7 && has(new Set(r.stars[1] || []), /* @__PURE__ */ new Set(["\u592A\u9633", "\u592A\u9634"]))) out.push("\u4E8C\u66DC\u540C\u4E34");
+    if (life === 1 && has(new Set(starsAt(7)), /* @__PURE__ */ new Set(["\u592A\u9633", "\u592A\u9634"])) || life === 7 && has(new Set(starsAt(1)), /* @__PURE__ */ new Set(["\u592A\u9633", "\u592A\u9634"]))) out.push("\u4E8C\u66DC\u540C\u4E34");
     if (mine.has("\u592A\u9633") && [4, 5].includes(life) || mine.has("\u592A\u9634") && [9, 10].includes(life)) out.push("\u4E39\u6842");
     if ([...all_mine].some((s) => ke.has(s)) && [...all_tri].some((s) => quan.has(s))) out.push("\u7532\u7B2C\u767B\u5EB8");
     if ([...all_mine].some((s) => ke.has(s)) && [...all_tri].some((s) => lu.has(s))) out.push("\u79D1\u540D\u4F1A\u7984");
     const mine_lu = all_mine.has("\u7984\u5B58") || [...all_mine].some((s) => lu.has(s));
-    const he_stars = new Set(r.stars[he] || []);
+    const he_stars = new Set(starsAt(he));
     const he_lu = he_stars.has("\u7984\u5B58") || [...he_stars].some((s) => lu.has(s));
     if (mine_lu && he_lu) out.push("\u660E\u7984\u6697\u7984");
     if (Object.values(r.hua).some((v) => v.tag === "\u6743") && [...all_mine].some((s) => quan.has(s))) out.push("\u6743\u661F\u671D\u57A3");
@@ -13343,13 +13414,13 @@
     if (all_mine.has("\u5929\u9A6C") && nb.has("\u6B66\u66F2") && [...nb].some((s) => lu.has(s))) out.push("\u8D22\u7984\u5939\u9A6C");
     if (mine.has("\u7834\u519B") && [4, 10].includes(life)) {
       const opp = mod3(life + 6, 12);
-      if (has(new Set(r.stars[opp] || []), /* @__PURE__ */ new Set(["\u592A\u9633", "\u592A\u9634"]))) out.push("\u65E5\u6708\u7167\u58C1");
+      if (has(new Set(starsAt(opp)), /* @__PURE__ */ new Set(["\u592A\u9633", "\u592A\u9634"]))) out.push("\u65E5\u6708\u7167\u58C1");
     }
     if (r.stem === "\u4E01" && mine.has("\u5929\u540C") && life === 10 || r.stem === "\u8F9B" && mine.has("\u5DE8\u95E8") && life === 4) out.push("\u5316\u661F\u8FD4\u8D35");
     if ([...all_mine].some((s) => ke.has(s)) && he_lu) out.push("\u79D1\u660E\u7984\u6697");
     const sha = /* @__PURE__ */ new Set(["\u64CE\u7F8A", "\u9640\u7F57", "\u706B\u661F", "\u94C3\u661F", "\u5730\u7A7A", "\u5730\u52AB"]);
     const by_b = {};
-    for (let b = 0; b < 12; b++) by_b[b] = new Set(r.stars[b] || []);
+    for (let b = 0; b < 12; b++) by_b[b] = new Set(starsAt(b));
     const ji = new Set(Object.entries(r.hua).filter(([, v]) => v.tag === "\u5FCC").map(([s]) => s));
     let lim = null;
     if (age !== void 0) {
@@ -13380,6 +13451,7 @@
     return [...new Set(dedup)];
   }
   function compose(r, lib, age, year = 2026, date_str, lang2 = "zh") {
+    finiteInt(year, "\u53C2\u8003\u5E74");
     const by_palace = {};
     PALACES.forEach((name, k) => {
       by_palace[name] = mod3(r.life - k, 12);
@@ -13396,7 +13468,8 @@
       const opp = mod3(br + 6, 12);
       return [br, majors_at(opp), BRANCHES[opp]];
     };
-    const dt = date_str ? /* @__PURE__ */ new Date(date_str + "T12:00:00") : /* @__PURE__ */ new Date();
+    const dt = date_str ? /* @__PURE__ */ new Date(assertDateStr(date_str) + "T12:00:00") : /* @__PURE__ */ new Date();
+    if (!Number.isFinite(dt.getTime())) throw new Error("\u8F93\u5165\u65E0\u6548\uFF1A\u53C2\u8003\u65E5\u671F\u65E0\u6CD5\u89E3\u6790");
     const lunar = r.lunar;
     const cur_age = age ?? year - lunar[0] + 1;
     const lim = (r.limits || []).find((x) => x.start <= cur_age && cur_age <= x.end) || null;
@@ -13777,6 +13850,14 @@
       localStorage.setItem(LANG_KEY, v);
     } catch {
     }
+    try {
+      const u = new URL(location.href);
+      if (u.searchParams.has("lang")) {
+        u.searchParams.delete("lang");
+        history.replaceState(null, "", u.pathname + u.search + u.hash);
+      }
+    } catch {
+    }
     applyStatic();
     listeners.forEach((fn) => fn());
   }
@@ -13828,16 +13909,17 @@
   }
   function applyStatic(root = document) {
     document.documentElement.lang = lang === "en" ? "en" : "zh-CN";
+    const pick = (key) => UI[lang][key] ?? UI.zh[key];
     root.querySelectorAll("[data-i18n]").forEach((el) => {
-      const v = UI[lang][el.dataset.i18n || ""];
+      const v = pick(el.dataset.i18n || "");
       if (v !== void 0) el.textContent = v;
     });
     root.querySelectorAll("[data-i18n-title]").forEach((el) => {
-      const v = UI[lang][el.dataset.i18nTitle || ""];
+      const v = pick(el.dataset.i18nTitle || "");
       if (v !== void 0) el.title = v;
     });
     root.querySelectorAll("[data-i18n-aria]").forEach((el) => {
-      const v = UI[lang][el.dataset.i18nAria || ""];
+      const v = pick(el.dataset.i18nAria || "");
       if (v !== void 0) el.setAttribute("aria-label", v);
     });
   }
@@ -13901,6 +13983,7 @@
       "err.reading": "\u89E3\u8BFB\u6682\u65F6\u6CA1\u80FD\u751F\u6210\uFF1A",
       "err.year": "\u5E74\u4EFD\u9700\u5728 1900\u20132100 \u4E4B\u95F4",
       "err.lon": "\u7ECF\u5EA6\u9700\u5728 60\u2013150 \u4E4B\u95F4",
+      "err.invalid": "\u8F93\u5165\u65E0\u6548\uFF1A\u8BF7\u68C0\u67E5\u5E74\u6708\u65E5\u3001\u65F6\u5206\u4E0E\u53C2\u8003\u65E5\u671F\u662F\u5426\u4E3A\u5408\u6CD5\u65E5\u671F",
       "section.pillars": "\u56DB\u67F1",
       "section.wuxing": "\u4E94\u884C\u529B\u91CF",
       "section.pattern": "\u547D\u5C40",
@@ -13974,7 +14057,8 @@
       "intro.next": "\u4E0B\u4E00\u6B65",
       "intro.start": "\u8FDB\u5165\u661F\u57A3",
       "intro.back": "\u4E0A\u4E00\u6B65",
-      "intro.replay": "\u91CD\u770B\u5F15\u5BFC"
+      "intro.replay": "\u91CD\u770B\u5F15\u5BFC",
+      "intro.aria": "\u9996\u6B21\u5F15\u5BFC"
     },
     en: {
       "app.title": "ArrangeStar \xB7 Zi Wei Dou Shu / Ba Zi / Qi Men Dun Jia",
@@ -14035,6 +14119,7 @@
       "err.reading": "Reading could not be generated: ",
       "err.year": "Year must be between 1900 and 2100",
       "err.lon": "Longitude must be between 60 and 150",
+      "err.invalid": "Invalid input: check that the date, time and reference date are valid",
       "section.pillars": "Four Pillars",
       "section.wuxing": "Five Elements balance",
       "section.pattern": "Chart structure",
@@ -14108,7 +14193,8 @@
       "intro.next": "Next",
       "intro.start": "Enter ArrangeStar",
       "intro.back": "Back",
-      "intro.replay": "Replay intro"
+      "intro.replay": "Replay intro",
+      "intro.aria": "First-run guide"
     }
   };
   var TERMS = {
@@ -14496,6 +14582,9 @@
     "\u5C0F\u96EA": "Lesser Snow",
     "\u5927\u96EA": "Greater Snow"
   };
+  if (typeof window !== "undefined") {
+    window.XY_I18N = { getLang, setLang, toggleLang, onLangChange, t, applyStatic };
+  }
 
   // js/reading.ts
   var L2 = window.__LIB__ || {};
@@ -15190,7 +15279,11 @@ This palace is **${term(c.door_rel)}** \u2014 ${rel(c.door_rel)} Leave room in t
   }
 
   // js/app.ts
-  var TODAY = (/* @__PURE__ */ new Date()).toISOString().slice(0, 10);
+  function localToday() {
+    const n = /* @__PURE__ */ new Date();
+    return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, "0")}-${String(n.getDate()).padStart(2, "0")}`;
+  }
+  var TODAY = localToday();
   var DEFAULT = {
     y: 1990,
     mo: 5,
@@ -15232,7 +15325,18 @@ This palace is **${term(c.door_rel)}** \u2014 ${rel(c.door_rel)} Leave room in t
     try {
       S = { ...DEFAULT, ...JSON.parse(localStorage.getItem(STATE_KEY) || "{}") };
     } catch {
+      S = { ...DEFAULT };
     }
+    const num = (v, d) => typeof v === "number" && Number.isFinite(v) ? v : d;
+    for (const k of ["y", "mo", "d", "hh", "mi", "lon", "qy", "qmo", "qd", "qhh", "qmi"]) {
+      S[k] = num(S[k], DEFAULT[k]);
+    }
+    if (!["chart", "bazi", "qimen"].includes(S.view)) S.view = DEFAULT.view;
+    if (!["benming", "limit", "annual", "month", "day"].includes(S.layer)) S.layer = DEFAULT.layer;
+    if (S.g !== "\u7537" && S.g !== "\u5973") S.g = DEFAULT.g;
+    if (typeof S.ref !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(S.ref)) S.ref = TODAY;
+    if (typeof S.daily !== "string") S.daily = "";
+    if (typeof S.lines !== "boolean") S.lines = DEFAULT.lines;
   }
   function saveState() {
     try {
@@ -15418,6 +15522,13 @@ You are currently in the **${ganzhi(dy.ganzhi)}** major fortune, with **${term(d
       S.ref = $("ref").value || TODAY;
       if (!(1900 <= S.y && S.y <= 2100)) throw new Error(t("err.year"));
       if (!(60 <= S.lon && S.lon <= 150)) throw new Error(t("err.lon"));
+      try {
+        assertDateTime(S.y, S.mo, S.d, S.hh, S.mi);
+        assertDateStr(S.ref);
+        if (S.daily) assertDateStr(S.daily, "\u4ECA\u65E5\u4E00\u53E5\u65E5\u671F");
+      } catch {
+        throw new Error(t("err.invalid"));
+      }
     } catch (e) {
       out.innerHTML = `<div class="err">${esc2(e.message || e)}</div>`;
       return;
@@ -15570,54 +15681,54 @@ You are currently in the **${ganzhi(dy.ganzhi)}** major fortune, with **${term(d
     $("ref").value = S.ref;
     $("daily").value = S.daily || "";
     document.addEventListener("click", (e) => {
-      const t2 = e.target;
-      const tab = t2.closest(".tab");
+      const target = e.target;
+      const tab = target.closest(".tab");
       if (tab && tab.dataset.view) {
         S.view = tab.dataset.view;
         saveState();
         go();
         return;
       }
-      const vt = t2.closest(".vt");
+      const vt = target.closest(".vt");
       if (vt && vt.dataset.layer) {
         setLayer(vt.dataset.layer);
         return;
       }
-      if (t2.closest("#go")) {
+      if (target.closest("#go")) {
         go();
         return;
       }
-      if (t2.closest("#qmgo")) {
+      if (target.closest("#qmgo")) {
         readQimenForm();
         return;
       }
-      if (t2.closest("#todayBtn")) {
+      if (target.closest("#todayBtn")) {
         togglePanel("settingsPanel");
         return;
       }
-      if (t2.closest("#archiveBtn")) {
+      if (target.closest("#archiveBtn")) {
         togglePanel("archivePanel");
         return;
       }
-      if (t2.closest("#settingsBtn")) {
+      if (target.closest("#settingsBtn")) {
         togglePanel("settingsPanel");
         return;
       }
-      if (t2.closest("#langBtn")) {
+      if (target.closest("#langBtn")) {
         toggleLang();
         return;
       }
-      if (t2.closest("#linesBtn")) {
+      if (target.closest("#linesBtn")) {
         S.lines = !S.lines;
         saveState();
         go();
         return;
       }
-      if (t2.closest("#saveBtn")) {
+      if (target.closest("#saveBtn")) {
         saveArchive();
         return;
       }
-      const al = t2.closest("[data-archive-load]");
+      const al = target.closest("[data-archive-load]");
       if (al) {
         const item = archive().find((x) => String(x.id) === al.dataset.archiveLoad);
         if (item) {
@@ -15627,7 +15738,7 @@ You are currently in the **${ganzhi(dy.ganzhi)}** major fortune, with **${term(d
         }
         return;
       }
-      const ad = t2.closest("[data-archive-del]");
+      const ad = target.closest("[data-archive-del]");
       if (ad) {
         try {
           localStorage.setItem(ARCHIVE_KEY, JSON.stringify(archive().filter((x) => String(x.id) !== ad.dataset.archiveDel)));
@@ -15636,47 +15747,47 @@ You are currently in the **${ganzhi(dy.ganzhi)}** major fortune, with **${term(d
         renderArchive();
         return;
       }
-      if (t2.closest("#clearArchive")) {
-        if (confirm(t2("confirm.clearArchive"))) {
+      if (target.closest("#clearArchive")) {
+        if (confirm(t("confirm.clearArchive"))) {
           localStorage.removeItem(ARCHIVE_KEY);
           renderArchive();
         }
         return;
       }
-      if (t2.closest("#replayIntro")) {
+      if (target.closest("#replayIntro")) {
         const intro = window.XyOnboarding;
         if (intro) intro.replay();
         return;
       }
-      const goto = t2.closest("[data-goto]");
+      const goto = target.closest("[data-goto]");
       if (goto) {
         showDrawer(Number(goto.dataset.goto));
         return;
       }
-      if (t2.closest("[data-close]")) {
+      if (target.closest("[data-close]")) {
         closeDrawer();
         return;
       }
-      if (t2.closest("[data-close-star]")) {
+      if (target.closest("[data-close-star]")) {
         closeStar();
         return;
       }
-      const star = t2.closest("[data-star]");
+      const star = target.closest("[data-star]");
       if (star && star.dataset.star) {
         showStar(star.dataset.star);
         return;
       }
-      const qpal = t2.closest(".qpal[data-qnote]");
+      const qpal = target.closest(".qpal[data-qnote]");
       if (qpal) {
         showNote(qpal.dataset.qnote || "");
         return;
       }
-      const palace = t2.closest(".palace");
+      const palace = target.closest(".palace");
       if (palace) {
         showDrawer(Number(palace.dataset.branch));
         return;
       }
-      if (!t2.closest(".notepanel")) showNote("");
+      if (!target.closest(".notepanel")) showNote("");
     });
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
@@ -15685,10 +15796,10 @@ You are currently in the **${ganzhi(dy.ganzhi)}** major fortune, with **${term(d
         showNote("");
       }
       if (e.key === "Enter" || e.key === " ") {
-        const t2 = e.target;
-        if (t2.classList?.contains("qpal") || t2.classList?.contains("palace")) {
+        const target = e.target;
+        if (target.classList?.contains("qpal") || target.classList?.contains("palace")) {
           e.preventDefault();
-          t2.click();
+          target.click();
         }
       }
     });

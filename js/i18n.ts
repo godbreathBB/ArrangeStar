@@ -31,6 +31,14 @@ export function setLang(v: Lang): void {
   if (v === lang) return;
   lang = v;
   try { localStorage.setItem(LANG_KEY, v); } catch { /* 忽略 */ }
+  // 用户主动切换后移除 URL 里的 lang，否则下次加载链接参数会再次压过已保存的偏好
+  try {
+    const u = new URL(location.href);
+    if (u.searchParams.has('lang')) {
+      u.searchParams.delete('lang');
+      history.replaceState(null, '', u.pathname + u.search + u.hash);
+    }
+  } catch { /* 忽略 */ }
   applyStatic();
   listeners.forEach(fn => fn());
 }
@@ -96,16 +104,18 @@ export function sourceBlock(zhText: string, label?: string): string {
 /** 处理 HTML 中静态标注元素的文案。 */
 export function applyStatic(root: ParentNode = document): void {
   document.documentElement.lang = lang === 'en' ? 'en' : 'zh-CN';
+  // 与 t() 一致：当前语言缺键时回退到中文，不要把 key 本身写进 DOM
+  const pick = (key: string): string | undefined => (UI[lang] as any)[key] ?? (UI.zh as any)[key];
   root.querySelectorAll<HTMLElement>('[data-i18n]').forEach(el => {
-    const v = (UI[lang] as any)[el.dataset.i18n || ''];
+    const v = pick(el.dataset.i18n || '');
     if (v !== undefined) el.textContent = v;
   });
   root.querySelectorAll<HTMLElement>('[data-i18n-title]').forEach(el => {
-    const v = (UI[lang] as any)[el.dataset.i18nTitle || ''];
+    const v = pick(el.dataset.i18nTitle || '');
     if (v !== undefined) el.title = v;
   });
   root.querySelectorAll<HTMLElement>('[data-i18n-aria]').forEach(el => {
-    const v = (UI[lang] as any)[el.dataset.i18nAria || ''];
+    const v = pick(el.dataset.i18nAria || '');
     if (v !== undefined) el.setAttribute('aria-label', v);
   });
 }
@@ -141,6 +151,7 @@ const UI: Record<Lang, Record<string, string>> = {
     'readmore.ziwei': '命盘解读 · 五维白话',
     'err.reading': '解读暂时没能生成：',
     'err.year': '年份需在 1900–2100 之间', 'err.lon': '经度需在 60–150 之间',
+    'err.invalid': '输入无效：请检查年月日、时分与参考日期是否为合法日期',
     'section.pillars': '四柱', 'section.wuxing': '五行力量', 'section.pattern': '命局', 'section.dayun': '大运',
     'bazi.wuxingNote': '天干各 1 分；藏干按月令 ×3、日支 ×1.5、其余 ×1，并乘本气 1 / 中气 0.5 / 余气 0.3。',
     'bazi.qiyun': '起运', 'bazi.forward': '顺', 'bazi.backward': '逆', 'bazi.yearsOld': '岁',
@@ -179,6 +190,7 @@ const UI: Record<Lang, Record<string, string>> = {
     'intro.5.title': '数据只在这台设备', 'intro.5.sub': '不联网 · 不上传 · 不收集',
     'intro.5.desc': '排盘与档案都保存在本机浏览器，随时可以清空。',
     'intro.skip': '跳过', 'intro.next': '下一步', 'intro.start': '进入星垣', 'intro.back': '上一步', 'intro.replay': '重看引导',
+    'intro.aria': '首次引导',
   },
   en: {
     'app.title': 'ArrangeStar · Zi Wei Dou Shu / Ba Zi / Qi Men Dun Jia',
@@ -209,6 +221,7 @@ const UI: Record<Lang, Record<string, string>> = {
     'readmore.ziwei': 'Chart reading · five dimensions',
     'err.reading': 'Reading could not be generated: ',
     'err.year': 'Year must be between 1900 and 2100', 'err.lon': 'Longitude must be between 60 and 150',
+    'err.invalid': 'Invalid input: check that the date, time and reference date are valid',
     'section.pillars': 'Four Pillars', 'section.wuxing': 'Five Elements balance', 'section.pattern': 'Chart structure', 'section.dayun': 'Major Fortune',
     'bazi.wuxingNote': 'Each heavenly stem scores 1. Hidden stems: month branch ×3, day branch ×1.5, others ×1, then ×1 / 0.5 / 0.3 for primary / secondary / residual qi.',
     'bazi.qiyun': 'Fortune begins after', 'bazi.forward': 'forward', 'bazi.backward': 'backward', 'bazi.yearsOld': 'yrs',
@@ -247,6 +260,7 @@ const UI: Record<Lang, Record<string, string>> = {
     'intro.5.title': 'Stays on this device', 'intro.5.sub': 'No network · no upload · no collection',
     'intro.5.desc': 'Charts and archives are saved in this browser only, and can be cleared anytime.',
     'intro.skip': 'Skip', 'intro.next': 'Next', 'intro.start': 'Enter ArrangeStar', 'intro.back': 'Back', 'intro.replay': 'Replay intro',
+    'intro.aria': 'First-run guide',
   },
 };
 
@@ -372,3 +386,8 @@ export const TERMS: Record<string, string> = {
   '处暑': 'End of Heat', '白露': 'White Dew', '秋分': 'Autumn Equinox', '寒露': 'Cold Dew',
   '霜降': 'Frost Descent', '立冬': 'Start of Winter', '小雪': 'Lesser Snow', '大雪': 'Greater Snow',
 };
+
+// 引导层是独立加载的原生脚本（非本 bundle），通过这里读取同一语言状态与文案表
+if (typeof window !== 'undefined') {
+  (window as any).XY_I18N = { getLang, setLang, toggleLang, onLangChange, t, applyStatic };
+}

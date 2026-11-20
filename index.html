@@ -6,16 +6,25 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#141a2e">
+  <meta name="description" content="星垣 ArrangeStar：紫微斗数、八字、奇门遁甲的纯前端排盘与解读，本机计算、档案不上传、离线可用。">
   <title data-i18n="app.title">星垣 · 紫微斗数 / 八字 / 奇门遁甲</title>
+  <link rel="icon" href="icon-192.png" type="image/png" sizes="192x192">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/onboarding.css">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon-180.png">
+  <meta name="apple-mobile-web-app-title" content="星垣">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="星垣 ArrangeStar">
+  <meta property="og:description" content="紫微斗数 / 八字 / 奇门遁甲纯前端排盘，本机计算，离线可用。">
+  <!-- og:image 部署到具体域名后应改为绝对 URL；此处用相对路径，不预设域名 -->
+  <meta property="og:image" content="icon-512.png">
+  <meta name="twitter:card" content="summary">
 </head>
 <body>
 
 <!-- ═══ 首次启动引导（4 页 · 奇门主题 · 原生 JS 控制）═══ -->
-<div id="onboarding" class="ob-root onboarding-hidden" role="dialog" aria-modal="true" aria-label="首次引导">
+<div id="onboarding" class="ob-root onboarding-hidden" role="dialog" aria-modal="true" aria-label="首次引导" data-i18n-aria="intro.aria">
   <div class="ob-sky" aria-hidden="true">
     <div class="ob-mansions"></div>
     <div class="ob-lightbeam"></div>
@@ -61,15 +70,15 @@
       <section class="ob-slide" data-index="1">
         <div class="ob-art">
           <div class="ob-jiugong">
-            <div class="ob-gong" style="--i:3"><b>巽</b><small>四</small></div>
-            <div class="ob-gong" style="--i:8"><b>离</b><small>九</small></div>
-            <div class="ob-gong" style="--i:1"><b>坤</b><small>二</small></div>
-            <div class="ob-gong" style="--i:2"><b>震</b><small>三</small></div>
-            <div class="ob-gong" style="--i:4"><b>中</b><small>五</small></div>
-            <div class="ob-gong" style="--i:6"><b>兑</b><small>七</small></div>
-            <div class="ob-gong" style="--i:7"><b>艮</b><small>八</small></div>
-            <div class="ob-gong" style="--i:0"><b>坎</b><small>一</small></div>
-            <div class="ob-gong" style="--i:5"><b>乾</b><small>六</small></div>
+            <div class="ob-gong" style="--i:3"><b data-zh="巽" data-en="Xun">巽</b><small data-zh="四" data-en="4">四</small></div>
+            <div class="ob-gong" style="--i:8"><b data-zh="离" data-en="Li">离</b><small data-zh="九" data-en="9">九</small></div>
+            <div class="ob-gong" style="--i:1"><b data-zh="坤" data-en="Kun">坤</b><small data-zh="二" data-en="2">二</small></div>
+            <div class="ob-gong" style="--i:2"><b data-zh="震" data-en="Zhen">震</b><small data-zh="三" data-en="3">三</small></div>
+            <div class="ob-gong" style="--i:4"><b data-zh="中" data-en="Center">中</b><small data-zh="五" data-en="5">五</small></div>
+            <div class="ob-gong" style="--i:6"><b data-zh="兑" data-en="Dui">兑</b><small data-zh="七" data-en="7">七</small></div>
+            <div class="ob-gong" style="--i:7"><b data-zh="艮" data-en="Gen">艮</b><small data-zh="八" data-en="8">八</small></div>
+            <div class="ob-gong" style="--i:0"><b data-zh="坎" data-en="Kan">坎</b><small data-zh="一" data-en="1">一</small></div>
+            <div class="ob-gong" style="--i:5"><b data-zh="乾" data-en="Qian">乾</b><small data-zh="六" data-en="6">六</small></div>
           </div>
         </div>
         <h2 class="ob-title" data-zh="一键排盘" data-en="One-Tap Charting">一键排盘</h2>
@@ -79,7 +88,8 @@
       <!-- 页 3 · 竹简文字浮现 -->
       <section class="ob-slide" data-index="2">
         <div class="ob-art">
-          <div class="ob-bamboo">
+          <!-- 竹简 12 字是装饰性视觉元素，保留汉字字形；不作为可读文案，故不强译 -->
+          <div class="ob-bamboo" aria-hidden="true">
             <div class="ob-strip" style="--i:0"><span>古</span><span>诀</span><span>断</span><span>辞</span></div>
             <div class="ob-strip" style="--i:1"><span>格</span><span>局</span><span>吉</span><span>凶</span></div>
             <div class="ob-strip" style="--i:2"><span>主</span><span>客</span><span>进</span><span>退</span></div>
@@ -111,7 +121,7 @@
   <div class="ob-dots" id="obDots" aria-hidden="true"></div>
   <div class="ob-footer">
     <button type="button" class="ob-skip" id="obSkip" data-zh="跳过" data-en="Skip">跳过</button>
-    <button type="button" class="ob-next" id="obNext" data-zh="下一步" data-en="Next">下一步</button>
+    <button type="button" class="ob-next" id="obNext" data-zh="下一步" data-en="Next" data-zh-start="开始使用" data-en-start="Get Started">下一步</button>
   </div>
 </div>
 
@@ -184,6 +194,20 @@
 
 <script src="js/data.js"></script>
 <script src="bundle.js"></script>
+<script>
+/* 主界面默认 hidden，仅由引导脚本恢复；引导脚本加载失败或抛错时兜底显示，避免整页空白。 */
+(function () {
+  window.__XY_REVEAL_TIMER__ = window.setTimeout(function () {
+    var main = document.getElementById('main-content');
+    var ob = document.getElementById('onboarding');
+    if (main && main.hasAttribute('hidden')) {
+      main.removeAttribute('hidden');
+      if (ob) { ob.classList.add('onboarding-hidden'); ob.classList.remove('onboarding-active'); }
+      document.body.classList.remove('intro-open');
+    }
+  }, 1200);
+})();
+</script>
 <script src="js/onboarding.js"></script>
 <script>if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(function () {}); }</script>
 </body>

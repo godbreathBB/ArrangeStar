@@ -1,6 +1,7 @@
 // composer.ts — 紫微解读装配（对应 yunxian.py + reading_composer.py）
 import { Solar } from 'lunar-typescript';
 import { BRANCHES, PALACES, STEMS, yearGanzhi, sihuaOf, _YIN_STEM } from './ziwei.ts';
+import { assertDateOnly, assertDateStr, finiteInt } from './validate.ts';
 
 const mod = (n: number, m: number): number => ((n % m) + m) % m;
 export const MAJOR = new Set(['紫微', '天机', '太阳', '武曲', '天同', '廉贞', '天府', '太阴', '贪狼', '巨门', '天相', '天梁', '七杀', '破军']);
@@ -65,6 +66,7 @@ export function flow_months(r: any, year: number, birth_month: number, birth_hou
   return out;
 }
 export function flow_day(solar_y: number, solar_m: number, solar_d: number, month_palace: number): any {
+  assertDateOnly(solar_y, solar_m, solar_d);
   const lunar = Solar.fromYmd(solar_y, solar_m, solar_d).getLunar();
   const gz = lunar.getDayInGanZhi();
   if (!STEMS.includes(gz[0])) throw new Error('日干异常: ' + gz);
@@ -76,9 +78,11 @@ export function flow_day(solar_y: number, solar_m: number, solar_d: number, mont
 // ── 格局检测（detect_patterns） ──
 export function detect_patterns(r: any, age?: number, year?: number): string[] {
   const life = r.life;
+  // 统一把星曜数组收敛为 string[]，避免 any 推断成 Set<unknown>
+  const starsAt = (b: number): string[] => (r.stars?.[b] || []) as string[];
   const tri = [life, mod(life + 4, 12), mod(life + 8, 12), mod(life + 6, 12)];
-  const at = (b: number) => new Set((r.stars[b] || []).filter((s: string) => MAJOR.has(s)));
-  const mine = new Set([...at(life), ...(at(mod(life + 6, 12)))]);
+  const at = (b: number): Set<string> => new Set(starsAt(b).filter(s => MAJOR.has(s)));
+  const mine = new Set<string>([...at(life), ...at(mod(life + 6, 12))]);
   const tri_stars = new Set<string>();
   for (const b of tri) at(b).forEach(s => tri_stars.add(s));
   const out: string[] = [];
@@ -96,18 +100,18 @@ export function detect_patterns(r: any, age?: number, year?: number): string[] {
   if ([1, 7].includes(life) && has(mine, new Set(['武曲', '贪狼']))) out.push('贪武同行');
   if ([1, 7].includes(life) && has(mine, new Set(['太阳', '太阴']))) out.push('日月并明');
   if (mine.has('紫微') && [...tri_stars].some(s => ['左辅', '右弼', '文昌', '文曲', '天魁', '天钺'].includes(s))) out.push('君臣庆会');
-  const all_mine = new Set(r.stars[life] || []);
+  const all_mine = new Set<string>(starsAt(life));
   const all_tri = new Set<string>();
-  for (const b of tri) (r.stars[b] || []).forEach((s: string) => all_tri.add(s));
+  for (const b of tri) starsAt(b).forEach(s => all_tri.add(s));
   if ([2, 8].includes(life) && has(mine, new Set(['太阳', '巨门']))) out.push('巨日同宫');
   if (has(tri_stars, new Set(['天机', '天梁']))) out.push('机梁加会');
   if (has(all_tri, new Set(['文昌', '天梁']))) out.push('文梁振纪');
   if (has(all_tri, new Set(['太阳', '天梁', '文昌', '禄存']))) out.push('阳梁昌禄');
-  const hua3 = new Set(Object.entries(r.hua).filter(([, v]: any) => ['禄', '权', '科'].includes(v.tag)).map(([s]) => s));
+  const hua3 = new Set<string>(Object.entries(r.hua).filter(([, v]: any) => ['禄', '权', '科'].includes(v.tag)).map(([s]) => s));
   if (hua3.size === 3 && [...hua3].every(s => all_tri.has(s))) out.push('三奇加会');
   if (has(all_mine, new Set(['左辅', '右弼']))) out.push('左右同宫');
   if (has(all_mine, new Set(['文昌', '文曲']))) out.push('文桂文华');
-  const bri = (r.brightness || {})[life] || {};
+  const bri: Record<string, string> = (r.brightness || {})[life] || {};
   if (mine.has('武曲') && ['庙', '旺'].includes(bri['武曲'])) out.push('将星得地');
   if (life === 0 && mine.has('太阴')) out.push('月生沧海');
   if (life === 6 && mine.has('天梁')) out.push('寿星入庙');
@@ -115,23 +119,23 @@ export function detect_patterns(r: any, age?: number, year?: number): string[] {
   if (life === 6 && all_mine.has('擎羊')) out.push('马头带箭');
 
   const left = mod(life - 1, 12), right = mod(life + 1, 12);
-  const nb = new Set([...(r.stars[left] || []), ...(r.stars[right] || [])]);
+  const nb = new Set<string>([...starsAt(left), ...starsAt(right)]);
   const star_at: Record<string, number> = {};
-  for (let b = 0; b < 12; b++) for (const st of (r.stars[b] || [])) star_at[st] ??= b;
-  const lu = new Set(Object.entries(r.hua).filter(([, v]: any) => v.tag === '禄').map(([s]) => s));
-  const quan = new Set(Object.entries(r.hua).filter(([, v]: any) => v.tag === '权').map(([s]) => s));
-  const ke = new Set(Object.entries(r.hua).filter(([, v]: any) => v.tag === '科').map(([s]) => s));
+  for (let b = 0; b < 12; b++) for (const st of starsAt(b)) star_at[st] ??= b;
+  const lu = new Set<string>(Object.entries(r.hua).filter(([, v]: any) => v.tag === '禄').map(([s]) => s));
+  const quan = new Set<string>(Object.entries(r.hua).filter(([, v]: any) => v.tag === '权').map(([s]) => s));
+  const ke = new Set<string>(Object.entries(r.hua).filter(([, v]: any) => v.tag === '科').map(([s]) => s));
   const he = [1, 0, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2][life];
   if ((mine.has('紫微') && ['庙', '旺'].includes(bri['紫微'])) || (mine.has('天府') && ['庙', '旺'].includes(bri['天府']))) out.push('紫府朝垣');
   if (mine.has('天府') && [4, 10].includes(life)) out.push('天府朝垣');
   if (mine.has('太阳') && life === 6) out.push('金灿光辉');
-  if (life === 7 && mine.size === 0 && has(new Set(r.stars[3] || []), new Set(['太阳', '天梁'])) && new Set(r.stars[11] || []).has('太阴')) out.push('明珠出海');
+  if (life === 7 && mine.size === 0 && has(new Set<string>(starsAt(3)), new Set(['太阳', '天梁'])) && starsAt(11).includes('太阴')) out.push('明珠出海');
   if (nb.has('天魁') && nb.has('天钺')) out.push('天乙拱命');
   if ([...all_mine].some(s => lu.has(s)) && [...all_mine].some(s => quan.has(s))) out.push('权禄巡逢');
   if ([...nb].filter(st => lu.has(st) || quan.has(st) || ke.has(st)).length >= 2) out.push('科权禄夹');
   if (nb.has('禄存') && [...nb].some(s => lu.has(s))) out.push('双禄夹命');
-  for (const b of tri) if (has(new Set(r.stars[b] || []), new Set(['火星', '贪狼']))) { out.push('三合火贪'); break; }
-  for (const b of tri) if (has(new Set(r.stars[b] || []), new Set(['铃星', '贪狼']))) { out.push('贪铃朝垣'); break; }
+  for (const b of tri) if (has(new Set<string>(starsAt(b)), new Set(['火星', '贪狼']))) { out.push('三合火贪'); break; }
+  for (const b of tri) if (has(new Set<string>(starsAt(b)), new Set(['铃星', '贪狼']))) { out.push('贪铃朝垣'); break; }
   if (has(nb, new Set(['紫微', '天府'])) || has(nb, new Set(['太阳', '太阴']))) out.push('贵星夹命');
   if (mine.has('廉贞') && [2, 8].includes(life) && [...all_tri].some(s => ['文昌', '文曲'].includes(s))) out.push('廉贞文武');
   if (all_mine.has('文昌') && all_tri.has('左辅')) out.push('辅拱文星');
@@ -139,12 +143,12 @@ export function detect_patterns(r: any, age?: number, year?: number): string[] {
   if (all_mine.has('禄存') && [...all_mine].some(s => lu.has(s))) out.push('禄合鸳鸯');
   if (all_tri.has('禄存') && [...all_tri].some(s => lu.has(s))) out.push('双禄朝垣');
   if ((all_tri.has('禄存') || [...all_tri].some(s => lu.has(s))) && all_tri.has('天马')) out.push('禄马交驰');
-  if ((life === 1 && has(new Set(r.stars[7] || []), new Set(['太阳', '太阴']))) || (life === 7 && has(new Set(r.stars[1] || []), new Set(['太阳', '太阴'])))) out.push('二曜同临');
+  if ((life === 1 && has(new Set<string>(starsAt(7)), new Set(['太阳', '太阴']))) || (life === 7 && has(new Set<string>(starsAt(1)), new Set(['太阳', '太阴'])))) out.push('二曜同临');
   if ((mine.has('太阳') && [4, 5].includes(life)) || (mine.has('太阴') && [9, 10].includes(life))) out.push('丹桂');
   if ([...all_mine].some(s => ke.has(s)) && [...all_tri].some(s => quan.has(s))) out.push('甲第登庸');
   if ([...all_mine].some(s => ke.has(s)) && [...all_tri].some(s => lu.has(s))) out.push('科名会禄');
   const mine_lu = all_mine.has('禄存') || [...all_mine].some(s => lu.has(s));
-  const he_stars = new Set(r.stars[he] || []);
+  const he_stars = new Set<string>(starsAt(he));
   const he_lu = he_stars.has('禄存') || [...he_stars].some(s => lu.has(s));
   if (mine_lu && he_lu) out.push('明禄暗禄');
   if (Object.values(r.hua).some((v: any) => v.tag === '权') && [...all_mine].some(s => quan.has(s))) out.push('权星朝垣');
@@ -152,15 +156,15 @@ export function detect_patterns(r: any, age?: number, year?: number): string[] {
   if (all_mine.has('天马') && nb.has('武曲') && [...nb].some(s => lu.has(s))) out.push('财禄夹马');
   if (mine.has('破军') && [4, 10].includes(life)) {
     const opp = mod(life + 6, 12);
-    if (has(new Set(r.stars[opp] || []), new Set(['太阳', '太阴']))) out.push('日月照壁');
+    if (has(new Set<string>(starsAt(opp)), new Set(['太阳', '太阴']))) out.push('日月照壁');
   }
   if ((r.stem === '丁' && mine.has('天同') && life === 10) || (r.stem === '辛' && mine.has('巨门') && life === 4)) out.push('化星返贵');
   if ([...all_mine].some(s => ke.has(s)) && he_lu) out.push('科明禄暗');
 
   const sha = new Set(['擎羊', '陀罗', '火星', '铃星', '地空', '地劫']);
   const by_b: Record<number, Set<string>> = {};
-  for (let b = 0; b < 12; b++) by_b[b] = new Set(r.stars[b] || []);
-  const ji = new Set(Object.entries(r.hua).filter(([, v]: any) => v.tag === '忌').map(([s]) => s));
+  for (let b = 0; b < 12; b++) by_b[b] = new Set<string>(starsAt(b));
+  const ji = new Set<string>(Object.entries(r.hua).filter(([, v]: any) => v.tag === '忌').map(([s]) => s));
   let lim: any = null;
   if (age !== undefined) {
     lim = (r.limits || []).find((x: any) => x.start <= age && age <= x.end) || null;
@@ -169,7 +173,7 @@ export function detect_patterns(r: any, age?: number, year?: number): string[] {
   if (year !== undefined) ji.add(annual_chart(r, year).hua[3]);
   for (let b = 0; b < 12; b++) {
     if (![...by_b[b]].some(s => sha.has(s))) continue;
-    const l = by_b[mod(b - 1, 12)] || new Set(), rr = by_b[mod(b + 1, 12)] || new Set();
+    const l = by_b[mod(b - 1, 12)] || new Set<string>(), rr = by_b[mod(b + 1, 12)] || new Set<string>();
     if ((l.has('擎羊') && rr.has('陀罗')) || (l.has('陀罗') && rr.has('擎羊'))) out.push('羊陀夹煞');
     if ((l.has('火星') && rr.has('铃星')) || (l.has('铃星') && rr.has('火星'))) out.push('火铃夹煞');
     if ((l.has('地空') && rr.has('地劫')) || (l.has('地劫') && rr.has('地空'))) out.push('空劫夹煞');
@@ -184,7 +188,7 @@ export function detect_patterns(r: any, age?: number, year?: number): string[] {
   if (has(all_tri, new Set(['巨门', '铃星', '擎羊']))) out.push('巨铃羊');
   if (has(all_tri, new Set(['铃星', '文昌', '陀罗', '武曲']))) out.push('铃昌陀武');
   if (has(all_tri, new Set(['天机', '天梁', '擎羊']))) out.push('天机天梁擎羊会');
-  let dedup = [...new Set(out)];
+  let dedup: string[] = [...new Set(out)];
   const sha_mine = [...all_mine].filter(s => ['擎羊', '陀罗', '火星', '铃星'].includes(s));
   if (sha_mine.length && sha_mine.some(st => bri[st] === '庙') && [...all_tri].some(s => lu.has(s) || quan.has(s))) dedup.push('权杀化禄');
   return [...new Set(dedup)];
@@ -204,6 +208,7 @@ export interface Library {
 }
 
 export function compose(r: any, lib: Library, age?: number, year = 2026, date_str?: string, lang: ComposeLang = 'zh'): string {
+  finiteInt(year, '参考年');
   const by_palace: Record<string, number> = {};
   PALACES.forEach((name, k) => { by_palace[name] = mod(r.life - k, 12); });
   const palace_of: Record<number, string> = {};
@@ -220,7 +225,8 @@ export function compose(r: any, lib: Library, age?: number, year = 2026, date_st
     return [br, majors_at(opp), BRANCHES[opp]];
   };
 
-  const dt = date_str ? new Date(date_str + 'T12:00:00') : new Date();
+  const dt = date_str ? new Date(assertDateStr(date_str) + 'T12:00:00') : new Date();
+  if (!Number.isFinite(dt.getTime())) throw new Error('输入无效：参考日期无法解析');
   const lunar = r.lunar;
   const cur_age = age ?? (year - lunar[0] + 1);
   const lim = (r.limits || []).find((x: any) => x.start <= cur_age && cur_age <= x.end) || null;

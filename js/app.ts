@@ -5,6 +5,7 @@ import { bazi, liunian, current_dayun } from './engine/bazi.ts';
 import { qimen, daily_qimen } from './engine/qimen.ts';
 import { limit_chart, annual_chart, flow_months, flow_day, compose } from './engine/composer.ts';
 import * as RD from './reading.ts';
+import { assertDateTime, assertDateStr } from './engine/validate.ts';
 import { getLang, toggleLang, onLangChange, applyStatic, t, bi, term, tx, ganzhi } from './i18n.ts';
 
 type View = 'chart' | 'bazi' | 'qimen';
@@ -12,9 +13,15 @@ type Layer = 'benming' | 'limit' | 'annual' | 'month' | 'day';
 interface State {
   y: number; mo: number; d: number; hh: number; mi: number; g: string; lon: number;
   view: View; layer: Layer; ref: string; lines: boolean; daily: string;
+  palaceName?: string;
   qy: number; qmo: number; qd: number; qhh: number; qmi: number;
 }
-const TODAY = new Date().toISOString().slice(0, 10);
+// 本地日历日：toISOString() 取 UTC，东八区 00:00–08:00 会早一天
+function localToday(): string {
+  const n = new Date();
+  return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}-${String(n.getDate()).padStart(2, '0')}`;
+}
+const TODAY = localToday();
 const DEFAULT: State = {
   y: 1990, mo: 5, d: 15, hh: 3, mi: 20, g: '女', lon: 120,
   view: 'chart', layer: 'benming', ref: TODAY, lines: true, daily: '',
@@ -42,7 +49,19 @@ let hlBranch = -1;
 let currentNote = '';
 
 function loadState(): void {
-  try { S = { ...DEFAULT, ...JSON.parse(localStorage.getItem(STATE_KEY) || '{}') }; } catch { /* 用默认 */ }
+  try { S = { ...DEFAULT, ...JSON.parse(localStorage.getItem(STATE_KEY) || '{}') }; }
+  catch { S = { ...DEFAULT }; }
+  // 本机存储可被手工改写，载入后按 schema 归一化，避免 NaN / 非法枚举进入引擎
+  const num = (v: any, d: number) => (typeof v === 'number' && Number.isFinite(v)) ? v : d;
+  for (const k of ['y', 'mo', 'd', 'hh', 'mi', 'lon', 'qy', 'qmo', 'qd', 'qhh', 'qmi'] as const) {
+    (S as any)[k] = num((S as any)[k], (DEFAULT as any)[k]);
+  }
+  if (!['chart', 'bazi', 'qimen'].includes(S.view)) S.view = DEFAULT.view;
+  if (!['benming', 'limit', 'annual', 'month', 'day'].includes(S.layer)) S.layer = DEFAULT.layer;
+  if (S.g !== '男' && S.g !== '女') S.g = DEFAULT.g;
+  if (typeof S.ref !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(S.ref)) S.ref = TODAY;
+  if (typeof S.daily !== 'string') S.daily = '';
+  if (typeof S.lines !== 'boolean') S.lines = DEFAULT.lines;
 }
 function saveState(): void {
   try { localStorage.setItem(STATE_KEY, JSON.stringify(S)); } catch { /* 隐私模式忽略 */ }
@@ -214,6 +233,11 @@ function go(): void {
     S.ref = ($('ref') as HTMLInputElement).value || TODAY;
     if (!(1900 <= S.y && S.y <= 2100)) throw new Error(t('err.year'));
     if (!(60 <= S.lon && S.lon <= 150)) throw new Error(t('err.lon'));
+    try {
+      assertDateTime(S.y, S.mo, S.d, S.hh, S.mi);
+      assertDateStr(S.ref);
+      if (S.daily) assertDateStr(S.daily, '今日一句日期');
+    } catch { throw new Error(t('err.invalid')); }
   } catch (e: any) {
     out.innerHTML = `<div class="err">${esc(e.message || e)}</div>`; return;
   }
@@ -347,58 +371,58 @@ window.addEventListener('DOMContentLoaded', () => {
   ($('daily') as HTMLInputElement).value = S.daily || '';
 
   document.addEventListener('click', (e) => {
-    const t = e.target as HTMLElement;
-    const tab = t.closest('.tab') as HTMLElement | null;
+    const target = e.target as HTMLElement;
+    const tab = target.closest('.tab') as HTMLElement | null;
     if (tab && tab.dataset.view) { S.view = tab.dataset.view as View; saveState(); go(); return; }
-    const vt = t.closest('.vt') as HTMLElement | null;
+    const vt = target.closest('.vt') as HTMLElement | null;
     if (vt && vt.dataset.layer) { setLayer(vt.dataset.layer as Layer); return; }
-    if (t.closest('#go')) { go(); return; }
-    if (t.closest('#qmgo')) { readQimenForm(); return; }
-    if (t.closest('#todayBtn')) { togglePanel('settingsPanel'); return; }
-    if (t.closest('#archiveBtn')) { togglePanel('archivePanel'); return; }
-    if (t.closest('#settingsBtn')) { togglePanel('settingsPanel'); return; }
-    if (t.closest('#langBtn')) { toggleLang(); return; }
-    if (t.closest('#linesBtn')) { S.lines = !S.lines; saveState(); go(); return; }
-    if (t.closest('#saveBtn')) { saveArchive(); return; }
-    const al = t.closest('[data-archive-load]') as HTMLElement | null;
+    if (target.closest('#go')) { go(); return; }
+    if (target.closest('#qmgo')) { readQimenForm(); return; }
+    if (target.closest('#todayBtn')) { togglePanel('settingsPanel'); return; }
+    if (target.closest('#archiveBtn')) { togglePanel('archivePanel'); return; }
+    if (target.closest('#settingsBtn')) { togglePanel('settingsPanel'); return; }
+    if (target.closest('#langBtn')) { toggleLang(); return; }
+    if (target.closest('#linesBtn')) { S.lines = !S.lines; saveState(); go(); return; }
+    if (target.closest('#saveBtn')) { saveArchive(); return; }
+    const al = target.closest('[data-archive-load]') as HTMLElement | null;
     if (al) {
       const item = archive().find(x => String(x.id) === al.dataset.archiveLoad);
       if (item) { S = { ...DEFAULT, ...item.s }; saveState(); location.reload(); }
       return;
     }
-    const ad = t.closest('[data-archive-del]') as HTMLElement | null;
+    const ad = target.closest('[data-archive-del]') as HTMLElement | null;
     if (ad) {
       try { localStorage.setItem(ARCHIVE_KEY, JSON.stringify(archive().filter(x => String(x.id) !== ad.dataset.archiveDel))); } catch { /* 忽略 */ }
       renderArchive(); return;
     }
-    if (t.closest('#clearArchive')) {
+    if (target.closest('#clearArchive')) {
       if (confirm(t('confirm.clearArchive'))) { localStorage.removeItem(ARCHIVE_KEY); renderArchive(); }
       return;
     }
-    if (t.closest('#replayIntro')) {
+    if (target.closest('#replayIntro')) {
       // 新引导为原生 onboarding.js，挂在 window 上；未就绪时静默降级
       const intro = (window as any).XyOnboarding;
       if (intro) intro.replay();
       return;
     }
-    const goto = t.closest('[data-goto]') as HTMLElement | null;
+    const goto = target.closest('[data-goto]') as HTMLElement | null;
     if (goto) { showDrawer(Number(goto.dataset.goto)); return; }
-    if (t.closest('[data-close]')) { closeDrawer(); return; }
-    if (t.closest('[data-close-star]')) { closeStar(); return; }
-    const star = t.closest('[data-star]') as HTMLElement | null;
+    if (target.closest('[data-close]')) { closeDrawer(); return; }
+    if (target.closest('[data-close-star]')) { closeStar(); return; }
+    const star = target.closest('[data-star]') as HTMLElement | null;
     if (star && star.dataset.star) { showStar(star.dataset.star); return; }
-    const qpal = t.closest('.qpal[data-qnote]') as HTMLElement | null;
+    const qpal = target.closest('.qpal[data-qnote]') as HTMLElement | null;
     if (qpal) { showNote(qpal.dataset.qnote || ''); return; }
-    const palace = t.closest('.palace') as HTMLElement | null;
+    const palace = target.closest('.palace') as HTMLElement | null;
     if (palace) { showDrawer(Number(palace.dataset.branch)); return; }
-    if (!t.closest('.notepanel')) showNote('');
+    if (!target.closest('.notepanel')) showNote('');
   });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') { closeStar(); closeDrawer(); showNote(''); }
     if (e.key === 'Enter' || e.key === ' ') {
-      const t = e.target as HTMLElement;
-      if (t.classList?.contains('qpal') || t.classList?.contains('palace')) { e.preventDefault(); t.click(); }
+      const target = e.target as HTMLElement;
+      if (target.classList?.contains('qpal') || target.classList?.contains('palace')) { e.preventDefault(); target.click(); }
     }
   });
 
