@@ -1,10 +1,16 @@
 // qimen.ts — 奇门遁甲（时家转盘）排盘引擎（TypeScript 版）
 // 对应 Python 端 qimen_core.py。节气/干支接 lunar-typescript。
 import { Solar } from 'lunar-typescript';
+import { assertDateOnly, assertDateTime } from './validate.ts';
 
 export const GAN = '甲乙丙丁戊己庚辛壬癸';
 export const ZHI = '子丑寅卯辰巳午未申酉戌亥';
-const mod = (n: number, m: number): number => ((n % m) + m) % m;
+const mod = (n: number, m: number): number => {
+  if (!Number.isFinite(n) || !Number.isFinite(m) || m <= 0) {
+    throw new Error(`模运算参数非法（n=${String(n)}, m=${String(m)}）`);
+  }
+  return ((n % m) + m) % m;
+};
 
 // ── 九宫基本盘 ──
 const CIRCLE = [1, 8, 3, 4, 9, 2, 7, 6];          // 九宫顺时针一圈（北起）
@@ -172,12 +178,14 @@ function jieqi_for_day(solar: any): any {
   let jq = l.getPrevJieQi();
   let jd = jq.getSolar();
   if (jd.getYear() === solar.getYear() && jd.getMonth() === solar.getMonth() && jd.getDay() === solar.getDay()) {
-    let s_yest = Solar.fromYmd(solar.getYear(), solar.getMonth(), solar.getDay() - 1);
-    s_yest = Solar.fromYmdHms(s_yest.getYear(), s_yest.getMonth(), s_yest.getDay(), 12, 0, 0);
+    // 用库的日期回退，避免月初 day-1 / day-2 直接减出 0 而抛错
+    const p1 = solar.next(-1);
+    const s_yest = Solar.fromYmdHms(p1.getYear(), p1.getMonth(), p1.getDay(), 12, 0, 0);
     let jq2 = s_yest.getLunar().getPrevJieQi();
     const jd2 = jq2.getSolar();
     if (jd2.getYear() === s_yest.getYear() && jd2.getMonth() === s_yest.getMonth() && jd2.getDay() === s_yest.getDay()) {
-      const s2 = Solar.fromYmdHms(solar.getYear(), solar.getMonth(), solar.getDay() - 2, 12, 0, 0);
+      const p2 = solar.next(-2);
+      const s2 = Solar.fromYmdHms(p2.getYear(), p2.getMonth(), p2.getDay(), 12, 0, 0);
       jq2 = s2.getLunar().getPrevJieQi();
     }
     jq = jq2;
@@ -247,7 +255,8 @@ export function daily_qimen_by_gz(day_gz: string, dun: string): any {
   return { xiu_gong, doors, stars, taiyi_gong: taiyi };
 }
 
-export function daily_qimen(y: number, mo: number, d: number): any {
+export function daily_qimen(y0: number, mo0: number, d0: number): any {
+  const [y, mo, d] = assertDateOnly(y0, mo0, d0);
   const solar = Solar.fromYmdHms(y, mo, d, 12, 0, 0);
   const jq = jieqi_for_day(solar);
   const jq_name = jq.getName();
@@ -257,7 +266,8 @@ export function daily_qimen(y: number, mo: number, d: number): any {
   return Object.assign(r, { dun, day_gz, jieqi: jq_name, date: `${String(y).padStart(4, '0')}-${String(mo).padStart(2, '0')}-${String(d).padStart(2, '0')}` });
 }
 
-export function qimen(y: number, mo: number, d: number, hh: number, mi: number): any {
+export function qimen(y0: number, mo0: number, d0: number, hh0: number, mi0: number): any {
+  const [y, mo, d, hh, mi] = assertDateTime(y0, mo0, d0, hh0, mi0);
   const solar = Solar.fromYmdHms(y, mo, d, hh, mi, 0);
   const lunar = solar.getLunar();
   const ec = lunar.getEightChar();

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """把 data/ 下的解读文案 JSON 合并为 js/data.js（window.__LIB__）。
 
-构建产物 js/data.js 不入库；克隆仓库后运行 `npm run build` 重新生成。
+构建产物 js/data.js 随仓库提交，供静态托管直接部署；修改 data/ 后运行 `npm run build` 重新生成。
 """
 import json
 from pathlib import Path

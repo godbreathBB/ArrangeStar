@@ -1,6 +1,7 @@
 // bazi.ts — 八字（子平）排盘引擎（TypeScript 版）
 // 对应 Python 端 bazi_core.py。四柱/纳音/十神/大运接 lunar-typescript（与 lunar_python 同源）。
 import { Solar } from 'lunar-typescript';
+import { assertDateTime, finiteInt } from './validate.ts';
 
 export const GAN = '甲乙丙丁戊己庚辛壬癸';
 export const ZHI = '子丑寅卯辰巳午未申酉戌亥';
@@ -479,7 +480,7 @@ function shensha(pillars: Pillar[]): any[] {
       }
     }
   }
-  const ty = TIANYI[day_gan] || [];
+  const ty: string[] = TIANYI[day_gan] || [];
   if (zhis.some(z => ty.includes(z))) {
     const where = cols.filter((_, i) => ty.includes(zhis[i]));
     add('天乙贵人', where.join('、'), '主遇事有人帮、有贵人缘。');
@@ -599,7 +600,8 @@ function god_counts(pillars: Pillar[]): Record<string, number> {
 
 export interface BaziResult { solar: [number, number, number, number, number]; gender: string; lunar: [number, number, number]; lunar_text: string; pillars: Pillar[]; day_master: { gan: string; wx: string; yy: string }; strength: any; geju: any; xiji: any; degree: any; yongshen: any; tiaohou: any; xiang_forms: any[]; shensha: any[]; xingxiang: any; bonds: any[]; god_counts: Record<string, number>; kong_wang: { day: string; year: string }; dayun: any[]; qi_yun: any; }
 
-export function bazi(y: number, mo: number, d: number, hh: number, mi: number, gender = '女'): BaziResult {
+export function bazi(y0: number, mo0: number, d0: number, hh0: number, mi0: number, gender = '女'): BaziResult {
+  const [y, mo, d, hh, mi] = assertDateTime(y0, mo0, d0, hh0, mi0);
   const solar = Solar.fromYmdHms(y, mo, d, hh, mi, 0);
   const lunar = solar.getLunar();
   const ec = lunar.getEightChar();
@@ -660,6 +662,7 @@ export function bazi(y: number, mo: number, d: number, hh: number, mi: number, g
 }
 
 export function liunian(r: BaziResult, year: number): any {
+  finiteInt(year, '流年');
   const gz = Solar.fromYmd(year, 7, 1).getLunar().getYearInGanZhi();
   return { year, ganzhi: gz, gan_god: ten_god(r.day_master.gan, gz[0]), zhi_wx: ZHI_WX[gz[1]] };
 }

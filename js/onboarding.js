@@ -23,8 +23,22 @@
   let currentSlide = 0;
   let isAnimating = false;
 
-  /* ---------- 语言：与主程序保持一致 ---------- */
+  // 动效时长与 CSS 对齐；系统「减少动效」时不锁交互、不延迟显示主界面
+  const reduceMotion = () => {
+    try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
+    catch (_) { return false; }
+  };
+  const TRANSITION_MS = () => (reduceMotion() ? 0 : 400);
+  const FADE_MS = () => (reduceMotion() ? 0 : 450);
+
+  /* ---------- 语言：以主程序 i18n 为单一状态源，HTML data 属性为单一文案源 ---------- */
+  const i18n = () => window.XY_I18N || null;
   const readLang = () => {
+    const api = i18n();
+    if (api && typeof api.getLang === 'function') {
+      const v = api.getLang();
+      if (v === 'en' || v === 'zh') return v;
+    }
     const q = new URLSearchParams(location.search).get('lang');
     if (q === 'en' || q === 'zh') return q;
     try { return localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'zh'; }
@@ -32,12 +46,18 @@
   };
   let lang = readLang();
 
-  const LABELS = {
-    zh: { next: '下一步', start: '开始使用', skip: '跳过' },
-    en: { next: 'Next', start: 'Get Started', skip: 'Skip' },
+  const pick = (el, zhAttr, enAttr, fallback) => {
+    const v = el.getAttribute(lang === 'en' ? enAttr : zhAttr);
+    return v !== null ? v : fallback;
+  };
+  const tr = (key, fallback) => {
+    const api = i18n();
+    if (!api || typeof api.t !== 'function') return fallback;
+    const v = api.t(key);
+    return v === key ? fallback : v;
   };
 
-  // 把每页 title/desc 的 data-zh / data-en 应用为当前语言文本
+  // 把每页 title / desc / 九宫格等 data-zh / data-en 应用为当前语言文本
   const applyLang = () => {
     root.querySelectorAll('[data-zh][data-en]').forEach((el) => {
       const v = el.getAttribute(lang === 'en' ? 'data-en' : 'data-zh');
@@ -67,9 +87,10 @@
 
   const updateControls = () => {
     dots.forEach((d, i) => d.classList.toggle('ob-dot-on', i === currentSlide));
-    const t = LABELS[lang];
-    skipBtn.textContent = t.skip;
-    nextBtn.textContent = currentSlide === total - 1 ? t.start : t.next;
+    skipBtn.textContent = pick(skipBtn, 'data-zh', 'data-en', tr('intro.skip', '跳过'));
+    nextBtn.textContent = currentSlide === total - 1
+      ? pick(nextBtn, 'data-zh-start', 'data-en-start', tr('intro.start', '开始使用'))
+      : pick(nextBtn, 'data-zh', 'data-en', tr('intro.next', '下一步'));
     nextBtn.setAttribute('aria-label', nextBtn.textContent);
   };
 
@@ -83,7 +104,9 @@
     track.style.transform = `translateX(-${currentSlide * 100}%)`;
     updateControls();
     triggerAnimation(slides[currentSlide]);
-    window.setTimeout(() => { isAnimating = false; }, 400); // 与 CSS transition 对齐
+    const ms = TRANSITION_MS();
+    if (ms === 0) isAnimating = false;
+    else window.setTimeout(() => { isAnimating = false; }, ms);
   };
 
   /* ---------- 结束引导 ---------- */
@@ -99,7 +122,9 @@
       // 主内容由 hidden 恢复后布局尺寸变化，通知重绘（如星盘连线）
       window.dispatchEvent(new Event('resize'));
     };
-    window.setTimeout(done, 450); // 与淡出 transition 对齐
+    const ms = FADE_MS();
+    if (ms === 0) done();
+    else window.setTimeout(done, ms);
   };
 
   /* ---------- 打开 / 初始化 ---------- */
@@ -178,7 +203,18 @@
   /* ---------- 暴露给主程序 ---------- */
   window.XyOnboarding = {
     replay: () => { open(); },
+    refresh: () => { lang = readLang(); applyLang(); updateControls(); },
   };
+
+  const api = i18n();
+  if (api && typeof api.onLangChange === 'function') {
+    api.onLangChange(() => {
+      if (!root.classList.contains('onboarding-active')) return;
+      lang = readLang();
+      applyLang();
+      updateControls();
+    });
+  }
 
   /* ---------- 首次访问判定 ---------- */
   if (hasOnboarded()) {
@@ -187,5 +223,11 @@
     if (mainContent) mainContent.removeAttribute('hidden');
   } else {
     open();
+  }
+
+  // 本脚本已完整执行，主界面由本脚本负责恢复，取消 index.html 的兜底定时器
+  if (window.__XY_REVEAL_TIMER__) {
+    window.clearTimeout(window.__XY_REVEAL_TIMER__);
+    window.__XY_REVEAL_TIMER__ = null;
   }
 })();

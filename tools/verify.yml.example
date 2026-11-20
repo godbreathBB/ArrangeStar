@@ -1,0 +1,43 @@
+name: 构建与确定性自检
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: 构建 / 自检 / 产物一致性
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装依赖（按 lockfile 复现）
+        run: npm ci
+
+      - name: 重建产物与缓存版本
+        run: npm run build
+
+      - name: TypeScript 类型检查
+        run: npm run typecheck
+
+      - name: 确定性自检
+        run: npm run verify
+
+      # 源码改了却忘记提交构建产物时，静态托管会继续跑旧代码；此处直接拦下。
+      - name: 构建产物与提交内容一致
+        run: git diff --exit-code -- bundle.js js/data.js sw.js
+
+      - name: 缓存版本与外壳内容一致（只读）
+        run: python3 tools/sync_sw.py --check

@@ -28,6 +28,9 @@
   justify-content:center;
   flex-direction:column;
   padding:20px;
+  /* iOS standalone + black-translucent 时状态栏会覆盖顶部，留出安全区 */
+  padding-top:calc(20px + env(safe-area-inset-top,0px));
+  padding-bottom:calc(20px + env(safe-area-inset-bottom,0px));
   /* 星图层 150vmin、光束层宽度超出视口，须裁掉溢出，
      否则会撑出横向滚动区，导致页脚按钮在部分视口下偏移贴边。 */
   overflow:hidden;

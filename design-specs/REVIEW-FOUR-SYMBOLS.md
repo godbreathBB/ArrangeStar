@@ -1,6 +1,7 @@
-# 核实清单 · 四象星图视觉 v3（合并 main 前）
+# 核实清单 · 四象星图视觉 v3（已合并 main）
 
-> 分支：`design/four-symbols-sky`。本分支**尚未合并 main**，核实通过后再合并。
+> 分支：`design/four-symbols-sky`。**状态：已合并 main**（2026-11-19，提交 `474062b`）。
+> 本清单保留为历史核实记录；下文真机核实项转为上线后的复核事项，不再是合并前置条件。
 > 设计依据：`design-specs/four-symbols-sky.md`；图像源：`assets/symbols/`；生成器：`tools/gen_symbols.py`。
 
 ## 本次改动（四张参考图分工）
@@ -34,7 +35,7 @@
 | 七宿文字 | SVG 内容检查 | 四组七宿字全部存在 |
 | 资源 | 本地服务 HTTP | 10 项关键资源全部 200；缓存版本 v13 |
 
-## 合并 main 前需人工核实（真机物理环境，agent 无法自取）
+## 已合并后仍需人工核实（真机物理环境，agent 无法自取）
 
 1. **OLED 深色观感（优先级最高）**：0.30 是为抵消半透明卡片压低效果而定的，在真机 OLED 纯黑发光特性下可能偏亮；重点看留白区（header 下方、卡片间隙）四兽是否"隐约"而非"抢眼"。影响组件：`body::before`；调节入口：`four_creatures(alpha=.30)` 默认值，改后重跑生成器并升级 SW 版本。
 2. **固定背景滚动**：`background-attachment:fixed` 在 iOS Safari 上的水印层滚动表现；确认竖屏水印不随内容异常位移、四兽不因视口高度变化被裁。影响组件：`body::before`。
@@ -43,11 +44,15 @@
 5. **已安装用户的缓存更新**：SW v13 升级后已安装 PWA 能否拉到新 SVG；首次启动引导只显示一次，老用户看不到新引导背景（属预期）。
 6. **水印体积**：合成 SVG 约 174KB（朱雀羽枝占主要），静态资源经 SW 一次预缓存后无网络开销；若低端机首屏解码有压力，可下调 `feather()` 的 `barbs` 数量。
 
-## 合并命令（核实通过后）
+## 合并记录
 
-```bash
-cd /Users/zkj/WorkBuddy/2026-11-19-10-07-25/ArrangeStar
-git checkout main
-git merge --no-ff design/four-symbols-sky -m "merge: 合入四象星图视觉 v3（核实后并入主线）"
-git push origin main
-```
+| 项 | 内容 |
+|---|---|
+| 目标分支 | `main` |
+| 源分支 | `design/four-symbols-sky` |
+| 合并提交 | `474062b` |
+| 提交信息 | `merge: 合入四象星图视觉 v3（核实后并入主线）` |
+| 日期 | 2026-11-19 |
+
+> 原清单此处写有带本机绝对路径与 `git push` 的待执行命令；合并已完成，命令不再适用，故替换为事实记录。
+> 文中 `xingyuan-v13` 等缓存版本号为该分支当时的状态；当前缓存版本由 `npm run build` 按外壳内容自动生成，以 `sw.js` 为准。

@@ -63,7 +63,7 @@ body::before{
 }
 @keyframes watermarkBreath{0%,100%{opacity:.85}50%{opacity:1}}
 ::selection{background:rgba(201,162,39,.35);color:#fff}
-header{background:rgba(16,20,42,.88);color:#e9e2c8;padding:14px 20px;border-bottom:1px solid rgba(201,162,39,.28);
+header{background:rgba(16,20,42,.88);color:#e9e2c8;padding:calc(14px + env(safe-area-inset-top,0px)) 20px 14px;border-bottom:1px solid rgba(201,162,39,.28);
 display:flex;align-items:center;justify-content:space-between;gap:12px}
 .userbox{display:flex;align-items:center;gap:8px;font-size:0.75rem;white-space:nowrap}
 .userbox .u{color:var(--mute);letter-spacing:.04em}
@@ -448,8 +448,9 @@ body.intro-open{overflow:hidden}
   .intro-desc{font-size:0.8125rem}
 }
 @media (prefers-reduced-motion:reduce){
-  .onboarding.on,.intro-page,.intro-dot,.intro-next{animation:none;transition:none}
-  .intro-art svg *{animation:none!important}
+  /* 选择器跟随当前 DOM（ob-*），原 intro-* / .onboarding.on 类名在 4 页奇门引导里已不存在 */
+  .ob-root,.ob-track,.ob-dot,.ob-next,.ob-gong,.ob-strip span{animation:none;transition:none}
+  .ob-art svg *{animation:none!important}
 }
 
 /* ── 出生资料输入格：按位数收紧到适当大小（年4/月日时分2/经度7） ── */
